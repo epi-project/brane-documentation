@@ -1,0 +1,10 @@
+[book]
+authors = ["Lut99"]
+language = "en"
+multilingual = false
+src = "src"
+title = "Brane: The User Guide"
+
+[output.html]
+default-theme = "navy"
+site-url = "/brane/"

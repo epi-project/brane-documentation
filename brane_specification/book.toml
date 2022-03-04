@@ -1,0 +1,10 @@
+[book]
+authors = ["Lut99"]
+language = "en"
+multilingual = false
+src = "src"
+title = "Brane: A Specification"
+
+[output.html]
+default-theme = "navy"
+site-url = "/brane_specification/"
