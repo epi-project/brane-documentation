@@ -2,19 +2,16 @@
 
 [Welcome](./welcome.md)
 [Overview](./overview.md)
-[How to read](./how-to-read.md)
+[Before you read](./before-reading.md)
 
-# Framework management
- - [Introduction](./management/introduction.md)
- - [Local installation](./management/local-install.md)
- - [Distributed installation](./management/distributed-install.md)
- - [Building from source](./management/build-from-source.md)
 
-# Managing infrastructures
- - [Introduction]()
+# System engineers
 
-# Packages & BraneScript
- - [Introduction]()
 
-# Workflows & Bakery
- - [Introduction]()
+# Software engineers
+
+
+# Policy makers
+
+
+# Scientists
