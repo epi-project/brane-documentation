@@ -1,0 +1,18 @@
+[book]
+authors = ["Lut99"]
+language = "en"
+multilingual = false
+src = "src"
+title = "Brane: Guide For Administrators"
+
+[output.html]
+default-theme = "navy"
+site-url = "/brane_admins/"
+git-repository-url = "https://github.com/epi-project/brane"
+git-repository-icon = "fa-github"
+
+[output.html.fold]
+enable = true
+level = 0
+
+
