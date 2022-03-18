@@ -8,3 +8,5 @@ title = "Brane: The User Guide"
 [output.html]
 default-theme = "navy"
 site-url = "/brane/"
+git-repository-url = "https://github.com/epi-project/brane"
+git-repository-icon = "fa-github"
