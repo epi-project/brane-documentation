@@ -19,4 +19,4 @@ Looked at from the highest level of abstraction, Brane has a client part (in the
 ## Where next
 To continue reading, we suggest you start at the first chapter for your role. You can select it in the sidebar to the left.
 
-If you are part of the fifth, "hidden" role (the Brane administrators), you have [your own book](http://server.timinc.nl/brane_admin); we recommend you continue there.
+If you are part of the fifth, "hidden" role (the Brane administrators), you have [your own book](https://wiki.enablingpersonalizedinterventions.nl/admins); we recommend you continue there.

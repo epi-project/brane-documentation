@@ -3,10 +3,10 @@ authors = ["Lut99"]
 language = "en"
 multilingual = false
 src = "src"
-title = "Brane: A Specification"
+title = "Main page"
 
 [output.html]
 default-theme = "navy"
-site-url = "/specification/"
+site-url = "/"
 git-repository-url = "https://github.com/epi-project/brane"
 git-repository-icon = "fa-github"

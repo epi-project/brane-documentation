@@ -29,12 +29,12 @@ For example, a `kube` infrastructure might look as follows:
   example-infrstructure:
     kind: kube
     address: mycluster.com:6443
-    callback_to: "http://control-plane.com:50052"
+    callback_to: "https://control-plane.com:50052"
     namespace: brane
     registry: "control-plane.com:5000"
     credentials:
       mechanism: config
-      path: ./kubernetes-config.yml
+      file: ./kubernetes-config.yml
 
   ...
 ```

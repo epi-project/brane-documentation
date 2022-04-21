@@ -5,7 +5,7 @@ In this chapter, we will discuss what the CLI can do and what we expect from it.
 
 Before  this section, we will use a slightly different convention 
 
-> We won't give a full overview of the subcommands of the command-line tool here; refer to the [Brane: The User Guide](http://server.timinc/nl/brane/TODO) book instead. Instead, this book discusses the general role the CLI has in the design of Brane.
+> We won't give a full overview of the subcommands of the command-line tool here; refer to the [Brane: The User Guide](https://server.timinc/nl/brane/TODO) book instead. Instead, this book discusses the general role the CLI has in the design of Brane.
 
 ## Roles
 The main role of the CLI is to be the point of interaction for most users of the framework. However, for Brane this can mean many things, and so we divide this interaction into several actions the CLI takes to interact with a Brane instance:
