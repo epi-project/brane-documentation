@@ -9,6 +9,8 @@ Welcome to the administrator guide for the Brane infrastructure!
 
 In this book, we document and outline how to set the _Brane framework_ up and how to manage it.
 
-In contrast to the other books ([Brane: The User Guide](https://wiki.enablingpersonalizedinterventions.nl/user-guide) and [Brane: A Specification](https://wiki.enablingpersonalizedinterventions.nl/specification)), this book assumes you are already familiar with the framework. If not, we recommend you to read the [specification](https://wiki.enablingpersonalizedinterventions.nl/specification) to get an in-depth grasp of the framework and which services are involved with it.
+In contrast to the other books ([Brane: The User Guide](https://wiki.enablingpersonalizedinterventions.nl/user-guide) and [Brane: A Specification](https://wiki.enablingpersonalizedinterventions.nl/specification)), this book assumes you are already familiar with the framework. If not, we recommend you to read (at least the introduction of) the [specification](https://wiki.enablingpersonalizedinterventions.nl/specification) to get a grasp of the framework and which services are involved with it.
 
-To begin, you should first try to install a local version of Brane. How to do so is explained in [the first chapter](./installation/local-install.md).
+To begin, in the next chapter, we will first explain how to setup a new Brane instance on a single machine.
+
+Then, from [Converting to a production cluster](../post-install/introduction.md)
