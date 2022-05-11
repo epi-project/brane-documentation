@@ -4,4 +4,14 @@
 
 # Installation
 - [Introduction](./installation/introduction.md)
-- [Local install](./installation/local-install.md)
+- [Obtaining binaries](./installation/get-binaries.md)
+- [Deployment](./installation/deployment.md)
+
+# Infrastructure
+- [Introduction](./infrastructures/introduction.md)
+- [`local` infrastructure](./infrastructures/local.md)
+- [`vm` infrastructure](./infrastructures/vm.md)
+- [`kube` infrastructure](./infrastructures/kube.md)
+
+# Appendix
+- [Specifications](./appendix/specifications.md)

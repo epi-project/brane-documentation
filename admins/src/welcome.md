@@ -11,6 +11,6 @@ In this book, we document and outline how to set the _Brane framework_ up and ho
 
 In contrast to the other books ([Brane: The User Guide](https://wiki.enablingpersonalizedinterventions.nl/user-guide) and [Brane: A Specification](https://wiki.enablingpersonalizedinterventions.nl/specification)), this book assumes you are already familiar with the framework. If not, we recommend you to read (at least the introduction of) the [specification](https://wiki.enablingpersonalizedinterventions.nl/specification) to get a grasp of the framework and which services are involved with it.
 
-To begin, in the next chapter, we will first explain how to setup a new Brane instance on a single machine.
+To begin, go to the [next chapter](./installation/introduction.md), which introduces the installation process of the framework.
 
-Then, from [Converting to a production cluster](../post-install/introduction.md)
+\<TBD\>
