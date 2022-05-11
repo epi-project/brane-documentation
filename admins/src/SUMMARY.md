@@ -5,6 +5,7 @@
 # Installation
 - [Introduction](./installation/introduction.md)
 - [Obtaining binaries](./installation/get-binaries.md)
+- [Infrastructures](./installation/infrastructures.md)
 - [Deployment](./installation/deployment.md)
 
 # Infrastructure
