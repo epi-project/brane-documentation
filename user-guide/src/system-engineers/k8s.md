@@ -1,42 +1,30 @@
-# Kubernetes
-One of the scheduling systems that Brane supports is [Kubernetes](https://kubernetes.io).
+# Kubernetes infrastructures
+One of the supported infrastructure types that Brane may orchestrate over is [Kubernetes](https://kubernetes.io).
 
-Because Kubernetes supports remote access, Brane expects you to provide a Kubernetes configuration file which describes where, how and with what credentials / certificates to access your cluster. The framework will then use the [`kube`](https://crates.io/crates/kube)-crate to act as a client and connect to your cluster.
+Brane is essentially build around containers, each of which represents a package with pieces of code that may be orchestrated in a workflow. Thus, connecting Brane to a system like Kubernetes is an easy choice, and requires preparation from the perspective of the system engineer in charge of the cluster.
 
-To configure your cluster for Brane access, we recommend you create a new namespace for Brane to use exclusively. You can then limit Brane access to your cluster by creating a service accounts that has full access, but only on that namespace.
+Essentially, all that has to be done is provide Brane with the proper credentials to connect to the cluster, and prepare a separate namespace.
 
-A good tutorial for doing this can be found [here](https://computingforgeeks.com/restrict-kubernetes-service-account-users-to-a-namespace-with-rbac/).
+> <img src="../assets/img/info.png" alt="drawing" width="16" style="margin-top: 3px; margin-bottom: -3px"/> For now, Brane containers do not yet need any additional support beyond access to a network so they may reach the Brane control plane. Any distibuted file systems are implemented in the container as a [Redis](https://redis.io/) networked filesystem.
 
 
-## Adding the infrastructure
-Once your cluster is prepared, Brane has to be configured to know of your infrastructure and to know how it can access it.
-
-Do so, add a new infrastructure to your `infra.yml` file that has the `kube`-kind.
-
-An infrastructure of the `kube`-kind supports the following fields:
-- `address`: The address of your Kubernetes cluster. Note, however, that this field is ignored, as your Kubernetes config already contains this information.
-- `callback_to`: The address and port (as `address:port`) of the Brane callback service location (The `brane-clb` container). This is the service that will receive status updates and result of jobs and pass them back to the control plane.
-- `namespace`: The Kubernetes namespace to run the jobs in.
-- `registry`: The address of the instance registry. This will almost always be the `address:port` of the registry belonging to the Brane instance.
-- `credentials`: With the `config` mechanism, a path can be specified to the Kubernetes config that is used to login to your cluster. Other credential mechanism aren't supported for the Kubernetes cluster.
-- `proxy_address` (optional): The address of a proxy to send all the job's communication through. This is particularly useful for use with the Bridging Functions.
-- `mount_dfs` (optional): The address of a shared (JuiceFS) filesystem to mount for the jobs. This allows jobs to write intermediate results to that filesystem, which can be used by subsequent jobs.
-
-For example, a `kube` infrastructure might look as follows:
-```yaml
-  ...
-
-  example-infrstructure:
-    kind: kube
-    address: mycluster.com:6443
-    callback_to: "https://control-plane.com:50052"
-    namespace: brane
-    registry: "control-plane.com:5000"
-    credentials:
-      mechanism: config
-      file: ./kubernetes-config.yml
-
-  ...
+## Prepare the cluster
+First, you should create a namespace for Brane to run in. While you can also technically let it run in the `default` namespace, to avoid any naming conflicts we highly recommend to create a namespace. For example, run:
+```bash
+kubectl create namespace brane
 ```
+to create a namespace called `brane`.
 
-Once the infrastructure is added, it is important to restart the Brane instance so the file is re-distributed across all services.
+Then, the second step is to provide Brane with a Kubernetes config file that contains the cluster location and credentials to login.
+
+Because providing the administrator config is very bad practise, it's better to create a new account that only has access to Brane's dedicated namespace. To do so, follow the steps detailled in [this](https://computingforgeeks.com/restrict-kubernetes-service-account-users-to-a-namespace-with-rbac/) tutorial.
+
+That said, any configuration file would do, as long as Brane can launch Jobs and PODs in the namespace where it is supposed to run.
+
+
+## Information requirements
+To add your infrastructure to the Brane instance, the control plane will require the following information:
+- The address of your Kubernetes control plane (with port)
+- A configuration file with the proper tokens and certificates so Brane may access its namespace
+
+And that's it. Because Brane simply submits contains to the cluster, everything else is already supported by a standard Kubernetes installation.

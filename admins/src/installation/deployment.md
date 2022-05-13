@@ -87,9 +87,9 @@ There are two separate volumes that should be available:
 - A `brane-data` volume, which contains the database describing the `/data` volume in containers. Only the `aux-minio` service uses this.
 - A `brane-config` volume, which contains the `infra.yml` and `secrets.yml` file that define the infrastructures where Brane may run. Defining them as persistent storage allows real-time adaptation, without the need to recompile the framework on every change.
 
-If you already have (a) StorageClass(es) and matching PersistentVolumes that define these volumes, then you can pass their names to the `make.sh` script to let Brane use them (see [below](#conclusion-deploying-the-instance)). Otherwise, you should create two new classes with matching volumes to do so.
+If you already have (a) StorageClass(es) and matching PersistentVolumes that define these volumes, then you can pass the classes' names to the `make.sh` script to let Brane use them (see [below](#conclusion-deploying-the-instance)). Otherwise, you should create two new classes with matching volumes to do so.
 
-For simplicity, we will prepare two local PersistentVolumes, which simply mount a folder on a node. However, this limits the availability of the volume to only that node, meaning that the brane services will be bound to a single node. For production environments, you should definitely use a better storage method to make the directories available across the cluster.
+For simplicity, we will prepare four local PersistentVolumes (since local volumes don't seem to be able to be shared across PODs), which simply mount a folder on a node. However, this limits the availability of the volume to only that node, meaning that the brane services will be bound to a single node. For production environments, you should definitely use a better storage method to make the directories available across the cluster.
 
 First, create two new StorageClasses (one for each type of storage Brane uses, to make sure they don't overlap), which defines the type of the storage that the cluster provides:
 ```bash
@@ -116,7 +116,7 @@ EOT
 ```
 You can replace the name of the StorageClass with whatever you like. If you do, then you will have to manually specify it every time you run `make.sh` to deploy your cluster. Also, don't forget to replace it in the next few commands as well if you decide to change the names.
 
-Next, create at least two PersistentVolumes. Because this determines where the services requiring this volume will run, you should choose different nodes for both volumes (to try to spread the load a little bit).
+Next, create at the four PersistentVolumes (one per service). Because this determines where the services requiring this volume will run, you should choose different nodes for the volumes (to try to spread the load).
 
 To create the volumes, replace the values in triangular brackets (`<>`) and run the following commands:
 ```bash
@@ -128,6 +128,7 @@ kind: PersistentVolume
 metadata:
   name: brane-data-pv
 spec:
+  volumeMode: Filesystem
   capacity:
     storage: 100Mi
   accessModes:
@@ -147,31 +148,35 @@ spec:
           - <node name as in "kubectl get nodes">
 EOF
 
-# Define the PersistentVolume for the config volume
-cat <<EOF | kubectl apply -f -
-apiVersion: v1
-kind: PersistentVolume
-metadata:
-  name: brane-config-pv
-spec:
-  capacity:
-    storage: 100Mi
-  accessModes:
-  - ReadWriteOnce
-  persistentVolumeReclaimPolicy: Retain
-  # Replace if you named your StorageClass differently
-  storageClassName: brane-config-storage
-  local:
-    path: "<path/to/config/dir>"
-  nodeAffinity:
-    required:
-      nodeSelectorTerms:
-      - matchExpressions:
-        - key: kubernetes.io/hostname
-          operator: In
-          values:
-          - <node name as in "kubectl get nodes">
+# Define three PersistentVolumes for the config volume (we use a for-loop)
+for i in 01 02 03; do
+    cat <<EOF | kubectl apply -f -
+    apiVersion: v1
+    kind: PersistentVolume
+    metadata:
+      name: brane-config-pv-$i
+    spec:
+      volumeMode: Filesystem
+      capacity:
+        storage: 100Mi
+      accessModes:
+        # Note that this one differs from the other config
+      - ReadOnlyMany
+      persistentVolumeReclaimPolicy: Retain
+      # Replace if you named your StorageClass differently
+      storageClassName: brane-config-storage
+      local:
+        path: "<path/to/config/dir>"
+      nodeAffinity:
+        required:
+          nodeSelectorTerms:
+          - matchExpressions:
+            - key: kubernetes.io/hostname
+              operator: In
+              values:
+              - <node name as in "kubectl get nodes">
 EOF
+done
 ```
 The `<path/to/data/dir>` that you provide will contain the persistent part of the shared `data/` folder in the Brane packages, and should thus be an empty folder that you're not using for something else. The same applies for the `<path/to/config/dir>` value, except that this should point to a folder that already contains an `infra.yml` and a `secrets.yml`. Then, `<node name as in "kubectl get nodes">` should be the name of the worker node where you want to create a PersistentVolume. Finally, you can also change the name of this resource as you like (the one under `metadata`).
 

@@ -1,9 +1,9 @@
 # Brane: The User Guide
 
-> Warning: This book is still in development. Everything is currently subject to change
-
 <div align="center"><img src="./assets/img/brane_logo.png" alt="Brane logo" style="height: 200px;"/></div>
 <br>
+
+> <img src="./assets/img/warning.png" alt="drawing" width="16" style="margin-top: 2px; margin-bottom: -2px"/> This book is still in development. Everything is currently subject to change
 
 Welcome to the user guide for the Brane infrastructure!
 

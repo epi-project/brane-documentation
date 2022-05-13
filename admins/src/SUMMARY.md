@@ -13,6 +13,7 @@
 - [`local` infrastructure](./infrastructures/local.md)
 - [`vm` infrastructure](./infrastructures/vm.md)
 - [`kube` infrastructure](./infrastructures/kube.md)
+- [`slurm` infrastructure](./infrastructures/slurm.md)
 
 # Appendix
 - [Specifications](./appendix/specifications.md)
