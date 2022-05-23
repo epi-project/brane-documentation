@@ -15,6 +15,8 @@
 - [Installation](./software-engineers/installation.md)
 - [Your first package](./software-engineers/hello-world.md)
 - [Package inputs & multiple functions](./software-engineers/base64.md)
+- [The shared filesystem](./software-engineers/filesystem.md)
+- [Alternative packages: OpenAPI Standard](./software-engineers/github.md)
 
 # Policy makers
 

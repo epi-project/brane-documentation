@@ -1,7 +1,7 @@
 # Your first package
 In this chapter, we will guide you through creating the simplest and most basic package available: the `hello world` package.
 
-The result of this package may be found in the repository, under `examples/doc/hello-world`.
+> <img src="../assets/img/info.png" alt="info" width="16" style="margin-top: 3px; margin-bottom: -3px"/> The result of this package may be found in the repository, under `examples/doc/hello-world`.
 
 
 ## 1. Writing the code
@@ -102,8 +102,8 @@ actions:
     command:
     input:
     output:
-      - type: string
-        name: output
+    - name: output
+      type: string
 ```
 
 We are now ready to build the package.

@@ -41,7 +41,67 @@ Regardless of how you install the framework, there are a couple of runtime depen
 
 
 ## Downloading binaries
-> <img src="../assets/img/info.png" alt="drawing" width="16" style="margin-top: 3px; margin-bottom: -3px"/> Unfortunately, the images are not yet uploaded to a public repository, and so you cannot use this method yet. Instead, proceed with the [Compiling from source](#Compiling-from-source) method to obtain the binaries and the images.
+Downloading and then using the binaries may be done automatically by the `./make.sh` script.
+
+There are three types of binaries that are available:
+- The Command-Line Interface (CLI), which is the `brane` executable. This will only be executed on your local machine.
+- The Brane Instance binaries (of which there are multiple), which represent the server part of Brane. These will likely be deployed on a remote server.
+- The Branelet executable, which lives inside of the package containers. This will be executed on a Brane instance (i.e., a remote server).
+
+The branelet executable will automatically be downloaded by the CLI if needed, and so you don't have to download it yourself.
+
+The CLI and instance may be downloaded using the following commands:
+```bash
+# Make sure it's executable
+chmod +x ./make.sh
+
+# Download the CLI binary
+./make.sh cli --precompiled
+
+# Download the instance binaries
+./make.sh instance --precompiled
+```
+The `brane` CLI will be available under `target/release/brane`, and the instance binaries will be downloaded to `.container-bins/`.
+
+You can then run the instance using:
+```bash
+./make.sh start-instance --precompiled
+```
+Note that, if the binaries are missing, `start-instance` will automatically attempt to download them (similar to compilation). Thus, you can use the `--precompiled` option at the `start-instance` to download different architectures or use existing binaries instead (see the two subsections below).
+
+
+### Using existing binaries
+Alternatively, you can also use binaries that are compiled somewhere else by suppling their paths to the `--precompiled` option:
+```bash
+# Use the CLI binary at the given path
+./make.sh cli --precompiled ./path/to/brane/cli/file
+
+# Use the instance binaries in the given folder
+./make.sh instance --precompiled ./path/to/brane/instance/dir
+```
+This is particularly useful if you first build the instance images on another server, and then extract them using:
+```bash
+./make.sh extract-binaries
+```
+which will place them under `.container-bins` in the repository root. You can then send these over to some other server, and build the images with the precompiled binaries using the commands listed above.
+
+
+### Downloading binaries for another architecture
+You can also choose to download binaries for different architectures using the `--arch` flag:
+```bash
+# Download the CLI binary for x86_64 Intel / AMD processors
+./make.sh cli --precompiled --arch x86_64
+
+# Download the instance binaries for Apple Silicon
+./make.sh instance --precompiled --arch aarch64
+```
+
+You can then use the `start-instance` command with `--precompiled` flag to start the instance. Don't forget to pass the correct architecture as well:
+```bash
+# If you've downloaded x86_64 instance binaries:
+./make.sh start-instance --precompiled --arch x86_64
+```
+If you omit this, the image architecture will always be the same as your host architecture (so if the binaries differ, this will prevent them from being run).
 
 
 ## Compiling from source
@@ -52,29 +112,54 @@ If you need the absolutely cutting-edge latest version or are running a non-defa
 Before you can begin compilation, you first have install a few extra dependencies:
 - Install [Rust](https://www.rust-lang.org)'s compiler and the associated [Cargo](https://crates.io/) package manager (the easiest is to install using [rustup](https://rustup.rs) (cross-platform))
   - If you use rustup, don't forget to logout and in again to refresh the PATH.
-- On macOS:
+- On macOS (Intel):
   - Install XCode Command-Line Tools:
     ```zsh
     # On macOS 10.9+ or higher, running any command part of the tools will prompt you to install them:
     git --version
     ```
-  - Install `pkg-config` so the Rust packages find your OpenSSL installation:
+  - Install [OpenSSL](https://www.openssl.org/), [pkg-config](https://www.freedesktop.org/wiki/Software/pkg-config/) (so the Rust packages find your OpenSSL installation) and [CMake](https://cmake.org/):
     ```zsh
     # We assume you already have Homebrew (https://brew.sh/) installed
-    brew install pkg-config
+    brew install pkg-config openssl cmake
     ```
-  - To build `branelet`, also install [musl](https://www.musl-libc.org/)-toolchain:
+  - Make sure that `pkg-config` is able to find the OpenSSL installation by running:
+    ```zsh
+    export PKG_CONFIG_PATH="/usr/local/opt/openssl@3/lib/pkgconfig"
+    ```
+    (Run this command every time you open a new terminal and want to compile Brane stuff. Alternatively, if you want it be permanent, add the command to your `~/.zshrc` file)
+  - To build `branelet`, also install cross-compilers for Linux:
     ```zsh
     # We assume you already have Homebrew (https://brew.sh/) installed
-    brew install filosottile/musl-cross/musl-cross
+    brew install SergioBenitez/osxct/x86_64-unknown-linux-gnu
+
+    # Make symlinks so that Rust may find them
+    sudo ln -s /usr/local/opt/musl-cross/bin/x86_64-linux-musl-gcc /usr/local/bin/musl-gcc
+    sudo ln -s /usr/local/opt/musl-cross/bin/x86_64-linux-musl-g++ /usr/local/bin/musl-g++
     ```
-    Additionally, you also have to alter `.cargo/config.toml` and uncomment all lines:
+    Additionally, you also have to edit `.cargo/config.toml` and uncomment the top three lines:
     ```toml
     # Use the appropriate linker
     [target.x86_64-unknown-linux-musl]
     linker = "musl-gcc"
-    rustflags = [ "-C", "link-arg=-Wl,-melf_x86_64" ]
     ```
+- On macOS (Apple Silicon):
+  - Install XCode Command-Line Tools:
+    ```zsh
+    # On macOS 10.9+ or higher, running any command part of the tools will prompt you to install them:
+    git --version
+    ```
+  - Install [OpenSSL](https://www.openssl.org/), [pkg-config](https://www.freedesktop.org/wiki/Software/pkg-config/) (so the Rust packages find your OpenSSL installation) and [CMake](https://cmake.org/):
+    ```zsh
+    # We assume you already have Homebrew (https://brew.sh/) installed
+    brew install pkg-config openssl cmake
+    ```
+  - Make sure that `pkg-config` is able to find the OpenSSL installation by running:
+    ```zsh
+    # Note that the path is different than from the intel macs!
+    export PKG_CONFIG_PATH="/opt/homebrew/openssl@3/lib/pkgconfig"
+    ```
+    (Run this command every time you open a new terminal and want to compile Brane stuff. Alternatively, if you want it be permanent, add the command to your `~/.zshrc` file)
 - On Ubuntu / Debian:
   - To build the CLI, install the build dependencies for Rust packages: [GCC](https://gcc.gnu.org/) (gcc and g++), [OpenSSL](https://www.openssl.org/) (headers only), [pkg-config](https://www.freedesktop.org/wiki/Software/pkg-config/), [make](https://www.gnu.org/software/make/) and [CMake](https://cmake.org/):
     ```bash
@@ -140,6 +225,9 @@ If you're building from source because you want the latest version that is not y
 ```bash
 # Compile the 'branelet' executable, which is used as a delagate in package containers
 ./make.sh branelet
+
+# Note: on macOS with Apple Silicon, you should build branelet in a container:
+./make.sh branelet --containerized
 ```
 Don't forget to provide it with `--init <path_to_executable>` whenever running `brane build`.
 
@@ -159,6 +247,30 @@ To compile for development, run the following command:
 Make sure that you have the dependencies to compile `branelet` installed before compiling the instance this way.
 
 > <img src="../assets/img/warning.png" alt="warning" width="16" style="margin-top: 2px; margin-bottom: -2px"/> Installing the instance this way results in an _even larger_ build cache (~4.1 GB) and in larger images. To this end, make sure you have at least 10 GB available before compiling.
+
+
+### Compiling for other architectures
+In case the part of brane that you're compiling will run on another architecture than yours (for example, someone in the system uses an M1 mac), you may have to compile the appropriate parts of the framework for that architecture.
+
+Currently, only the instance and branelet are supported, because they run in containers (which removes the complexity of worrying about another type of OS than linux). To do so, install the [qemu-user-static](https://github.com/multiarch/qemu-user-static) BuildKit driver, which utilized the [QEMU emulator](https://www.qemu.org/) to run containers with other architectures:
+```bash
+# Commands from https://stackoverflow.com/a/60667468
+docker run --rm --privileged multiarch/qemu-user-static --reset -p yes
+docker buildx rm builder
+docker buildx create --name builder --driver docker-container --use
+```
+However, because [non-x86_64 hosts aren't supported by this driver](https://github.com/multiarch/qemu-user-static#supported-host-architectures), you cannot cross-compile on macOS with Apple Silicon.
+
+After you've installed the proper dependencies, use the `--arch` option of the `make.sh` script to specify the target:
+```bash
+# Compile the framework for x86_64 Intel/AMD processors
+./make.sh instance --arch x86_64
+
+# Compile branelet for M1 macs
+./make.sh branelet --arch aarch64
+```
+
+If you omit the `--arch` option, the `make.sh` script will automatically choose the architecture of the machine you're running it on.
 
 
 ## Next
