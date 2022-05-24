@@ -11,9 +11,11 @@ For the purpose of this tutorial (because the code is very simple), we will writ
 
 To begin, create a new directory (which we will call `hello-world`), and create a file `hello_world.sh`. All it does it printing: "Hello, world!", and so we only have to use an `echo`-statement:
 ```bash
-# Contents of hello-world/hello_world.sh
+#!/bin/bash
 echo 'Hello, world!'
 ```
+
+> <img src="../assets/img/info.png" alt="info" width="16" style="margin-top: 3px; margin-bottom: -3px"/> Note the [shebang](https://en.wikipedia.org/wiki/Shebang_(Unix)) at the top of the file: this special comment, `#!/bin/bash`, tells the terminal how it should run this script. If you omit it, it will try to run your script as a normal Linux executable - which will not work, as this is not binary code.
 
 However, if were to build this as a package and launch it in Brane as it is, we wouldn't see anything. That's because Brane doesn't pass the stdout directly to the user; instead, it reads it and parses it **as YAML**.
 
@@ -21,7 +23,7 @@ Specifically, Brane will expect a YAML file as output that has a certain **key/v
 
 Thus, change your script to:
 ```bash
-# Contents of hello-world/hello_world.sh
+#!/bin/bash
 echo 'output: "Hello, world!"'
 ```
 which just writes the YAML equivalent of a key `output` with a value `Hello, world!`.
@@ -133,6 +135,8 @@ brane list
 which should show you:
 
 <img src="../assets/img/hello-world-list.png" alt="An entry for 'hello_world' in the list" width=800/>
+
+> <img src="../assets/img/info.png" alt="info" width="16" style="margin-top: 3px; margin-bottom: -3px"/> If you re-build your package with the same version, you may notice that your changes don't seem to be propagated when you test them locally (see below). In that case, you should remove the image from the local Docker engine: `docker image rm <image ID>` (you can get the image ID by running `docker image ls`) to force the engine to re-import your freshly built one.
 
 
 ## 4. Testing your package

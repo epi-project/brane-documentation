@@ -18,11 +18,8 @@
 - [The shared filesystem](./software-engineers/filesystem.md)
 - [Alternative packages: OpenAPI Standard](./software-engineers/github.md)
 
-# Policy makers
-
-
 # Scientists
-
+- [Introduction](./scientists/introduction.md)
 
 -----
 # Packages

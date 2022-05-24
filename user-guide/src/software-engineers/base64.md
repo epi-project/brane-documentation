@@ -40,6 +40,7 @@ def decode(b: str) -> str:
 if __name__ == "__main__":
     # TODO
 ```
+(Don't forget the [shebang](https://en.wikipedia.org/wiki/Shebang_(Unix)) at the top of the file!)
 
 > <img src="../assets/img/info.png" alt="info" width="16" style="margin-top: 3px; margin-bottom: -3px"/> You may notice the `str` in the function header. If you're unfamiliar with it, this annotes the types of the arguments. If you're interested, you can read more about it [here](https://docs.python.org/3/library/typing.html).
 
