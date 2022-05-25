@@ -24,7 +24,14 @@
 -----
 # Packages
 - [Introduction](./packages/introduction.md)
+- [`container.yml` documentation](./packages/container_yml.md)
 
 
 # BraneScript
 - [Introduction](./branescript/introduction.md)
+- [Statements](./branescript/statements.md)
+- [Expressions](./branescript/expressions.md)
+- [Data types](./branescript/types.md)
+
+# Bakery
+- [Introduction](./bakery/introduction.md)
