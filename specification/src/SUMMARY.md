@@ -18,5 +18,12 @@
 - [The Brane Instance](./infrastructure/brane-instance.md)
 - [Command-line interface](./infrastructure/command-line-interface.md)
 
+# Operation
+- [Introduction](./operation/introduction.md)
+- [Workflows](./operation/workflows/introduction.md)
+  - [Graph Edges](./operation/workflows/graph-edges.md)
+  - [Compiling from BraneScript and Bakery](./operation/workflows/branescript-and-bakery.md)
+  - [Execution](./operation/workflows/execution.md)
+
 ----
 [Appendix A: Figures](./appendix/figures.md)
