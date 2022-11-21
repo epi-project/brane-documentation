@@ -17,4 +17,4 @@ In these few chapters, we will refer to BraneScript files as both _workflows_ an
 
 
 ## Nexts
-In the [next chapter](./statements.md), we will dive in to statements of BraneScript, which will show the basic constructs you may use. Then, in the [chapter after that](./expressions.md), we will examine BraneScript's expressions. Finally, we will consider its [data types](./types.md). The last chapter may be most relevant if you're writing packages.
+In the [next chapter](./statements.md), we will dive in to statements of BraneScript, which will show the basic constructs you may use. Then, in the [chapter after that](./expressions.md), we will examine BraneScript's expressions. Finally, we will consider its [data types](./types.md), and in a separate chapters its [builtin functions and classes](./builtins.md).

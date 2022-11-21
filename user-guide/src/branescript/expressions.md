@@ -5,15 +5,18 @@ Unlike statements, expressions always have a return value, which may be processe
 
 In the following sections, we will run through the different types of expressions and operators that BraneScript supports.
 
-To learn more about how types are propagated through the expressions, check the [Data types](./types.md) section.
-
 
 ## Constants
 The simplest expression is using just a constant (also called a _literal_). BraneScript defines the following constants:
-- Integers, which are whole numbers of the [`integer`](./types.md#integers) data type. They are written as simple numbers (either positive or negative) without any fractional parts.
-  - e.g., `0`, `42`, `-42`, `100204024`, ...
+- Integers, which are whole numbers of the [`integer`](./types.md#integers) data type. They are written as simple numbers (positive) without any fractional parts.
+  - e.g., `0`, `42`, `100204024`, ...
+
+  You can use the arithmetic negation (see [below](#unary-operators)) to create negative constants.  
+  Note that BraneScript integers are always 64-bit.
 - Reals, which are numbers (either positive or negative) that have a fractional part (i.e., the [`real`](./types.md/#reals) data type).
   - e.g., `0.0`, `42.84`, `-42.333`, `101231231.1231315`, ...
+
+  In BraneScript, they are always double-precision (i.e., 64-bit).
 - Booleans, which are simple `true`/`false` binary values (the [`boolean`](./types.md#booleans) data type).
 - Strings, which define a piece of unicode text (The [`string`](./types.md#strings) data type).
   - e.g., `"Hello, world!"`, ...
@@ -22,7 +25,11 @@ For example, an expression:
 ```branescript
 42
 ```
-will evaluate to a value of `42` of data type `integer`.
+will evaluate to a value of `42` of data type `integer`. Similarly,
+```branescript
+"Hello, world!"
+```
+evaluates to a value of `Hello, world!` of data type `string`.
 
 
 ## Array expressions
@@ -33,7 +40,7 @@ The formal syntax is:
 [<elem>, <elem>, <...>]
 ```
 
-For example, I might define an array that stores the sequence of 1 to 5:
+For example, the following defines an array that stores the integers 1 through 5:
 ```branescript
 let one_to_five := [ 1, 2, 3, 4, 5 ];
 ```
@@ -47,69 +54,61 @@ The formal syntax for this is:
 ```branescript
 new <name> { <prop1> := <value>, <prop2> := <value>, <...> };
 ```
+(or, more readable:)
+```branescript
+new <name> {
+    <prop1> := <value>,
+    <prop2> := <value>,
+    <...>
+};
+```
 Of course, if a class has no properties, then the list may be empty.
 
 For example, to instantiate our [Jedi-class](./statements.md#classes), we could run:
 ```branescript
-let obi_wan := new Jedi { name := "Obi-Wan Kenobi", is_master := true, lightsaber_colour := "blue" };
+let obi_wan := new Jedi {
+    name := "Obi-Wan Kenobi",
+    is_master := true,
+    lightsaber_colour := "blue"
+};
 ```
-The `obi_wan` variable will then hold an _instance_, which we may functionally use in the rest of the workflow.
+The `obi_wan` variable will then carry an _instance_, which we may use in the rest of the workflow in an Object-Oriented Programming-style.
 
-To know how, refer to the [Dot operator](#the-dot-operator) section.
+To know how, refer to the [projection operator](#the-projection-operator) section.
 
 
 ## Unary operators
 A unary operator is an operator that works on a single expression. BraneScript knows of two unary operators:
-- The logical not operator `!`. This simply inverts the value of a `boolean` expression. For example:
+- The logical negation operator `!`. This simply inverts the value of a `boolean` expression. For example:
   ```branescript
   !false
   ```
   will evaluate to `true`.
 - The arithmetic negation, which multiplies some number expression (either `integer` or `real`) with `-1`. For example:
   ```branescript
-  --42
+  -42
   ```
-  would evaluate to `42`, and
+  would evaluate to `-42`, and
   ```branescript
-  ---42.0
+  --42.0
   ```
-  would evaluate to `-42.0`.
+  would evaluate to `42.0`.
 
-Then, it defines two other "unary" operators that are slightly more specialized. They are treated in the next two subsections.
+Then, it defines one other "unary" operator that is slightly more complex:
+- To be able to manually specify precedence in an expression, one may use parenthesis to make sure that the expression inside of it is evaluated first.
 
-
-### Parenthesis
-To be able to manually specify precedence in an expression, one may use parenthesis to make sure that the expression inside of it is evaluated first.
-
-The formal syntax is:
-```branescript
-(<expression>)
-```
-The following example illustrates the effect of the brackets:
-```branescript
-// Returns -21
-let res := 42 - 42 - 21;
-
-// Returns 21
-let res := 42 - (42 - 21);
-```
-
-
-### Array indexing
-To get a single value from an Array, we can use the Array index operator to get the value of one. It is defined as follows:
-```branescript
-<array>[<integer expression>]
-```
-which evaluates to a single value of the same type as the Array.
-
-The index to retrieve is calculated by the integer expression. Note that BraneScript arrays are zero-indexed. For example:
-```branescript
-let test := [ 1, 2, 3 ];
-let one := test[0];
-let two := test[1];
-let three := test[2];
-```
-causes the variables `one`, `two` and `three` to have the same value as their name.
+  The formal syntax is:
+  ```branescript
+  (<expression>)
+  ```
+  The following example illustrates the effect of the brackets:
+  ```branescript
+  // Returns -21
+  let res := 42 - 42 - 21;
+  
+  // Returns 21
+  let res := 42 - (42 - 21);
+  ```
 
 
 ## Binary operators
@@ -119,7 +118,7 @@ There are multiple classes of binary operators, treated in the next subsections.
 
 
 ### Arithmetic operators
-BraneScript defines four arithmetic operators:
+BraneScript defines five arithmetic operators:
 - Addition: In the case of integer or real expressions, adds the two together and evaluates to the resulting value. In the case of two strings, appends the second string to the first. The syntax is:
   ```branescript
   <lhs expression> + <rhs expression>
@@ -154,6 +153,14 @@ BraneScript defines four arithmetic operators:
   - `20 / 9` -> `2`
   - `-23.0 / 22.2` -> `-1.03603603604`
   - `42 / 42.0` -> `1.0`
+- Modulo: In the case of two integer expressions, returns the first value modulo the second one. Can be seen as computing the 'remainder' after dividing the first value by the second. The syntax is:
+  ```branescript
+  <lhs expression> % <rhs expression>
+  ```
+  e.g.
+  - `42 % 42` -> `0`
+  - `20 % 9` -> `2`
+  - `5 % 42` -> `5`
 
 
 ### Comparison operators
@@ -222,26 +229,26 @@ As a special case of the comparison operators, we also define the equals and not
 
 ### Logical operators
 Then there are some binary operators who only work on two boolean expressions:
-- Logical or: In the case of two boolean expressions, returns `true` only if only one or both of the expressions evaluate to `true`. The syntax is:
+- Logical disjunction: In the case of two boolean expressions, returns `true` only if only one or both of the expressions evaluate to `true`. The syntax is:
   ```branescript
-  <lhs expression> | <rhs expression>
+  <lhs expression> || <rhs expression>
   ```
   e.g.
-  - `true | true` -> `true`
-  - `true | false` -> `true`
-  - `false | true` -> `true`
-  - `false | false` -> `false`
+  - `true || true` -> `true`
+  - `true || false` -> `true`
+  - `false || true` -> `true`
+  - `false || false` -> `false`
 - Logical and: In the case of two boolean expressions, returns `true` only if both of the expressions evaluate to `true`. The syntax is:
   ```branescript
-  <lhs expression> & <rhs expression>
+  <lhs expression> && <rhs expression>
   ```
   e.g.
-  - `true & true` -> `true`
-  - `true & false` -> `false`
-  - `false & true` -> `false`
-  - `false & false` -> `false`
+  - `true && true` -> `true`
+  - `true && false` -> `false`
+  - `false && true` -> `false`
+  - `false && false` -> `false`
 
-Note that BraneScript does **not** use short-circuit boolean evaluation. This means that, if we can already deduce the value of either of these operators based on their left-hand side (i.e., `true | false`), then we still evaluate the right-hand side. This matters in the following example:
+Note that BraneScript uses short-circuit boolean evaluation. This means that, if we can already deduce the value of either of these operators based on their left-hand side (e.g., `true || false`), then we do not evaluate the righthand-side. This matters in the following example:
 ```branescript
 func print_true() {
     print("I'm printing true!");
@@ -255,11 +262,29 @@ func print_false() {
 
 print_true() | print_false();
 ```
-This will still print both `"I'm printing true!"` and `"I'm printing false!"`, even though the value of the or-operator can already be deduced after running the first function.
+This will only print `"I'm printing true!"`, and not `"I'm printing false!"`.
 
 
-### The dot-operator
-As a special binary operator, BraneScript defines the dot operator, also known as the class-index operator. Given an object instance and a name, it will evaluate to the value of that property in that instance.
+## Index operators
+### Array indexing
+To get a single value from an Array, we can use the Array index operator to get the value of one. It is defined as follows:
+```branescript
+<array>[<integer expression>]
+```
+which evaluates to a single value of the same type as the Array.
+
+The index to retrieve is calculated by the integer expression. Note that BraneScript arrays are zero-indexed. For example:
+```branescript
+let test := [ 1, 2, 3 ];
+let one := test[0];
+let two := test[1];
+let three := test[2];
+```
+causes the variables `one`, `two` and `three` to have the same value as their name.
+
+
+### The projection-operator
+To get a single property from a class, BraneScript defines the projection operator. Given an object instance and a name, it will evaluate to the value of that property in _that specific instance_.
 
 The formal syntax is:
 ```branescript
@@ -282,10 +307,30 @@ In a similar manner, the dot operator can also help us call functions:
 ```branescript
 obi_wan.swoosh()
 ```
-Note that we do not have to pass the `self` parameter of our function. BraneScript will do this automatically in the background.
+Note that we do not have to pass the `self` parameter of our function. BraneScript will do this automatically in the background. Any other arguments _do_ have to be passed normally.
+
+
+## Calling
+Finally, BraneScript can, of course, call other functions.
+
+For both local as external functions, the syntax is the same:
+```branescript
+<ident>(<arg1>, <arg2>, ...)
+```
+
+This calls a function with identifier `<ident>` with the given arguments. For example:
+```branescript
+print("Finally, we get to this one")
+```
+
+For methods (i.e., functions in classes) you have to use a projection first:
+```branescript
+obi_wan.swoosh()
+```
+Remember that in that case, the `self`-argument is automatically given by the compiler.
 
 
 ## Next
-In the [next chapter](./types.md), we will discuss various data types that Brane supports, and also some more details on how these are propagated through statements and expressions.
+In the [next chapter](./types.md), we will discuss various data types that Brane supports, and also some more details on how these are propagated through statements and expressions. We recommend reading this to anyone, as the compiler attempts to deduce quite a lot by itself, which may lead to unexpected consequences.
 
 You can also start writing workflows, by reading the [chapters for Scientists](../scientists/introduction.md).
