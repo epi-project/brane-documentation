@@ -5,7 +5,7 @@
 # Created:
 #   23 Feb 2022, 16:36:17
 # Last edited:
-#   24 Feb 2022, 11:56:37
+#   21 Nov 2022, 16:05:04
 # Auto updated?
 #   Yes
 #
@@ -23,13 +23,13 @@ target=$2
 
 # Render the book
 cd "$book"
-mdbook build
+mdbook build || exit $?
 
 # Send it to the DigitalOcean server to be served
 echo "Uploading to '$target'..."
-rsync -ar --delete book/* "$target"
+rsync -ar --delete book/* "$target" || exit $?
 # Also upload the .htaccess, if it has one
 if [[ -f "www/.htaccess" ]]; then
     echo "Uploading .htaccess to '$target'..."
-    rsync -ar www/.htaccess "$target"
+    rsync -ar www/.htaccess "$target" || exit $?
 fi
