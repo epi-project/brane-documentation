@@ -1,0 +1,3 @@
+| Name                            | Language                  | Default path        | Description                                                                                              |
+|---------------------------------|---------------------------|---------------------|----------------------------------------------------------------------------------------------------------|
+| [Node config](./config/node.md) | [YAML](https://yaml.org/) | `./node.yml` | The node config file (also called `node.yml` file) defines the basic environmental properties of a node. |

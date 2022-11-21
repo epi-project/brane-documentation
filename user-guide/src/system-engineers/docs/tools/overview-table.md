@@ -1,0 +1,3 @@
+| Name                             | Kind         | Default path                | Description                                                                      |
+|----------------------------------|--------------|-----------------------------|----------------------------------------------------------------------------------|
+| [Brane CTL](./tools/branectl.md) | `executable` | `./target/release/branectl` | The Brane CTL tool is a collection of commands useful for system administrators. |

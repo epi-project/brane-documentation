@@ -9,6 +9,14 @@
 - [VM infrastructures](./system-engineers/vm.md)
 - [Kubernetes infrastructures](./system-engineers/k8s.md)
 - [Slurm infrastructures](./system-engineers/slurm.md)
+- [Documentation](./system-engineers/docs/overview.md)
+  - [Tools](./system-engineers/docs/tools/overview.md)
+    - [Brane CTL](./system-engineers/docs/tools/branectl.md)
+  - [Config](./system-engineers/docs/config/overview.md)
+    - [Node config](./system-engineers/docs/config/node.md)
+    - [Infrastructure file](./system-engineers/docs/config/infra.md)
+    - [Secrets file](./system-engineers/docs/config/secrets.md)
+    - [Backend credentials](./system-engineers/docs/config/creds.md)
 
 # Software engineers
 - [Introduction](./software-engineers/introduction.md)
@@ -32,6 +40,9 @@
 - [Statements](./branescript/statements.md)
 - [Expressions](./branescript/expressions.md)
 - [Data types](./branescript/types.md)
+- [Scoping rules](./branescript/scoping.md)
+- [Builtins](./branescript/builtins.md)
+<!-- - [Annotations](./branescript/annotations.md) -->
 
 # Bakery
 - [Introduction](./bakery/introduction.md)
