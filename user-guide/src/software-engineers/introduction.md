@@ -11,11 +11,9 @@ You may think of them as a program, except that it's meant to be more high-level
 
 That means that the bulk of the work will be done in these external function calls. Because of this modularity present in these workflows, Brane collects these functions in _packages_, which may be used in zero or more workflows as independent compute steps.
 
-Technically, these packages are implemented as containers, which means that they might be written in any language (as long as they adhere to the protocol Brane uses to communicate with packages) and always have all of their dependencies container inside.
+Technically, these packages are implemented as containers, which means that they might be written in any language (as long as they adhere to the protocol Brane uses to communicate with packages) and will ship together with all required dependencies.
 
-As a consequence, this means that Brane package calls are, in principle, always completely self-contained. After execution, the container is destroyed, removing any work that the package has done. The only way to retrieve results is by either sending them back to the workflow-space directly as a message (which can contain limited data), or by writing to a distributed filesystem that is available between all containers.
-
-> <img src="../assets/img/info.png" alt="drawing" width="16" style="margin-top: 3px; margin-bottom: -3px"/> This model will likely change in the future to deal with stricter requirements of data tracking and checking. However, for now, this is the only way to retrieve data from packages.
+As a consequence, this means that Brane package calls are, in principle, always completely self-contained. After execution, the container is destroyed, removing any work that the package has done. The only way to retrieve results is by either sending them back to the workflow-space directly as a return value (which can contain limited data), or by returning so-called _datasets_ or _intermediate results_ (see the [scientist chapters](../scientists/data.md) for more background information, or the software engineer's [data chapter](./data.md) for practical usage).
 
 
 ## Next

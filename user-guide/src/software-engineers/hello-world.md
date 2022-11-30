@@ -1,7 +1,9 @@
 # Your first package
 In this chapter, we will guide you through creating the simplest and most basic package available: the `hello world` package.
 
-> <img src="../assets/img/info.png" alt="info" width="16" style="margin-top: 3px; margin-bottom: -3px"/> The result of this package may be found in the repository, under `examples/doc/hello-world`.
+This tutorial assumes that you have experience with programming. In particular, it's useful to known about [standard streams](https://en.wikipedia.org/wiki/Standard_streams) and [environment variables](https://medium.com/chingu/an-introduction-to-environment-variables-and-how-to-use-them-f602f66d15fa).
+
+> <img src="../assets/img/info.png" alt="info" width="16" style="margin-top: 3px; margin-bottom: -3px"/> The code used in this tutorial can be found in `examples/doc/hello-world` of the [repository](https://github.com/epi-project/brane).
 
 
 ## 1. Writing the code
@@ -15,9 +17,9 @@ To begin, create a new directory (which we will call `hello-world`), and create 
 echo 'Hello, world!'
 ```
 
-> <img src="../assets/img/info.png" alt="info" width="16" style="margin-top: 3px; margin-bottom: -3px"/> Note the [shebang](https://en.wikipedia.org/wiki/Shebang_(Unix)) at the top of the file: this special comment, `#!/bin/bash`, tells the terminal how it should run this script. If you omit it, it will try to run your script as a normal Linux executable - which will not work, as this is not binary code.
+> <img src="../assets/img/warning.png" alt="info" width="16" style="margin-top: 3px; margin-bottom: -3px"/> Don't forget the [shebang](https://en.wikipedia.org/wiki/Shebang_(Unix)) at the top of the file; this special comment, `#!/bin/bash`, tells the terminal how it should run this script (using the Bash interpreter, in this case). If you omit it, it will try to run your script as a normal Linux executable - which will not work, as this is not binary code.
 
-However, if were to build this as a package and launch it in Brane as it is, we wouldn't see anything. That's because Brane doesn't pass the stdout directly to the user; instead, it reads it and parses it **as YAML**.
+However, if we were to build this as a package and launch it in Brane as it is, we wouldn't see anything. That's because Brane doesn't pass the stdout directly to the user; instead, it reads it and parses it **as [YAML](https://yaml.org)**.
 
 Specifically, Brane will expect a YAML file as output that has a certain **key/value** mapping, where it will only return the result of a specific key. The name of this key is arbitrary; for this tutorial, we will call it `output`.
 
@@ -83,7 +85,7 @@ actions:
       name: output
 ```
 
-This defines a function with the identifier "`hello_world`", that requires no input (`input:` is empty) and also doesn't need to pass any command-line arguments to the script (`command:` is empty). What is _does_ define, however, is that it should return the value of the `output`-key in the function's output. We define that value to be of type string, and the name of the key corresponds to the one we set in the `hello_world.sh` Bash script.
+This defines a function with the identifier `hello_world`, that requires no input (`input:` is empty) and also doesn't need to pass any command-line arguments to the script (`command:` is empty). What is _does_ define, however, is that it should return the value of the `output`-key in the function's output. We define that value to be of type string, and the name of the key corresponds to the one we set in the `hello_world.sh` Bash script.
 
 With that defined, your `container.yml` file should now look like this:
 ```yaml
@@ -112,7 +114,7 @@ We are now ready to build the package.
 
 
 ## 3. Building the package
-To build a package, we will finally use the Brane CLI. We will assume that you have name it `brane`, and that it is reachable under the PATH of your machine.
+To build a package, we will finally use the Brane CLI. We will assume that you have named it `brane`, and that it is reachable under the PATH of your machine.
 
 To build the package, simply run the following from within the `hello-world` directory:
 ```bash
@@ -136,8 +138,6 @@ which should show you:
 
 <img src="../assets/img/hello-world-list.png" alt="An entry for 'hello_world' in the list" width=800/>
 
-> <img src="../assets/img/info.png" alt="info" width="16" style="margin-top: 3px; margin-bottom: -3px"/> If you re-build your package with the same version, you may notice that your changes don't seem to be propagated when you test them locally (see below). In that case, you should remove the image from the local Docker engine: `docker image rm <image ID>` (you can get the image ID by running `docker image ls`) to force the engine to re-import your freshly built one.
-
 
 ## 4. Testing your package
 Because publishing your package to a Brane instance immediately exposes it for others to use, it is often better to first test your package locally to catch any errors or bugs.
@@ -159,11 +159,13 @@ If everything went alright, you should see the `Hello, world!` message if you hi
 
 <img src="../assets/img/hello-world-test-2.png" alt="Hello, world!" width=650/>
 
-If everything checks out, you are now able to push your package to a Brane instance.
+This confirms that your package is working and Brane can interact with it! If it doesn't, you'll see an error that hopefully allows you to debug your package. You can check the [troubleshooting](./troubleshooting.md) chapter with some general tips on how to debug any such errors.
+
+If everything checks out, you are now ready to push your package to a Brane instance.
 
 
 ## 5. Publishing your package
-For this step, you will need to have a running Brane instance. If you do now have one where you can test this tutorial, you can download and install one yourself by following the steps in the [Brane: Guide For Administrators](https://wiki.enablingpersonalizedinterventions.nl/admins) book.
+For this step, you will need to have a running Brane instance. If you do not have one where you can test this tutorial, you can download and install one yourself by following the steps listed in the chapters for [system administrators](../system-admins/introduction.md).
 
 We will assume that you have a Brane instance available at `127.0.0.1` (localhost). If you will be using a remote instance, replace all of the occurrences of the localhost IP address with the address of your instance.
 
@@ -173,7 +175,7 @@ brane login http://127.0.0.1 --username <user>
 ```
 where you should replace `<user>` with a name of your choosing. This is the name that will be used to 'sign' all your packages (i.e., list you as owner).
 
-This command simply generates a config file, so regardless of whether this instance exists or not, you will only see it returning.
+> <img src="../assets/img/info.png" alt="info" width="16" style="margin-top: 3px; margin-bottom: -3px"/> This command does not actually have any interaction with the instance you login; it simply remembers the value for subsequent commands. This means it will return instantly and always, even if your IP is invalid (this will likely change in a future release).
 
 Next, you may try to publish your package by pushing it to the instance you just logged-in to:
 ```bash
@@ -190,7 +192,7 @@ Your package is now available in the remote instance. You can verify this by run
 brane search
 ```
 
-This should show you something along the lines of:
+This commands does exactly the same as the `brane list` command, except that it doesn't inspect your local repository but instead the remote one you are logged-in to. Thus, it should show you something along the lines of:
 
 <img src="../assets/img/hello-world-search.png" alt="An entry for 'hello_world' in the list" width=700/>
 
@@ -220,9 +222,11 @@ First, we will bring the function that we have defined in our package into scope
 import hello_world;
 ```
 
-(Note the delimiter "`;`". BraneScript requires all stataments to be terminated by it.)
+(Note the delimiter, `;`. BraneScript requires all stataments to be terminated by it.)
 
-If the instance was able to find the package, then the command will return without printing anything. Next, you can call the function (without any arguments) to run your package on the instance:
+If the instance was able to find the package, then the command will return without printing anything. Otherwise, it might give you an error saying the package is unknown. If so, try re-pushing your package and making sure you are logged-in to the correct instance.
+
+Next, you can call the function to run your package on the instance:
 ```
 hello_world();
 ```
@@ -233,13 +237,15 @@ After running that command, you should see:
 
 Wait, we're not seeing anything?! Did something go wrong?!
 
-No, it didn't! Remember, Brane never simply shows the user the stdout of the package. Instead, it uses the value of the parsed YAML field (in our case, `output`) as the return value of the function that we defined. Thus, if we wrap the `hello_world()`-call in a `print`-statement (a builtin in BraneScript), you will finally see:
+No, it didn't! Remember, Brane never simply shows the user the stdout of the package. Instead, it uses the value of the parsed YAML field (in our case, `output`) as the return value of the function that we defined. Thus, if we wrap the `hello_world()`-call in a `println`-statement (a builtin in BraneScript), you will finally see:
 
 <img src="../assets/img/hello-world-repl-3.png" alt="Hello, world!" width=700/>
 
 > <img src="../assets/img/info.png" alt="info" width="16" style="margin-top: 3px; margin-bottom: -3px"/> You may notice that the second time, the package call went significantly faster than the first call. This is because Brane lazily imports packages in the Docker engine, which means that it still had to download the container during the first call, while it was already loaded during the second.
 
-Congratulations! You have now written, built, published and then run your first Brane package.
+Congratulations! You have now written, built, tested, published and then executed your first Brane package.
+
+// TODO: Replace pic above here with one that uses println
 
 
 ## Next
