@@ -28,6 +28,11 @@
 
 # Scientists
 - [Introduction](./scientists/introduction.md)
+- [Installation](./scientists/installation.md)
+- [Playing with packages](./scientists/packages.md)
+- [Your first workflow](./scientists/workflow.md)
+- [Advanced workflows](./scientists/advanced-workflows.md)
+- [Writing a full workflow: Jupyter-style](./scientists/jupyter.md)
 
 -----
 # Packages
