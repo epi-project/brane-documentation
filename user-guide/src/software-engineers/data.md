@@ -117,9 +117,9 @@ All that you have to know is that `Data` represents a dataset reference; it is n
 ```branescript
 let data_reference := new Data { name := "numbers" };
 ```
-This creates a reference for a dataset called `numbers` (what a coincidence!). Thus, by specifying that our package takes a `Data` as input, Brane will known that it's actually some larger dataset that we're referencing.
+This creates a reference for a dataset called `numbers` (what a coincidence!). Thus, by specifying that our package takes a `Data` as input, Brane will know that it's actually some larger dataset that we're referencing.
 
-In the output, we are using something extremely similar: a class named `IntermediateResult`. This is Brane's builtin class for IntermediateResults, and this is once again a reference to a dataset. The only concrete differences between these two (other than those specified in the [background section](#datasets--intermediate-results-1)) is that `Data` _cannot_ be the output of your function, only `IntermediateResult`. This should be obvious from the semantic difference between them.
+In the output, we are using something extremely similar: a class named `IntermediateResult`. This is Brane's builtin class for intermediate results, and this is once again a reference to a dataset. The only concrete differences between these two (other than those specified in the [background section](#datasets--intermediate-results-1)) is that `Data` _cannot_ be the output of your function, only `IntermediateResult`. This should be obvious from the semantic difference between them.
 
 This is all that is necessary for Brane to arrange that data is appropriate made available to our package. The rest is done in the package code itself.
 
@@ -248,6 +248,9 @@ This means that for our package, all that it has to do to write the result is si
 with open("/result/result.txt", "w") as h:
     h.write(f"{result}")
 ```
+
+Perhaps a bit counter-intuitively, note that our statement that we will have to return the result as `output` somehow isn't actually true; because functions can have only a single output, and this output is now solely on disk under a defined folder, Brane packages shouldn't actually return anything on `stdout` when they return an intermediate result. Thus, the `output` name defined in the `container.yml` is actually unused in this case.
+
 And with that, our package code is complete! The full code can be inspected in the [repository](TODO).
 
 > <img src="../assets/img/warning.png" alt="info" width="16" style="margin-top: 3px; margin-bottom: -3px"/> Be sure to document properly how the `/result` directory looks like once your package call is done with it. Other packages will get the same directory as-is, so will have to know which files to load and in what format they are written.
