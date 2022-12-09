@@ -4,11 +4,19 @@
 - [Overview](./overview.md)
 - [Before you read](./before-reading.md)
 
+-----
 # System administrators
 - [Introduction](./system-admins/introduction.md)
-- [VM infrastructures](./system-admins/vm.md)
-- [Kubernetes infrastructures](./system-admins/k8s.md)
-- [Slurm infrastructures](./system-admins/slurm.md)
+- [Installation](./system-admins/installation/introduction.md)
+  - [Dependencies](./system-admins/installation/dependencies.md)
+  - [`branectl`](./system-admins/installation/branectl.md)
+  - [Control node](./system-admins/installation/control-node.md)
+  - [Worker node](./system-admins/installation/worker-node.md)
+- [Brane compute backends](./system-admins/backends/introduction.md)
+  - [Local backend](./system-admins/backends/local.md)
+  - [VM backend](./system-admins/backends/vm.md)
+  - [Kubernetes backend](./system-admins/backends/k8s.md)
+  - [Slurm backend](./system-admins/backends/slurm.md)
 - [Documentation](./system-admins/docs/overview.md)
   - [Tools](./system-admins/docs/tools/overview.md)
     - [Brane CTL](./system-admins/docs/tools/branectl.md)
@@ -18,6 +26,7 @@
     - [Secrets file](./system-admins/docs/config/secrets.md)
     - [Backend credentials](./system-admins/docs/config/creds.md)
 
+-----
 # Software engineers
 - [Introduction](./software-engineers/introduction.md)
 - [Installation](./software-engineers/installation.md)
@@ -26,6 +35,7 @@
 - [Datasets & Intermediate results](./software-engineers/data.md)
 - [Alternative packages: OpenAPI Standard](./software-engineers/github.md)
 
+-----
 # Scientists
 - [Introduction](./scientists/introduction.md)
 - [Installation](./scientists/installation.md)
