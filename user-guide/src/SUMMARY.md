@@ -27,6 +27,12 @@
     - [Backend credentials](./system-admins/docs/config/creds.md)
 
 -----
+# Policy experts
+- [Introduction](./policy-experts/introduction.md)
+- [Installation](./policy-experts/installation.md)
+- [The Policy File](./policy-experts/policy-file.md)
+
+-----
 # Software engineers
 - [Introduction](./software-engineers/introduction.md)
 - [Installation](./software-engineers/installation.md)
