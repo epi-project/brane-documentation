@@ -46,9 +46,15 @@
 - [Introduction](./scientists/introduction.md)
 - [Installation](./scientists/installation.md)
 - [Playing with packages](./scientists/packages.md)
-- [Your first workflow](./scientists/workflow.md)
-- [Advanced workflows](./scientists/advanced-workflows.md)
-- [Writing a full workflow: Jupyter-style](./scientists/jupyter.md)
+- [BraneScript Workflows](./scientists/bscript/introduction.md)
+  - [Your first workflow](./scientists/bscript/workflow.md)
+  - [Workflows and Data](./scientists/bscript/workflows-data.md)
+  - [Advanced workflows](./scientists/bscript/advanced-workflows.md)
+- [Bakery Workflows](./scientists/bakery/introduction.md)
+  - [Your first workflow](./scientists/bakery/workflow.md)
+  - [Workflows and Data](./scientists/bakery/workflows-data.md)
+  - [Advanced workflows](./scientists/bakery/advanced-workflows.md)
+- [Using the Brane-IDE](./scientists/jupyter.md)
 
 -----
 # Packages

@@ -9,7 +9,7 @@ Typically, workflows revolve around _packages_ that contain _external functions_
 
 Another important concept is that of _datasets_, which are (typically large) files or other sources that contain the data that package functions may operate on. For example, a dataset may be a CSV file with tabular data; or in another instance, it's a compressed archive of CT-scan images.
 
-Workflows are typically in the business of using a combination of package functions acting on certain datasets to achieve certain goals. In short, they are high-level descriptions and implementation of a use-case.
+Workflows are typically in the business of using a combination of package functions acting on certain datasets to achieve certain goals. In short, they are high-level descriptions and implementation of a use-case. And that's exactly the role that a Scientist has in the Brane framework: writing these high-level workflows using low-level packages provided by software engineers as implementation.
 
 
 ## Next

@@ -32,6 +32,10 @@ will evaluate to a value of `42` of data type `integer`. Similarly,
 evaluates to a value of `Hello, world!` of data type `string`.
 
 
+## Identifiers
+TODO
+
+
 ## Array expressions
 Aside from just simple constants, BraneScript also supports a notion of Arrays. These are objects with zero or more elements of the same type, that will be stored together in one variable.
 

@@ -1,0 +1,11 @@
+// HELLO WORLD.bs
+//   by Rick Sanchez
+// 
+// A BraneScript workflow for printing "Hello, world!" to the screen.
+
+// Define which packages we use, which makes its functions available ('hello_world()', in this case)
+import hello_world;
+
+// Prints the result of the 'hello_world()' call by using the 'println()' builtin
+println(hello_world());
+
