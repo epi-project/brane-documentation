@@ -1,0 +1,13 @@
+import cat;           // Provides 'cat()', among others
+import copy_result;   // Provides 'copy_result()'
+
+// Show the initial dataset
+let data := new Data{ name := "colours" };
+println(cat(data, "-"));
+
+// Copy it to a new result, and then show that
+let data_copy := copy_result(data);
+println(cat(data_copy, "contents"));
+
+// Make the result persistent under the name 'colours_copy'
+commit_result("colours_copy", data_copy);

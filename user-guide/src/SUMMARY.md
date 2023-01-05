@@ -57,6 +57,13 @@
 - [Using the Brane-IDE](./scientists/jupyter.md)
 
 -----
+# Configuration files
+- [Introduction](./config/introduction.md)
+- [Administrators](./config/admins/introduction.md)
+- [Users](./config/users/introduction.md)
+  - [`data.yml`](./config/users/data.md)
+
+-----
 # Packages
 - [Introduction](./packages/introduction.md)
 - [`container.yml` documentation](./packages/container_yml.md)

@@ -7,9 +7,7 @@ In this chapter, we describe the basics about writing workflow. Specifically, we
 ## Writing a workflow
 To write a workflow, all you have to do is open a plain text file with your favourite text editor. The name does not matter, but it is conventional to have it end in `.bs` or `.bscript` if you are writing in BraneScript. For this tutorial, we will use the name: `hello_world.bs`.
 
-Next, it is good practise to write a header comment to explain what a file does. Luckily, BraneScript supports comments: everything after a double slash (`//`) is considered as one.
-
-For example:
+Next, it is good practise to write a header comment to explain what a file does. This gives us a good excuse to talk about BraneScript comments: everything after a double slash (`//`) is considered as one. So, a documentation header for this workflow might look like:
 ```branescript
 // HELLO WORLD.bs
 //   by Rick Sanchez
