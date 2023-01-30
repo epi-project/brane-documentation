@@ -106,18 +106,15 @@ The procedure for executing a workflow on a remote instance is very comparable t
 
 The first step is to make sure that the instance has all the packages you need. Use a combination of `brane search` and `brane push` to achieve this (see the [previous chapter](../packages.md) for more information).
 
-Then, to execute your workflow, you can do the same _except_ that you have to specify the remote to connect to using the `--remote` option:
+Then, to execute your workflow, you can do the same, but now specify the `--remote` flag to use the instance currently selected:
 ```bash
-brane run --remote <ADDRESS> ...
+brane run --remote ...
 ```
-Here, `<ADDRESS>` is the address of the remote instance to connect to. This should be the same as the instance to which you logged-in, except that you now also have to specify the port where you can reach the _driver_ of the instance. The default port for this is `50053`.
 
-Thus, to run our workflow on the remote instance `http://example.com`, we would use to the following command:
+Thus, to run our workflow on the remote instance we are currently loggin-in to, we would use to the following command:
 ```bash
-# We assume your already executed 'brane login'
-
-# We use the default port of '50053' for this one
-brane run --remote http://example.com:50053 hello_world.bs
+# We assume your already executed 'brane instance add'
+brane run --remote hello_world.bs
 ```
 
 If your packages are in order, this should produce the same result as when executing the workflow locally.
@@ -152,9 +149,9 @@ which should produce:
 
 Which is the same result as with the separate file, instead that we've now interleaved writing and executing the workflow.
 
-You can also use the REPL in a remote scenario, by providing the `--remote <ADDRESS>` option when running it, similar to `brane run`:
+You can also use the REPL in a remote scenario, by providing the `--remote` option when running it, similar to `brane run`:
 ```bash
-brane repl --remote http://example.com:50053
+brane repl --remote
 ```
 Every command executed in this REPL is executed on the specified instance.
 

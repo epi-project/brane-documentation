@@ -45,6 +45,7 @@
 # Scientists
 - [Introduction](./scientists/introduction.md)
 - [Installation](./scientists/installation.md)
+- [Managing instances](./scientists/instances.md)
 - [Playing with packages](./scientists/packages.md)
 - [BraneScript Workflows](./scientists/bscript/introduction.md)
   - [Your first workflow](./scientists/bscript/workflow.md)

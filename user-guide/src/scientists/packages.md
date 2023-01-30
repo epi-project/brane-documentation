@@ -5,6 +5,8 @@ Currently, Brane has three ways of obtaining packages that contain functions: [p
 
 We will first discuss where you can move packages to/from in the [first section](#package-locations). Then, in the two following sections, we will explain how to [get packages from GitHub](#downloading-packages-from-github) and [from a Brane instance](#pulling-packages-from-an-instance), respectively. Then, in the [section after that](#pushing-packages), we will also explain how to push the obtained packages to (another) Brane instance to use them, and we close by discussing how to remove packages in the [final section](#removing-packages).
 
+Note that we assume that you are able to login to some remote instance, as described in the [previous chapter](./instances.md).
+
 
 ## Package locations
 Brane packages can have two possible kinds of locations: they can be _local_, in which case they are only usable on your machine; or they can be _remote_, in which case they are usable in some Brane instance.
@@ -13,11 +15,11 @@ Typically, you first download a package to your local machine from whatever sour
 
 // TODO package diagram
 
-Another thing to note is that every Brane instance (i.e., Brane server, compute cluster, ... - a system that can accept Brane workflows) will also host its own package repository. So another instance of where you have to manage packages is to pull a package from one instance to your local machine, and then push it to another instance for use there.
+Another thing to note is that every Brane instance will also host its own package repository. So another instance of where you have to manage packages is to pull a package from one instance to your local machine, and then push it to another instance for use there.
 
 
 ## Downloading packages from GitHub
-The first method to download a package is by downloading it from GitHub using the `brane`-executable. You can find how to install this tool in the [previous chapter](./installation.md).
+The first method to download a package is by downloading it from GitHub using the `brane`-executable. You can find how to install this tool in the [installation chapter](./installation.md).
 
 > <img src="../assets/img/info.png" alt="info" width="16" style="margin-top: 3px; margin-bottom: -3px"/> Of course, you can easily download the packages manually from GitHub and then build them as if you wrote the package yourself. See the [chapters for software engineers](../software-engineers/introduction.md) on how to do that. This section focusses on using the more convenient method provided by `brane`.
 
@@ -38,7 +40,7 @@ where `<REPO>` is the identifier of the repository, and `<FILE>` is the path to 
 
 So, for example, to download the `hello_world` package from the standard library:
 ```bash
-brane import epi-project/brane-std hello_world
+brane import epi-project/brane-std hello_world/container.yml
 ```
 
 Brane will then download the package and install it, making it available for local use.
@@ -47,13 +49,17 @@ Brane will then download the package and install it, making it available for loc
 ## Pulling packages from an instance
 Another method is to pull a package from a remote instance to your local machine so you can distribute it later.
 
-To use it, you first have to login to a specific instance using the following command:
+To use it, you first have to define and then select an instance to work on. We won't go into detail here; consult the [previous chapter](./instances.md) for that. Instead, you can use this command to quickly log into an instance if you haven't already:
 ```bash
-brane login <ADDRESS> --username <USERNAME>
+brane instance add <ADDRESS> --use
 ```
-where `<ADDRESS>` is the URL where the instance may be reached, and `<USERNAME>` is some custom username that identifies you on this instance.
+where `<ADDRESS>` is the URL where the instance may be reached.
 
-> <img src="../assets/img/warning.png" alt="warning" width="16" style="margin-top: 3px; margin-bottom: -3px"/> The login system is currently quite crude. In the near future, this will be expanded to be able to manage login credentials as well (e.g., passwords, certificates, ...).
+> <img src="../assets/img/warning.png" alt="warning" width="16" style="margin-top: 3px; margin-bottom: -3px"/> If the above command fails, you may want to retry it with the `--unchecked` flag behind it:
+> ```bash
+> brane instance add <ADDRESS> --use --unchecked
+> ```
+> However, note that if it works with this flag, it means the remote instance isn't available - so any of the subsequent commands won't work either.
 
 Once logged-in, you can fetch a list of available packages by using:
 ```bash
@@ -70,10 +76,10 @@ brane pull <ID>
 ```
 where `<ID>` is typically the name of the package. However, if you want to download a specific package version instead of just the latest version, you can also use `<NAME>:<VERSION>`.
 
-For example, to download the `hello_world` package from an instance that is reachable at `example.com`:
+For example, to download the `hello_world` package from an instance that is reachable at `some-domain.com`:
 ```bash
 # Needs only doing once
-brane login http://example.com --username rick
+brane instance add some-domain.com --use
 
 # Pull the package
 brane pull hello_world
@@ -91,9 +97,9 @@ Aside from making packages available on your local machine, you also need the ab
 
 To publish a package, you first have to make sure you are logged-in to an instance. If you have not already in the [previous section](#pulling-packages-from-an-instance), do so by running:
 ```bash
-brane login <ADDRESS> --username <USERNAME>
+brane instance add <ADDRESS> --use
 ```
-where `<ADDRESS>` is the URL where the instance may be reached, and `<USERNAME>` is some custom username that identifies you on this instance.
+where `<ADDRESS>` is the URL where the instance may be reached. Consult the [previous chapter](./instances.md) for more information on this and related commands.
 
 Then, you can find a list of the packages installed locally by running:
 ```bash
@@ -109,10 +115,10 @@ brane push <ID>
 ```
 where `<ID>` is the name of the package. However, if you want to download a specific package version, you can also use `<NAME>:<VERSION>`.
 
-For example, to push the package `hello_world` to an instance that is reachable at `example.com`:
+For example, to push the package `hello_world` to an instance that is reachable at `some-domain.com`:
 ```bash
 # Needs only doing once
-brane login http://example.com --username rick
+brane instance add some-domain.com --use
 
 # Push the package
 brane push hello_world
@@ -138,9 +144,9 @@ brane remove hello_world
 brane remove hello_world:1.0.0
 ```
 
-> <img src="../assets/img/info.png" alt="info" width="16" style="margin-top: 3px; margin-bottom: -3px"/> Don't worry - Brane will always ask you if you are sure before removing a package. Should you want to consciously skip that, however, you can use the `-f` flag to skip the check:
+> <img src="../assets/img/info.png" alt="info" width="16" style="margin-top: 3px; margin-bottom: -3px"/> Don't worry - Brane will always ask you if you are sure before removing a package. Should you want to consciously skip that, however, you can use the `--force` flag to skip the check:
 > ```bash
-> brane remove hello_world -f
+> brane remove hello_world --force
 > ```
 > Use at your own risk.
 
@@ -149,8 +155,8 @@ The same can be done for remote packages, except that you should use `brane unpu
 brane unpublish <ID>
 ```
 ```bash
-# Don't forget to login first - you are interacting with an instance again
-brane login example.com --username rick
+# Don't forget to login first if you haven't already - you are interacting with an instance again
+brane instance add some-domain.com --use
 
 # For hello_world:
 brane unpublish hello_world
