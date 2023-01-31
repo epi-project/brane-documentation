@@ -49,6 +49,7 @@
 - [Playing with packages](./scientists/packages.md)
 - [BraneScript Workflows](./scientists/bscript/introduction.md)
   - [Your first workflow](./scientists/bscript/workflow.md)
+  - [Basic concepts](./scientists/bscript/basics.md)
   - [Workflows and Data](./scientists/bscript/workflows-data.md)
   - [Advanced workflows](./scientists/bscript/advanced-workflows.md)
 - [Bakery Workflows](./scientists/bakery/introduction.md)
