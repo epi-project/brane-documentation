@@ -57,4 +57,210 @@ foo := foo * 2;
 
 
 ## Control flow
+Another very important and common feature of a programming language is that it typically has syntax for defining the _control flow_ of a language. In BraneScript, this is even more important, since effectively that is what a workflow is: defining some control flow for a set of function calls.
 
+To that end, BraneScript supports different kind of statements that can allow your workflow to branch or loop, or define things such as where functions are executed.
+
+In the following subsections, we will go through each of the control-flow statements currently supported.
+
+
+### If-statements
+Arguably one of the most important statements, an if-statement allows your code to take _one_ of two branches based on some condition. Most languages feature an if-statement, and most feature them in comparable syntax.
+
+For BraneScript, this syntax is:
+```branescript
+if (<EXPR>) {
+    <STATEMENTS>
+}
+```
+This means that, if the `<EXPR>` evaluates to a `true`-boolean value, the code inside the block (i.e., the curly brackets `{}`) is executed; but if it evaluates to `false`, then it isn't.
+
+An example of an if-statement is:
+```branescript
+// Let's assume this has an arbitrary value
+let some_value := 42;
+
+if (some_value == 42) {
+    println("some_value was 42!");
+}
+```
+Because the expression `value == 42` is computed at runtime, this allows the program to become flexible and respond differently to different values stored in variables.
+
+The if-statement also comes in another form:
+```branescript
+if (<EXPR>) {
+    <STATEMENTS>
+} else {
+    <OTHER-STATEMENTS>
+}
+```
+This is known as an _if-else_-statement, and essentially has the same definition _except_ that, if the condition now evaluates to `false`, the second block of statements is run instead of nothing. To illustrate: these two blocks of code are equivalent:
+```branescript
+let some_value := 42;
+if (some_value == 42) {
+    println("some_value was 42!");
+} else {
+    println("some_value was not 42 :(");
+}
+```
+
+```branescript
+let some_value := 42;
+if (some_value == 42) {
+    println("some_value was 42!");
+}
+if (some_value != 42) {
+    println("some_value was not 42 :(");
+}
+```
+
+> <img src="../../assets/img/info.png" alt="info" width="16" style="margin-top: 3px; margin-bottom: -3px"/> From other languages, you may be familiar with a sequence of _else-if_'s. For example, C allows you to do:
+> ```c
+> int some_value = 42;
+> if (some_value == 42) {
+>     printf("some_value was 42!");
+> } else if (some_value == 43) {
+>     printf("some_value was 43!");
+> } else if (some_value == 44) {
+>     printf("some_value was 44!");
+> } else {
+>     printf("some_value had some other value :(");
+> }
+> ```
+> BraneScript, however, has no such syntax (yet). Instead, you should write the following to emulate the same behaviour:
+> ```branescript
+> let some_value := 42;
+> if (some_value == 42) {
+>     println("some_value was 42!");
+> } else {
+>     if (some_value == 43) {
+>         println("some_value was 43!");
+>     } else {
+>         if (some_value == 44) {
+>             println("some_value was 44!");
+>         } else {
+>             println("some_value had some other value :(");
+>         }
+>     }
+> }
+> ```
+
+
+### For-loop
+Another type of control-flow statement is a so-called _for-loop_. These repeat a piece of code multiple times, based on some specific kind of condition being true.
+
+Let's start with the syntax:
+```branescript
+for (<STATEMENT>; <EXPR>; <STATEMENT>) {
+    <STATEMENTS>
+}
+```
+
+BraneScript for-loops are very similar to C for-loops, in that they have three parts (respectively):
+- An _initializer_, which is a statement that is run once before any iteration;
+- A _condition_, which is ran at the start of every iteration. The iteration continues if it evaluates to `true`, or else the loop quits;
+- and an _increment_, which is a statement that is run at the end of every loop.
+
+Typically, you use the initializer to initialize some variable, the condition to check if the variable has exceeded some bounds and the increment to increment the variable at the end of every iteration. For example:
+```branescript
+for (let i := 0; i < 10; i := i + 1) {
+    println("Hello there!");
+}
+```
+This will print the phrase `Hello there!` exactly 10 times.
+
+> <img src="../../assets/img/info.png" alt="info" width="16" style="margin-top: 3px; margin-bottom: -3px"/> Note that the syntax for for-loops might become a lot more restrictive in the future. This because they are quite similar to while-loops as they are now (see [below](#while-loop)), but without the advantage that the compiler can easily deduce the number of iterations that a loop does if it is statically available.
+
+
+### While-loop
+While loops are generalizations of for-loops, which repeat a piece of code multiple times as long as _some_ condition holds true. Essentially, they only define the _condition_-part of a for-loop; the initializer and increment are left open to be implemented as normal statements.
+
+The syntax for a while-loop is as follows:
+```branescript
+while (<EXPR>) {
+    <STATEMENTS>
+}
+```
+The statements in the body of the while-loop are thus execute as long as the expression evaluates to `true`. Just as with the for-loop, this check happens at the _start_ of every iteration.
+
+For example, we can emulate the same for-loop as above by writing the following:
+```branescript
+let i := 0;
+while (i < 10) {
+    println("Hello there!");
+    i := i + 1;
+}
+```
+
+More interestingly, we often represent a while-loop to do work that requires an unknown amount of iterations. A classic example would be to iterate while an error is larger than some factor:
+```branescript
+let err := 100.0;
+while (err > 1.0) {
+    train_some_network();
+    err := compute_error();
+}
+```
+(A real example would probably require arguments in the functions, but they are left out here for simplicity).
+
+Finally, another common pattern, which is an infinite loop, can also most easily be written with while-loops:
+```branescript
+print("The");
+while (true) {
+    print(" end is never the");
+}
+```
+
+Note, however, that BraneScript currently has no support for a `break`-statement (like you may find in other languages). Instead, use a simple boolean variable to iterate until you like to stop, or use a `return`-statement (see [below](#returning)).
+
+
+### Parallel statements
+A feature that is a bit more unique to BraneScript is a parallel-statement. Like if-statements, they have multiple branches, but instead of taking only one of them, _all_ of them are taken - in parallel.
+
+The syntax for a parallel statement is:
+```branescript
+parallel [{
+    <STATEMENTS>
+}, {
+    <MORE-STATEMENTS>
+}, ...]
+```
+(Think of it as a list (`[]`) of one or more code blocks (`{}`))
+
+Unlike the if-statement, a parallel-statement can have any number of branches. For example:
+```branescript
+parallel [{
+    println("This is printed...");
+}, {
+    println("...while this is printed...");
+}, {
+    println("...at the same time this is printed!");
+}]
+```
+
+Note that there are a few peculiarities about parallel statements:
+- The code inside the blocks is run in parallel, which means that the statement itself will only return once all of the branches do. To illustrate:
+  ```branescript
+  parallel [{
+      println("The order of this print...");
+  }, {
+      println("...and this print may vary");
+  }];
+  println("But this print is only run after the other two finished");
+  ```
+- Instead of being able to refer to variables like normal, every branch receives its own _copy_ of those variables. In practise, this means that any changes they make to variables are only local to that branch. For example:
+  ```branescript
+  let value := 42;
+  parallel [{
+      println(value);   // Will print 42
+  }, {
+      value := 84;
+      println(value);   // Will print 84
+  }];
+  println(value);   // Will still print 42!
+  ```
+  To return a value from a parallel branch, see below.
+- The order of execution of the branches is arbitrary (as hinted to above), as it depends on the scheduling of the runtime itself and of the OS' scheduling of the VM threads.
+- In addition, although they are _said_ to run in parallel, in practise, each branch is run _concurrently_. In the case that the workflow is run on a 
+
+
+### Returning
