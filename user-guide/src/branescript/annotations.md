@@ -4,7 +4,7 @@ BraneScript has a notion of so-called _annotations_, which is a line in the sour
 
 ## General syntax
 There are multiple annotations, but they all follow the form:
-```branescript
+```bscript
 #[<name>]
 <statement>
 // or
@@ -18,32 +18,32 @@ There are multiple annotations, but they all follow the form:
 They must be given before a (non-comment) statement, and are applied to that whole statement.
 
 For example, like On-structs, one can use the `location` annotation to limit the locations where an external call may be performed. So, we could write the following:
-```branescript
+```bscript
 #[location="site1"]
 hello_world();
 ```
 which is equivalent to:
-```branescript
+```bscript
 on "site1" {
     hello_world();
 }
 ```
 We can also use this to show that statements only work on one statement. To emulate the following on-statement:
-```branescript
+```bscript
 on "site1" {
     func_one();
     func_two();
 }
 ```
 we would have to write
-```branescript
+```bscript
 #[location="site1"]
 func_one();
 #[location="site1"]
 func_two();
 ```
 or
-```branescript
+```bscript
 #[location="site1"]
 {
     func_one();
@@ -56,7 +56,7 @@ to get the same effect.
 ## Annotations
 Annotations currently supported by the framework are:
 - `location`: Same as an on-statement (see example above), and secretly syntactic sugar for a `locations`-annotation with only one location (see below). It must always be given with a single value, which must be a string literal. For example:
-  ```branescript
+  ```bscript
   func_run_anywhere();
 
   #[location="specific_site"]
@@ -64,7 +64,7 @@ Annotations currently supported by the framework are:
   ```
   Note that giving multiple `location`-annotations to the same statement only confuses the compiler, as it sees them as mutually exclusive (resulting in no actual locations where it may be run). Instead, check the `locations`-annotation.
 - `locations`: Same as an on-statement, except that it accepts multiple locations. Instead of fixing the locations, this instead narrows the planner's options down to only these. Consequently, instead of accepting a single string literal, it accepts an array of string literals.
-  ```branescript
+  ```bscript
   func_run_anywhere();
 
   #[locations=["specific_site"]]
@@ -77,7 +77,7 @@ Annotations currently supported by the framework are:
   func_run_nowhere();
   ```
   Specifying multiple `locations`-annotations results in only the intersection of those lists to be used. For example:
-  ```branescript
+  ```bscript
   #[locations=["site1, "site2"]]
   {
       #[locations=["site2", "site3"]]
@@ -85,7 +85,7 @@ Annotations currently supported by the framework are:
   }
   ```
 - `allow`: Allows the following statement to trigger a warning without reporting it. Basically suppresses that warning. Takes a single string identifier with the warning to suppress.
-  ```branescript
+  ```bscript
   #[allow(trivial_if)]
   if (true) {
       print("Hello there!");

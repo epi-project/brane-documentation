@@ -114,7 +114,7 @@ We will focus on the two new parts in `max` only, since they are identical for `
 The first is that, instead of requiring an atomic variable such as a `string` or an `int` as input, we now require a _class_ named `Dataset`. Classes are a whole different story altogher (see the [BraneScript documentation](TODO) or the [container.yml documentation](TODO)), but because Data is a special builtin we can safely ignore it for now.
 
 All that you have to know is that `Data` represents a dataset reference; it is not the data itself, but merely some way for the framework to known which dataset you are talking about. You can find more information about this in the [chapters for scientists](TODO), but as a teaser, this is how such a reference is created:
-```branescript
+```bscript
 let data_reference := new Data { name := "numbers" };
 ```
 This creates a reference for a dataset called `numbers` (what a coincidence!). Thus, by specifying that our package takes a `Data` as input, Brane will know that it's actually some larger dataset that we're referencing.

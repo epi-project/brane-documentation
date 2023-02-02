@@ -1,6 +1,6 @@
 # Scoping rules
 In BraneScript, there are variables, and the variables are referenced by a (string) identifier. To make this concrete, consider the following example:
-```branescript
+```bscript
 let a := 0;
 a := 1;
 b := 2;
@@ -8,7 +8,7 @@ b := 2;
 Because the compiler uses the identifiers (`a` and `b`, in this case) to know which variables has been defined or not and which one is updated, it can rightly throw an error that `b` is not defined.
 
 However, in many cases, it would be very cluttering if a variabel is defined forever. Consider having two consecutive for-loops:
-```branescript
+```bscript
 for (let i := 0; i < 10; i := i + 1) {
     // We can use i happily here
 }
@@ -26,7 +26,7 @@ In BraneScript, any variable or definition (so also function and class definitio
 > <img src="../assets/img/info.png" alt="info" width="16" style="margin-top: 3px; margin-bottom: -3px"/> For the purpose of scoping, you can consider the script itself (i.e., any statement not within a block) to be a block as well; this outermost scope is often referred to as the _global scope_.
 
 This allows us to do the following:
-```branescript
+```bscript
 {
     // Works
     let i := 1;
@@ -42,7 +42,7 @@ i := 3;
 ```
 
 As a rule of thumb, any declaration made 'near' a block is made 'within' that block. Concretely, for for-loop and function-definitions, this means the the arguments and iterator variabels are defined within that for-loop's or function's scope:
-```branescript
+```bscript
 for (let i := 0; i < 10; i := i + 1) {
     // We can use i happily here
 }
@@ -57,7 +57,7 @@ let arg := 0;
 ```
 
 The final rule to know about blocks is that any _nested_ block (i.e., block defined within a block) _also_ has access to its parent's definitions (and its parent, and its parent, ...). This way, we can still access things in the global scope but not in the inner:
-```branescript
+```bscript
 {
     let hello := "Hello!";
     for (let i := 0; i < 10; i++) {
@@ -77,7 +77,7 @@ When we talk about a 'block' being a 'scope', what we really mean is: 'all varia
 On initially confusing technique that BraneScript supports is called _shadowing_.
 
 As shown in the previous section, the block scoping rules define that it's allowed to define two variables with the same name if they are not within each other's scope:
-```branescript
+```bscript
 {
     // Allowed
     let i := 0;

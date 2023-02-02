@@ -26,14 +26,14 @@ In this section, we will use the concept of Data in a workflow to see how one ca
 For this tutorial, we will write a workflow that prints the contents of a specific dataset and then creates a copy of it. To do so, we will use the [cat](https://github.com/epi-project/brane-std/tree/main/cat) and [copy_result](https://github.com/epi-project/brane-std/tree/main/copy_result) packages from the Brane standard library. Moreover, for now we will assume that there is some dataset with the identifier `colours` that we are interested in printing and copying.
 
 To begin, create a second workflow file, which we will call `data.bs`. Open it with your favourite editor, and start by adding the import for the packages:
-```branescript
+```bscript
 import cat;           // Provides 'cat()', among others
 import copy_result;   // Provides 'copy_result()'
 ```
 Next, we will create a _Dataset reference_. This is what refers to a specific dataset, so that Brane knows what we are talking about. Datasets are referenced by some identifier, and are assumed to be unique within a single instance.
 
 To create one, we will use the builtin `Data`-[class](../../branescript/statements.md#classes). It has only one field, `name`, which is the identifier of the dataset to use. We will create it as follows:
-```branescript
+```bscript
 // ...
 
 new Data{ name := "colours" };
@@ -41,7 +41,7 @@ new Data{ name := "colours" };
 This is the generic BraneScript syntax for instantiating a class with a single field. Because `Data` is a builtin, however, Brane will treat it as a special value.
 
 Note, however, that we currently do nothing with the created data reference; it is created and immediately dropped. To prevent this, we will store it in a [variable](../../branescript/statements.md#variable-declarations):
-```branescript
+```bscript
 // ...
 
 // Instead of what we have above
@@ -50,7 +50,7 @@ let data := new Data{ name := "colours" };
 This is a very common procedure in BraneScript, as well as in other languages.
 
 Once we have a Data reference, using it becomes as easy as passing it to a package function that requires it. To do so, we can simply pass the variable as a value when calling it:
-```branescript
+```bscript
 // ...
 
 // The 'cat()' function takes the dataset and the path to a file in that dataset (see below)
@@ -59,7 +59,7 @@ println(cat(data, "-"));
 ```
 
 > <img src="../../assets/img/info.png" alt="info" width="16" style="margin-top: 3px; margin-bottom: -3px"/> Instantiating a class and referring to a variable are both expressions. Thus, you can also write the following, more concise form:
-> ```branescript
+> ```bscript
 > println(cat(new Data{ name := "colours" }, "-"));
 > ```
 
@@ -78,7 +78,7 @@ Our workflow is now able to print a specific dataset. We will now use the same d
 > <img src="../../assets/img/info.png" alt="info" width="16" style="margin-top: 3px; margin-bottom: -3px"/> Don't let the name of the function `copy_result()` mislead you; it can also be used to copy datasets instead of just results. The reason for this naming is that, for reasons discussed in the [first section](#the-concept-of-data), datasets are trivially convertible to a dataset, but not the other way around. Thus, accepting results tends to be more general than accepting datasets.
 
 To apply the copy, add the following to your workflow file:
-```branescript
+```bscript
 // ...
 
 let data_copy := copy_result(data);
@@ -86,7 +86,7 @@ let data_copy := copy_result(data);
 The `copy_result()` function returns another reference to the result it creates, and by assigning it to `data_copy` it means that this variable now refers to the result of the function.
 
 For completeness, we can show that the copied dataset is the same as the original one:
-```branescript
+```bscript
 // ...
 
 // Add this below the copy
@@ -95,7 +95,7 @@ println(cat(data_copy, "contents"));
 Note that we now have to specify `"contents"` instead of `"-"`. To see why, we refer you to the documentation of the [cat](https://github.com/epi-project/brane-std/tree/main/cat)-package.
 
 The only thing left to do is to commit the result returned by the function to make it a persistent dataset. To do so, we use the `commit_result`-builtin:
-```branescript
+```bscript
 // ...
 
 // This function takes the new name of the dataset first, and then the result itself
@@ -107,7 +107,7 @@ This will make the result available under the `colours_copy` result in other wor
 > <img src="../../assets/img/warning.png" alt="warning" width="16" style="margin-top: 3px; margin-bottom: -3px"/> Be aware that the `commit_result()`-function silently overrides existing datasets. This is typically what you want, since you often want the dataset to be updated when you re-run the same workflow. But be mindful not to cause naming conflicts with other datasets in your instance.
 
 You can now save your file so that we can run it. For completeness, this is the entire workflow file:
-```branescript
+```bscript
 import cat;           // Provides 'cat()', among others
 import copy_result;   // Provides 'copy_result()'
 

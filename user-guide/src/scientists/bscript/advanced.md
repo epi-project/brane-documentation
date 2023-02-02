@@ -6,24 +6,24 @@ In this chapter, we will discuss some loosely connected but very useful concepts
 Another more complex form of an expression is an _array_. This is simply a(n ordered) collections of values, indexable by an integral number. They are very similar to arrays used in other languages.
 
 To create an array, use the following syntax:
-```branescript
+```bscript
 [ <VALUE>, <ANOTHER-VALUE>, ... ]
 ```
 Note that arrays are _homogeneous_ in the sense that all elements _must_ have the same type. For example, this will throw errors:
-```branescript
+```bscript
 let uh_oh := [ 42, "fourty two", 42.0 ];
 ```
 Instead, assign it with values of the same type:
-```branescript
+```bscript
 let ok := [ 83, 112, 97, 109 ];
 ```
 
 To index an array, use the following syntax:
-```branescript
+```bscript
 <ARRAY-EXPR> [ <INDEX-EXPR> ]
 ```
 This may be a bit confusing, but the first expression is an expression that evaluates to an array to index (i.e., a literal array, a variable or a function call), and the second expression is an expression that evaluates to a number that is used as index. Some examples:
-```branescript
+```bscript
 let array1 := [ 1, 2, 3 ];
 // Arrays are zero-indexed, so this refers to the first element
 println(array1[0]);
@@ -40,7 +40,7 @@ println(array1[zero()]);
 This will print `1`, `3`, `5`, `0` and `1`, respectively.
 
 Array indexing can be used to assign a value as well as read it:
-```branescript
+```bscript
 let array1 := [ "a", "b", "c" ];
 array1[0] := "z";
 println(array1);
@@ -48,7 +48,7 @@ println(array1);
 ```
 
 Finally, when you have an array that you got from some function or other source that you don't know the size of, you can retrieve it using the builtin `len`-function:
-```branescript
+```bscript
 println(len([ 0, 0, 0 ]));
 // Will print 3
 ```
@@ -60,7 +60,7 @@ This is very useful when iterating over an array with a for-loop (see [below](#f
 A different kind of control flow statement is the return-statement. This is used to essentially halt the current control flow, and go to whatever was the calling context. In other languages, this is often used in [functions](TODO), but in BraneScript its used a bit more general.
 
 The syntax is:
-```branescript
+```bscript
 return;
 ```
 Writing this statement can be thought as a 'stop' or 'exit' command, and any statement following it (if not in a [branch](#if-statements)) can be ignored.
@@ -70,7 +70,7 @@ There are two possible ways to use a return statement:
 - When used in another context, the function exits the workflow entirely. This can be used to early-quit the workflow if desired.
 
 For example, this workflow:
-```branescript
+```bscript
 println("Hello, ");
 return;
 println("world!");
@@ -78,13 +78,13 @@ println("world!");
 will only print `Hello, `, not `world!`, because of the early quit in between the statements.
 
 A really useful alternative syntax of the return-statement allows it to carry a value to the calling scope:
-```branescript
+```bscript
 return <EXPR>;
 ```
 This is used to return a value from a function, or to return a value from a workflow.
 
 For example, one can run this workflow in the Brane CLI:
-```branescript
+```bscript
 return "A special value";
 ```
 
@@ -96,7 +96,7 @@ While this doesn't seem a lot different than just printing, this actually matter
 ## Advanced parallelism
 Note that there are a few peculiarities about parallel statements:
 - The code inside the blocks is run in parallel, which means that the statement itself will only return once all of the branches do. To illustrate:
-  ```branescript
+  ```bscript
   parallel [{
       println("The order of this print...");
   }, {
@@ -105,7 +105,7 @@ Note that there are a few peculiarities about parallel statements:
   println("But this print is only run after the other two finished");
   ```
 - Instead of being able to refer to variables like normal, every branch receives its own _copy_ of those variables. In practise, this means that any changes they make to variables are only local to that branch. For example:
-  ```branescript
+  ```bscript
   let value := 42;
   parallel [{
       println(value);   // Will print 42
@@ -118,7 +118,7 @@ Note that there are a few peculiarities about parallel statements:
 - The order of execution of the branches is arbitrary (as hinted to above), as it depends on the scheduling of the runtime itself and of the OS' scheduling of the VM threads.
 - In addition, although they are _said_ to run in parallel, in practise, the only guarantee is that each branch is run _concurrently_ (but still _may_ be run in parallel, depending on the setup). To understand the precise difference, check <https://freecontent.manning.com/concurrency-vs-parallelism/>.
 - Each parallel branch forms their own "workflow": or, to be more precise, when your return in a parallel branch, it actually returns the branch - not the workflow. For example:
-  ```branescript
+  ```bscript
   parallel [{
       println("1");
       return;
@@ -128,11 +128,11 @@ Note that there are a few peculiarities about parallel statements:
   ```
   will actually print `1` and `3`, in that order.
 - The only way to return from a parallel branch is to use the _declaration syntax_ of the parallel statement. It looks like the parallel statement is assigned to a variable declaration:
-  ```branescript
+  ```bscript
   let <ID> := parallel[{ <STATEMENTS> }, { <MORE-STATEMENTS> }, ...];
   ```
   If this syntax is used, then every branch _must_ return a value of the same type (using a return-statement). For example:
-  ```branescript
+  ```bscript
   let jedis := parallel [{
       return "Obi-Wan Kenobi";
   }, {
@@ -145,13 +145,13 @@ Note that there are a few peculiarities about parallel statements:
   Will actually print [an array](#arrays) with the returned strings.
   > <img src="../../assets/img/warning.png" alt="warning" width="16" style="margin-top: 3px; margin-bottom: -3px"/> Note that the undefined order of execution, the order of the array is also undefined; it is first-come first-serve, so it typically only makes sense to process these array using some loop (e.g., a [for-loop](#for-loop)).
 - Finally, as a variation on returning an array, multiple _merge strategies_ exist to do different things with the result. For example, one such strategy is the `sum`-strategy, that simply adds the results returned by the parallel-statement. The syntax to define it is:
-  ```branescript
+  ```bscript
   parallel [ <STRATEGY> ] [{
       <STATEMENTS>
   }, ...]
   ```
   To merge using `sum`:
-  ```branescript
+  ```bscript
   let res := parallel [all] [{
       return 42;
   }, {

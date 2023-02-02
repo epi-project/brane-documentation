@@ -11,7 +11,7 @@ The `print`-function is used to write some BraneScript-local output to the stdou
 It accepts one argument of `string` type. Whatever this string is is printed to stdout during runtime, _not_ followed by a newline (check `println` for that).
 
 Formally, we can write the `print`-function to have the following signature:
-```branescript
+```bscript
 func print(value: string) -> void;
 ```
 but remember that almost any type works due to the magic of implicit conversion.
@@ -22,7 +22,7 @@ The `println`-function does the same as the `print`-function, except that it add
 It accepts one argument of `string` type. Whatever this string is is printed to stdout during runtime, followed by a newline.
 
 Formally, we can write the `println`-function to have the following signature:
-```branescript
+```bscript
 func println(value: string) -> void;
 ```
 but remember that almost any type works due to the magic of implicit conversion.
@@ -37,13 +37,13 @@ Based on the datasets that a function accepts, the planner can deduce which site
 This is the only way to get access to external datasets. If you use normal strings to reference datasets or paths to datasets, they will not be mounted to the package container.
 
 Formally, we can write the `Data`-class to have the following signature:
-```branescript
+```bscript
 class Data {
     name : string,
 }
 ```
 So, for instance, one can create one using:
-```branescript
+```bscript
 let data := new Data {
     name := "test_dataset",
 };

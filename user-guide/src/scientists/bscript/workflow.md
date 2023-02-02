@@ -8,7 +8,7 @@ In this chapter, we describe the basics about writing workflow. Specifically, we
 To write a workflow, all you have to do is open a plain text file with your favourite text editor. The name does not matter, but it is conventional to have it end in `.bs` or `.bscript` if you are writing in BraneScript. For this tutorial, we will use the name: `hello_world.bs`.
 
 Next, it is good practise to write a header comment to explain what a file does. This gives us a good excuse to talk about BraneScript comments: everything after a double slash (`//`) is considered as one. So, a documentation header for this workflow might look like:
-```branescript
+```bscript
 // HELLO WORLD.bs
 //   by Rick Sanchez
 // 
@@ -20,7 +20,7 @@ Next, we have to tell the Brane system which packages we want to use in our work
 > <img src="../../assets/img/info.png" alt="info" width="16" style="margin-top: 3px; margin-bottom: -3px"/> Note that all Brane statements end with a semicolon `;`. If you forget it, you may encounter weird syntax errors; so if you don't know what the error means but it's a syntax error, you should first check for proper usage of the semicolons.
 
 We want to import the `hello_world` package, so we add:
-```branescript
+```bscript
 // ...
 
 import hello_world;
@@ -37,7 +37,7 @@ In our case, this imports only one function: the `hello_world()` function. As yo
 > <img src="../../assets/img/workflow-inspect.png" alt="Details about the 'hello_world' package."/>
 
 Even though `hello_world()` is an external function, BraneScript treats it like any old function, which is done similarly like in other languages. So to call the package function, simply add:
-```branescript
+```bscript
 // ...
 
 hello_world();
@@ -45,7 +45,7 @@ hello_world();
 to your file.
 
 However, running the file like this will probably not work. Remember that the package function _returns_ the string, not print it; so to show it to us, the user, we have to use the builtin `println()` function:
-```branescript
+```bscript
 // ...
 
 // Use this instead, where we pass the result of the 'hello_world()'-call to 'println()'
@@ -57,7 +57,7 @@ See the [BraneScript documentation](../../branescript/builtins.md) for a full ov
 We now have a workflow that should print `Hello, world!` when we run it, which is what we set out to do!
 
 The full workflow file, with some additional comments:
-```branescript
+```bscript
 // HELLO WORLD.bs
 //   by Rick Sanchez
 // 
@@ -138,7 +138,7 @@ This should welcome you with the following:
 The REPL-environment works similar to a normal terminal, except that it takes BraneScript statements as input.
 
 We can reproduce our workflow by writing its two statements separately:
-```branescript
+```bscript
 // In the Brane REPL
 import hello_world;
 println(hello_world());

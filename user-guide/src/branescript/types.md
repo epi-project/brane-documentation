@@ -172,7 +172,7 @@ Now we get to a section that may get thorny if not done properly.
 To be able to write code without type hints, the compiler automatically deduces the type of variables based on the value they had _the moment they were declared_. Or, put differently: the type of the expression at a `let`-statement determines the type of the variable for the rest of its lifetime (the same applies to function arguments).
 
 This can lead to the following situations:
-```branescript
+```bscript
 // The variable is declared as an int
 let a := 42;
 // This variable is declared as a float
