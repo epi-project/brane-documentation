@@ -160,6 +160,8 @@ Because of this heterogeneity, BraneScript requires you to specifically define c
 
 Another key difference between arrays and classes (at least, in BraneScript) is that a class can associate functions with it, usually called methods. These methods, then, work on an explicit _instance_ of that class (i.e., a particular set of values) in addition to their normal arguments. This allows for Object-Oriented Programming (OOP) design patterns. For more information on OOP in general, see [here](https://www.educative.io/blog/object-oriented-programming).
 
+
+### Definition & instantiation
 We will first discuss the syntax and usage of classes as just data containers. To define a class, use the following syntax:
 ```bscript
 class <ID> {
@@ -192,7 +194,7 @@ new <ID> {
 
 This tells the backend to create a new object from the definition with the name `<ID>`, and then populate the fields with the given names (`FIELD-ID`) with the value that the given expression evaluates to (`EXPR`).
 
-Note that this is an expression itself, which will thus evaluate to an instance of the referred class. Furthermore, because the fields are named anyway, you don't have to use the same order as used in the class.
+Note that this is an expression itself, which will thus evaluate to an instance of the referred class. Furthermore, because the fields are named, you don't have to use the same order in assigning the value as used in the definitions of the fields.
 
 For example, we can instantiate our Jedi class as follows:
 ```bscript
@@ -204,12 +206,45 @@ let anakin := new Jedi {
 ```
 Similary, we can create another `Jedi` with different properties:
 ```bscript
+// Note the different order - still works!
 let obi_wan := new Jedi {
-    name := "Obi-Wan Kenobi",
     lightsaber_colour := "blue",
+    name := "Obi-Wan Kenobi",
     is_master := true,
 };
 ```
 As long as they refer to the same class, they have the same type, and can thus be used interchangeably.
 
 
+### Projection
+You can now create classes - great! So now it's time to learn how to use them.
+
+The most basic operation on a struct is accessing one of its fields - and the operation for doing so is called _projection_. The sytanx for it is as follows:
+```bscript
+<CLASS-EXPR>.<FIELD-ID>
+```
+Here, `<CLASS-EXPR>` is some expression that evaluates to a class, and `<FIELD-ID>` is the name of the field that should be accessed.
+
+For our Jedi class, we could do something like this:
+```bscript
+// A function that prints information about a given jedi
+func print_jedi(jedi) {
+    print(jedi.name);
+    print(" swishes his ");
+    print(jedi.lightsaber_colour);
+    print(" lightsaber ");
+    if (jedi.is_master) {
+        println("masterfully!");
+    } else {
+        println("amateurishly!");
+    }
+}
+
+// Call it
+print_jedi(anakin);
+print_jedi(obi_wan);
+
+// Setting values works just like with array indices
+anakin.lightsaber_colour = "green";
+print_jedi(anakin);
+```
