@@ -1,15 +1,19 @@
 # Dependencies
 The first step to install any piece of software is to install its dependencies.
 
-The next section will discuss the runtime dependencies. If you plan to compile the framework instead of downloading the prebuilt executables, also follow the second section.
+The next section will discuss the runtime dependencies. If you plan to compile the framework instead of downloading the prebuilt executables, you must install _both_ the dependencies in the [first](#runtime-dependencies)- and [second section](#compilation-dependencies).
 
 
 ## Runtime dependencies
-In both Brane control nodes and worker nodes, the Brane services are implemented as containers, which means that the number of installable dependencies is relatively few.
+In both Brane control nodes and worker nodes, the Brane services are implemented as containers, which means that the number of runtime dependencies is relatively few.
 
 However, the following dependencies are required:
-1. You have to install [Docker](https://docker.com), obviously, to run the container services. To install, follow one of the following links: [Ubuntu](https://docs.docker.com/engine/install/ubuntu/), [Debian](https://docs.docker.com/engine/install/debian/), [Arch Linux](https://wiki.archlinux.org/title/docker) or [macOS](https://docs.docker.com/desktop/mac/install/).
-   - If you are running Docker on Linux, make sure to set it up so that [no root is required](https://docs.docker.com/engine/install/linux-postinstall/) (first section).
+1. You have to install [Docker](https://docker.com) to run the container services. To install, follow one of the following links: [Ubuntu](https://docs.docker.com/engine/install/ubuntu/), [Debian](https://docs.docker.com/engine/install/debian/), [Arch Linux](https://wiki.archlinux.org/title/docker) or [macOS](https://docs.docker.com/desktop/mac/install/) (note the difference between Ubuntu and Debian; they use different keys and repositories).
+   - If you are running Docker on Linux, make sure to set it up so that [no root is required](https://docs.docker.com/engine/install/linux-postinstall/):
+     ```bash
+     sudo usermod -aG docker $USER
+     ```
+     > <img src="../../assets/img/warning.png" alt="warning" width="16" style="margin-top: 3px; margin-bottom: -3px"/> Don't forget to log in and -out again after running the above command to make the new changes effective.
 2. Install the [BuildKit plugin](https://docs.docker.com/buildx/working-with-buildx/) for Docker:
    ```bash
    # Clone the repo, CD into it and install the plugin
@@ -24,7 +28,7 @@ However, the following dependencies are required:
    # Switch to the buildx driver
    docker buildx create --use
    ```
-   If these instructions don't work for you, you can also check the [plugin's repository](https://github.com/docker/ buildx) for more installation methods.
+   If these instructions don't work for you, you can also check the [plugin's repository README](https://github.com/docker/buildx#building) for more installation methods.
 3. Install [OpenSSL](https://www.openssl.org/) for the `branectl` executable:
    - Ubuntu / Debian:
      ```bash
@@ -40,19 +44,28 @@ However, the following dependencies are required:
      brew install openssl
      ```
 
-Aside from that, you have to make sure that your system can run executables compiled against GCC /* TODO */.
+Aside from that, you have to make sure that your system can run executables compiled against GLIBC 2.27 or higher. You can verify this by running:
+```bash
+ldd --version
+```
+
+The top line of the rest will show you the GLIBC version installed on your machine:
+
+<img src="../../assets/img/glibc-version.png" alt="The top line of the result of running 'ldd --version'" width="600" />
+
+If you do not meet this requirement, you will have to compile `branectl` (and any other non-containerized binaries) yourself on a machine with that version of GLIBC installed or lower. In that case, also install the [compilation dependencies](#compilation-dependencies).
 
 
 ## Compilation dependencies
 If you want to compile the framework yourself, you have to install additional dependencies to do so.
 
-There are two part you may want to compile yourself: the first is `branectl`, and the second are the instance images.
+There are two parts you may want to compile yourself: `branectl`, the tool for managing a node, and the service images themselves.
 
-For the latter, two modes available:
+For the latter, two modes are available:
 - In _release_ mode, you will compile the framework directly in the containers that will be using it. This is the recommended method in most cases.
-- In _debug_ or _development_ mode, you will compile the framework with debug symbols, additional debug prints and in a method that optimizes repeated recompilation. This method should only be preferred if you are actively developing the framework.
+- In _debug_ or _development_ mode, you will compile the framework with debug symbols, additional debug prints and outside of a container which optimizes repeated recompilation. Additionally, it also statically links GLIBC so the resulting binaries are very portable. This method should only be preferred if you are actively developing the framework.
 
-We will describe the dependencies for compiling `branectl`, release mode and debug mode in the following subsections, respectively.
+We will describe the dependencies for compiling `branectl`, compiling the services in release mode and compiling them in debug mode in the following subsections.
 
 
 ### `branectl`
@@ -65,56 +78,16 @@ To compile `branectl`, we will be depending on [Rust](https://rust-lang.org)'s c
    # Same command as suggested by Rustup itself
    curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
    ```
+   Or, if you want a version that installs the default setup and that does not ask for confirmation:
    ```bash
-   # Or, if you want to go with the default installation:
    curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- --profile default -y
    ```
-2. Install the packages from `apt` required by Brane's dependencies
+2. Install the packages required by Brane's dependencies with `apt`:
    ```bash
    sudo apt-get update && sudo apt-get install -y \
-       curl \
        gcc g++ \
        cmake \
        pkg-config libssl-dev
-   ```
-   - Note that we install `curl` only to install Python and protobuf (see below).
-3. Make sure you have [Python](https://python.org) 3.9 or higher
-   - Check your Python version:
-     ```bash
-     python3 --version
-     ```
-   - To install the updated version, use `pyenv` to do so without breaking your local setup:
-     ```bash
-     # Install pyenv itself
-     curl https://pyenv.run | bash
-
-     # Add the relevant lines to your terminal profile (either '.bashrc', '.profile', '.zshrc', ...)
-     cat <<EOF >> ~/.bashrc
-     # pyenv
-     export PYENV_ROOT="\$HOME/.pyenv"
-     command -v pyenv >/dev/null || export PATH="\$PYENV_ROOT/bin:\$PATH"
-     eval "\$(pyenv init -)"
-     EOF
-     source ~/.bashrc
-
-     # Use Python 3.9
-     pyenv install 3.9.16
-     pyenv global 3.9.16
-     ```
-     > <img src="../../assets/img/info.png" alt="info" width="16" style="margin-top: 3px; margin-bottom: -3px"/> You can go back to your original Python version at any time:
-     > ```bash
-     > pyenv global system
-     > ```
-4. Install the [Protobuf](https://developers.google.com/protocol-buffers) compiler by manually compiling it (the version from `apt` is not recent enough)
-   ```bash
-   # Download the file & compile the project
-   curl -L https://github.com/protocolbuffers/protobuf/archive/refs/tags/v3.21.10.tar.gz | tar -xvz
-   cd ./protobuf-3.21.10
-   cmake -Dprotobuf_BUILD_TESTS=off .
-   cmake --build . -j $(nproc)
-
-   # Don't forget to put it somewhere in your PATH
-   sudo mv $(readlink protoc) /usr/local/bin/protoc
    ```
 
 
@@ -124,48 +97,18 @@ To compile `branectl`, we will be depending on [Rust](https://rust-lang.org)'s c
    # Same command as suggested by Rustup itself
    curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
    ```
+   Or, if you want a version that installs the default setup and that does not ask for confirmation:
    ```bash
-   # Or, if you want to go with the default installation:
    curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- --profile default -y
    ```
 2. Install the packages from `pacman` required by Brane's dependencies
    ```bash
    sudo pacman -Syu \
-       curl \
        gcc g++ \
        cmake \
-       pkg-config \
-       protobuf
+       pkg-config
    ```
    - Note that the source for OpenSSL is already provided by `openssl` (which is a runtime dependency)
-   - Note that we install `curl` only to install Python (see below).
-3. Make sure you have [Python](https://python.org) 3.9 or higher
-   - Check your Python version:
-     ```bash
-     python3 --version
-     ```
-   - To install the updated version, use `pyenv` to do so without breaking your local setup:
-     ```bash
-     # Install pyenv itself
-     curl https://pyenv.run | bash
-
-     # Add the relevant lines to your terminal profile (either '.bashrc', '.profile', '.zshrc', ...)
-     cat <<EOF >> ~/.bashrc
-     # pyenv
-     export PYENV_ROOT="\$HOME/.pyenv"
-     command -v pyenv >/dev/null || export PATH="\$PYENV_ROOT/bin:\$PATH"
-     eval "\$(pyenv init -)"
-     EOF
-     source ~/.bashrc
-
-     # Use Python 3.9
-     pyenv install 3.9.16
-     pyenv global 3.9.16
-     ```
-     > <img src="../../assets/img/info.png" alt="info" width="16" style="margin-top: 3px; margin-bottom: -3px"/> You can go back to your original Python version at any time:
-     > ```bash
-     > pyenv global system
-     > ```
 
 
 **macOS**
@@ -174,13 +117,13 @@ To compile `branectl`, we will be depending on [Rust](https://rust-lang.org)'s c
    # Same command as suggested by Rustup itself
    curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
    ```
+   Or, if you want a version that installs the default setup and that does not ask for confirmation:
    ```zsh
-   # Or, if you want to go with the default installation:
    curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- --profile default -y
    ```
 2. Install the Xcode Command-Line Tools, since that contains most of the compilers and other tools we need
    ```zsh
-   # Follow the prompt after this to install it
+   # Follow the prompt after this to install it (might take a while)
    xcode-select --install
    ```
 3. Install other packages using [Homebrew](https://brew.sh/):
@@ -193,75 +136,23 @@ To compile `branectl`, we will be depending on [Rust](https://rust-lang.org)'s c
      ```zsh
      brew install \
          pkg-config \
-         openssl \
-         protobuf
+         openssl
      ```
-4. Make sure you have [Python](https://python.org) 3.9 or higher
-   - Check your Python version:
-     ```zsh
-     python3 --version
-     ```
-   - To install the updated version, use `pyenv` to do so without breaking your local setup:
-     ```zsh
-     # Install pyenv itself (we assume you already installed Homebrew)
-     brew install pyenv
-
-     # Use Python 3.9
-     pyenv install 3.9.16
-     pyenv global 3.9.16
-     ```
-     > <img src="../../assets/img/info.png" alt="info" width="16" style="margin-top: 3px; margin-bottom: -3px"/> You can go back to your original Python version at any time:
-     > ```bash
-     > pyenv global system
-     > ```
 
 
-### Release mode
-In release mode, you only have to make sure that [Python](https://python.org) 3.9 or higher is installed to run the make script.
-
-You can check which Python version you are running with:
-```bash
-python3 --version
-```
-
-To install the newer version, use the following commands:
-- Ubuntu / Debian / Arch Linux:
-  ```bash
-  # Install pyenv itself
-  curl https://pyenv.run | bash
-
-  # Add the relevant lines to your terminal profile (either '.bashrc', '.profile', '.zshrc', ...)
-  cat <<EOF >> ~/.bashrc
-  # pyenv
-  export PYENV_ROOT="\$HOME/.pyenv"
-  command -v pyenv >/dev/null || export PATH="\$PYENV_ROOT/bin:\$PATH"
-  eval "\$(pyenv init -)"
-  EOF
-  source ~/.bashrc
-
-  # Use Python 3.9
-  pyenv install 3.9.16
-  pyenv global 3.9.16
-  ```
-- macOS:
-  ```zsh
-  # Install pyenv itself (we assume you already installed Homebrew)
-  brew install pyenv
-
-  # Use Python 3.9
-  pyenv install 3.9.16
-  pyenv global 3.9.16
-  ```
-> <img src="../../assets/img/info.png" alt="info" width="16" style="margin-top: 3px; margin-bottom: -3px"/> You can go back to your original Python version at any time:
-> ```bash
-> pyenv global system
-> ```
+> <img src="../../assets/img/info.png" alt="info" width="16" style="margin-top: 3px; margin-bottom: -3px"/> The main compilation script, `make.py`, is tested for Python 3.7 and higher. If you have an older Python version, you may have to upgrade it first. We recommend using some virtualized environment such as [pyenv](https://github.com/pyenv/pyenv) to avoid breaking your OS or other projects.
 
 
-### Debug mode
-Debug mode is the most work to install, because it relies on cross-compilation using the [musl-toolchain](https://musl.libc.org/).
+### The services (release mode)
+No dependencies are required to build the services in release mode other than the [runtime dependencies](#runtime-dependencies). This is because the containers in which the services are build already contain all of the dependencies.
 
-Note that most of these overlap with [`branectl`](#branectl), so you should first install all the dependencies there. Then, extend upon those by doing the following:
+
+### The services (debug mode)
+Debug mode is the most work to install, because it relies on statically linking GLIBC using the [musl-toolchain](https://musl.libc.org/).
+
+> <img src="../../assets/img/warning.png" alt="warning" width="16" style="margin-top: 3px; margin-bottom: -3px"/> Before you consider installing in debug mode, be aware that the resulting images will be very large (due to the debug symbols and the statically linked GLIBC). Moreover, the build cache kept in between builds is also _huge_. Make sure you have enough space on your machine available (~10GB) before continuing, and regularly clean the cache yourself to avoid it growing boundlessly.
+
+Note that most of these dependencies overlap with the dependencies for compiling [`branectl`](#branectl), so you should first install all the dependencies there. Then, extend upon those by doing the following:
 
 **Ubuntu / Debian**
 1. Install the musl toolchain:
@@ -270,7 +161,39 @@ Note that most of these overlap with [`branectl`](#branectl), so you should firs
    ```
 2. Add shortcuts to GNU tools that emulate missing musl tools (well enough)
    ```bash
-   # You can place these shortcut anywhere in your PATH
+   # You can place these shortcuts anywhere in your PATH
+   sudo ln -s /bin/g++ /usr/local/bin/musl-g++
+   sudo ln -s /usr/bin/ar /usr/local/bin/musl-ar
+   ```
+3. Add the `musl` target for Rust:
+   ```bash
+   rustup target add x86_64-unknown-linux-musl
+   ```
+
+**Arch Linux**
+1. Install the musl toolchain:
+   ```bash
+   sudo pacman -Syu musl
+   ```
+2. Add shortcuts to GNU tools that emulate missing musl tools (well enough)
+   ```bash
+   # You can place these shortcuts anywhere in your PATH
+   sudo ln -s /bin/g++ /usr/local/bin/musl-g++
+   sudo ln -s /usr/bin/ar /usr/local/bin/musl-ar
+   ```
+3. Add the `musl` target for Rust:
+   ```bash
+   rustup target add x86_64-unknown-linux-musl
+   ```
+
+**macOS** (TODO untested)
+1. Install the musl toolchain:
+   ```bash
+   brew install filosottile/musl-cross/musl-cross
+   ```
+2. Add shortcuts to GNU tools that emulate missing musl tools (well enough)
+   ```bash
+   # You can place these shortcuts anywhere in your PATH
    sudo ln -s /bin/g++ /usr/local/bin/musl-g++
    sudo ln -s /usr/bin/ar /usr/local/bin/musl-ar
    ```
@@ -300,3 +223,7 @@ rustup target add aarch64-unknown-linux-musl
 adds the target for ARM processors (e.g., M1 macs).
 
 > <img src="../../assets/img/info.png" alt="info" width="16" style="margin-top: 3px; margin-bottom: -3px"/> Note that, even though we are compiling for a Mac, you should still use `-unknown-linux-musl` as suffix. This is because our executable will be relying on the `musl` library anyway, and other than libraries macs and Linux are compatible (enough).
+
+
+## Next
+Congratulations, you have prepared your machine for running (or compiling) a Brane instance! In the [next chapter](./branectl.md), we will discuss installing the invaluable node management tool `branectl`. After that, depending on which node you want to setup, you can follow the guide for installing [control nodes](./control-node.md) or [worker nodes](./worker-node.md).

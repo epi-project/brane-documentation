@@ -48,7 +48,11 @@
 - [Managing instances](./scientists/instances.md)
 - [Playing with packages](./scientists/packages.md)
 - [BraneScript Workflows](./scientists/bscript/introduction.md)
-  - 
+  - [The language in high-level](./scientists/bscript/highlevel.md)
+  - [Calling functions](./scientists/bscript/calling-functions.md)
+  - [Variables](./scientists/bscript/variables.md)
+  - [Control flow](./scientists/bscript/control-flow.md)
+  - [Datasets in a workflow](./scientists/bscript/datasets.md)
 - [Bakery Workflows](./scientists/bakery/introduction.md)
   - [Your first workflow](./scientists/bakery/workflow.md)
   - [Workflows and Data](./scientists/bakery/workflows-data.md)
