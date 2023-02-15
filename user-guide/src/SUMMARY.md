@@ -48,11 +48,7 @@
 - [Managing instances](./scientists/instances.md)
 - [Playing with packages](./scientists/packages.md)
 - [BraneScript Workflows](./scientists/bscript/introduction.md)
-  - [Your first workflow](./scientists/bscript/workflow.md)
-  - [Basic concepts](./scientists/bscript/basics.md)
-  - [Functions & Composite Types](./scientists/bscript/funcs-classes.md)
-  - [Datasets in workflows](./scientists/bscript/data-results.md)
-  - [Advanced workflows](./scientists/bscript/advanced.md)
+  - 
 - [Bakery Workflows](./scientists/bakery/introduction.md)
   - [Your first workflow](./scientists/bakery/workflow.md)
   - [Workflows and Data](./scientists/bakery/workflows-data.md)
@@ -74,12 +70,11 @@
 
 # BraneScript
 - [Introduction](./branescript/introduction.md)
-- [Statements](./branescript/statements.md)
-- [Expressions](./branescript/expressions.md)
-- [Data types](./branescript/types.md)
-- [Scoping rules](./branescript/scoping.md)
-- [Builtins](./branescript/builtins.md)
-<!-- - [Annotations](./branescript/annotations.md) -->
+- [Hello, world!](./branescript/hello-world.md)
+- [Basic concepts](./branescript/basics.md)
+- [Functions & Composite types](./branescript/funcs-classes.md)
+- [Datasets in workflows](./branescript/data-results.md)
+- [Advanced workflows](./branescript/advanced.md)
 
 # Bakery
 - [Introduction](./bakery/introduction.md)

@@ -26,4 +26,14 @@
   - [Execution](./operation/workflows/execution.md)
 
 ----
+# BraneScript
+- [Introduction](./branescript/introduction.md)
+- [Statements](./branescript/statements.md)
+- [Expressions](./branescript/expressions.md)
+- [Data types](./branescript/types.md)
+- [Scoping rules](./branescript/scoping.md)
+- [Builtins](./branescript/builtins.md)
+<!-- - [Annotations](./branescript/annotations.md) -->
+
+----
 [Appendix A: Figures](./appendix/figures.md)
