@@ -28,6 +28,8 @@
 ----
 # BraneScript
 - [Introduction](./branescript/introduction.md)
+- [Conventions](./branescript/conventions.md)
+- [Grammar](./branescript/grammar.md)
 - [Statements](./branescript/statements.md)
 - [Expressions](./branescript/expressions.md)
 - [Data types](./branescript/types.md)
