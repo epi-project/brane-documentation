@@ -17,7 +17,7 @@ sudo mv ./branectl /usr/local/bin/branectl
 ```
 if you are in the folder where you downloaded the tool.
 
-Alternatively, you can also download it using `curl` from the command-line:
+Alternatively, you can also download the latest version using `curl` from the command-line:
 ```bash
 # For Linux (x86-64)
 sudo curl -Lo /usr/local/bin/branectl https://github.com/epi-project/brane/releases/latest/download/brane-linux-x86_64

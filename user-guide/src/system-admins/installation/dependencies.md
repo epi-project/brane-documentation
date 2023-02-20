@@ -11,7 +11,7 @@ However, the following dependencies are required:
 1. You have to install [Docker](https://docker.com) to run the container services. To install, follow one of the following links: [Ubuntu](https://docs.docker.com/engine/install/ubuntu/), [Debian](https://docs.docker.com/engine/install/debian/), [Arch Linux](https://wiki.archlinux.org/title/docker) or [macOS](https://docs.docker.com/desktop/mac/install/) (note the difference between Ubuntu and Debian; they use different keys and repositories).
    - If you are running Docker on Linux, make sure to set it up so that [no root is required](https://docs.docker.com/engine/install/linux-postinstall/):
      ```bash
-     sudo usermod -aG docker $USER
+     sudo usermod -aG docker "$USER"
      ```
      > <img src="../../assets/img/warning.png" alt="warning" width="16" style="margin-top: 3px; margin-bottom: -3px"/> Don't forget to log in and -out again after running the above command to make the new changes effective.
 2. Install the [BuildKit plugin](https://docs.docker.com/buildx/working-with-buildx/) for Docker:
@@ -144,7 +144,7 @@ To compile `branectl`, we will be depending on [Rust](https://rust-lang.org)'s c
 
 
 ### The services (release mode)
-No dependencies are required to build the services in release mode other than the [runtime dependencies](#runtime-dependencies). This is because the containers in which the services are build already contain all of the dependencies.
+No dependencies are required to build the services in release mode other than the [runtime dependencies](#runtime-dependencies). This is because the containers in which the services are built already contain all of the dependencies.
 
 
 ### The services (debug mode)
