@@ -20,25 +20,19 @@ if you are in the folder where you downloaded the tool.
 Alternatively, you can also download the latest version using `curl` from the command-line:
 ```bash
 # For Linux (x86-64)
-sudo curl -Lo /usr/local/bin/branectl https://github.com/epi-project/brane/releases/latest/download/brane-linux-x86_64
+sudo curl -Lo /usr/local/bin/branectl https://github.com/epi-project/brane/releases/latest/download/branectl-linux-x86_64
 
 # For macOS (Intel)
-sudo curl -Lo /usr/local/bin/branectl https://github.com/epi-project/brane/releases/latest/download/brane-darwin-x86_64
+sudo curl -Lo /usr/local/bin/branectl https://github.com/epi-project/brane/releases/latest/download/branectl-darwin-x86_64
 
 # For macOS (M1/M2)
-sudo curl -Lo /usr/local/bin/branectl https://github.com/epi-project/brane/releases/latest/download/brane-darwin-aarch64
+sudo curl -Lo /usr/local/bin/branectl https://github.com/epi-project/brane/releases/latest/download/branectl-darwin-aarch64
 ```
 
 Don't forget to make the executable runnable:
 ```bash
 sudo chmod +x /usr/local/bin/branectl
 ```
-
-> <img src="../../assets/img/info.png" alt="info" width="16" style="margin-top: 3px; margin-bottom: -3px"/> If you already have a clone of the repository, you can also use the `make.py` script to download the CTL without using curl:
-> ```bash
-> ./make.py ctl --download
-> ```
-> This will download the version appropriate for your processor/OS. Note that you can also use the `--arch` flag to change this (consult `./make.py --help` for more information).
 
 
 ## Compile it yourself
