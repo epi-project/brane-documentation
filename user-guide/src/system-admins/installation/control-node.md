@@ -77,8 +77,21 @@ The `make.py` script will handle the rest, compiling the Docker images to the `t
 Once you have downloaded the images, it is time to setup the configuration files that determines the type of node and its properties.
 
 For a control node, this means generating the following files:
-- A node file (`node.yml`), which will contain the node-specific configuration like service names, ports, file locations, etc.;
-- An infrastructure file (`infra.yml`), which will determine the worker nodes available in the instance; and
-- Certificates that the framework uses to prove the authenticity and identity of each node.
+- A node file (`node.yml`), which will contain the node-specific configuration like service names, ports, file locations, etc.; and
+- An infrastructure file (`infra.yml`), which will determine the worker nodes available in the instance.
 
-Assuming that you have downloaded the images to their standard locations, the f
+Both of these can be generated with `branectl` for convenience.
+
+To do so, first generate the `infra.yml` file. Note that, by default, `branectl` assumes a particular file structure in the configuration files; this hiearchy can be seen in 
+
+You can generate both of these using `branectl`. Be aware, however, that by default, the configuration files have to be in a particular structure:
+```
+<node dir>
+├ config
+│ ├ certs
+│ │ └ <domain certs>
+│ └ infra.yml
+└ node.yml
+```
+
+However, if you generate the `infra.yml` file first and then 
