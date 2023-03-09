@@ -105,10 +105,12 @@ The `config/certs` directory will be used to store the certificates for each of 
 
 Assuming that you have the infrastructure file stored as `config/infra.yml`, the following command can be used to create a `node.yml` for a central node:
 ```bash
-branectl generate node -f central
+branectl generate node -f central <HOSTNAME>
 ```
 
-Here, the `-f` flag will make sure that any of the missing directories (e.g., `config/certs`) will be generated automatically.
+Here, `<HOSTNAME>` is the address where any worker node may reach the central node. Only the hostname will suffice (e.g., `some-domain.com`), but any scheme or path you supply will be automatically stripped away.
+
+The `-f` flag will make sure that any of the missing directories (e.g., `config/certs`) will be generated automatically.
 
 Once again, you can change many of the properties in the `node.yml` file by specifying additional command-line options (see the [`branectl` documentation](TODO) or the builtin `branectl generate node --help`) or by changing the file manually (see the [`node.yml` documentation](TODO)).
 

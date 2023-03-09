@@ -99,7 +99,7 @@ When generating this file, it is possible to manually specify where to find each
 │ ├ certs
 │ │ └ <domain certs>
 │ ├ backend.yml
-| └ policies.yml
+│ └ policies.yml
 └ node.yml
 ```
 
@@ -107,24 +107,24 @@ The `config/certs` directory will be used to store the certificates for each of 
 
 Assuming that you have the other configuration files stored at their default locations, the following command can be used to create a `node.yml` for a worker node:
 ```bash
-branectl generate node -f worker <LOCATION_ID>
+branectl generate node -f worker <HOSTNAME> <LOCATION_ID>
 ```
 
-Here, the `<LOCATION_ID>` is the identifier that the system will use for your location. Accordingly, it must be unique in the instance, and you must choose the same one as defined in the central node of the instance.
+Here, the `<HOSTNAME>` is the address where any worker node may reach the central node. Only the hostname will suffice (e.g., `some-domain.com`), but any scheme or path you supply will be automatically stripped away. Then, the `<LOCATION_ID>` is the identifier that the system will use for your location. Accordingly, it must be unique in the instance, and you must choose the same one as defined in the central node of the instance.
 
 The `-f` flag will make sure that any of the missing directories (e.g., `config/certs`) will be generated automatically.
 
 For example, we can generate a `node.yml` file for a worker with the identifier `bob`:
 ```bash
-branectl generate node -f worker bob
+branectl generate node -f worker bob-domain.com bob
 ```
 
 Once again, you can change many of the properties in the `node.yml` file by specifying additional command-line options (see the [`branectl` documentation](TODO) or the builtin `branectl generate node --help`) or by changing the file manually (see the [`node.yml` documentation](TODO)).
 
 > <img src="../../assets/img/warning.png" alt="warning" width="16" style="margin-top: 3px; margin-bottom: -3px"/> Due to a  [bug](https://github.com/epi-project/brane/issues/27) in one of the framework's dependencies, it cannot handle certificates on IP addresses. To workaround this issue, the `-H` option is provided; it can be used to specify a certain hostname/IP mapping for this node only. Example:
 > ```bash
-> # We can address '1.2.3.4' with 'bob-domain' now
-> branectl generate node -f -H bob-domain:1.2.3.4 worker bob
+> # We can address '1.2.3.4' with 'some-domain' now
+> branectl generate node -f -H some-domain:1.2.3.4 worker bob-domain.com bob
 > ```
 > Note that this is local to this domain only; you have to specify this on other nodes as well.
 
@@ -138,6 +138,7 @@ In Brane, the identity of domains is proven by the use of [X.509 certificates](h
 ### Server-side certificates
 Every worker node is required to have at least a certificate authority (CA) certificate and a server certificate. The first is used as the "authority" of the domain, which is used to sign other certificates such that the worker can see that it has been signed by itself in the past. The latter, in contrast, is used to provide the identity of the worker in case it plays the role of a server (some other domain connects to us and requests a dataset).
 
-Once again, we can use the power of `branectl` to generate both of these certificates for us.
-
-
+Once again, we can use the power of `branectl` to generate both of these certificates for us. Use the following command to generate both a certificate autority and server certificate:
+```bash
+branectl generate certs --help
+```
