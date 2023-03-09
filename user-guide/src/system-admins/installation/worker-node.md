@@ -69,7 +69,7 @@ For a worker node, this means generating the following files:
 
 All three of these can be generated with `branectl` for convenience.
 
-> <img src="../../assets/img/info.png" alt="info" width="16" style="margin-top: 3px; margin-bottom: -3px"/> The `policies.yml` file is temporary. As soon as a more complex Checker-service is added to the framework, it will deal with policies instead of the simple rule-based file we have now. Most certainly, it will have its own, more complex way of being configured.
+> <img src="../../assets/img/info.png" alt="info" width="16" style="margin-top: 3px; margin-bottom: -3px"/> The `policies.yml` file is temporary. As soon as a more complex Checker-service is added to the framework, it will deal with policies instead of the simple rule-based file we have now. Most certainly, the new service will have its own, more complex way of being configured.
 
 To do so, we will first generate a `backend.yml` file. This will define how the worker node can connect to the infrastructure that will actually execute incoming containers. Multiple backend types are possible (see the [series of chapters on it](../backends/introduction.md)), but by default, the configuration assumes that work will be executed on the local machine's Docker daemon.
 
@@ -90,33 +90,54 @@ Note that the default policy file denies all dataset requests and incoming tasks
 
 > <img src="../../assets/img/info.png" alt="info" width="16" style="margin-top: 3px; margin-bottom: -3px"/> You can also specify `-a` or `--allow-all` to generate a file that, by default, will allow everything instead of denying it. However, note that doing so is strongly discouraged in production environments; only do so in testing environments.
 
-Next up, it is time to generate the `node.yml` file. We do this file last, because it defines where to find all of the other files can be found. While you can manually specify where each file can be found when generating the `node.yml`, you can generally make your life easier by providing them at the default locations. For the central node, the default locations are according to the following file structure:
+Then we will generate the final file, the `node.yml` file. This file is done last, because it itself defines where the node services and the `branectl` tool may find any of the others.
+
+When generating this file, it is possible to manually specify where to find each of those files. However, in practise, it is more convenient to make sure that the files are at the default locations that the tools expects. The following tree structure displays the default locations for the configuration of a central node:
 ```
 <current dir>
 ├ config
 │ ├ certs
 │ │ └ <domain certs>
-│ └ infra.yml
+│ ├ backend.yml
+| └ policies.yml
 └ node.yml
 ```
 
-You already generated the `infra.yml` file, and the `node.yml` file is the file we will generate next. The `config/certs` directory will be used to store the certificates for each of the domains; we will do that in the [following section](#TODO).
+The `config/certs` directory will be used to store the certificates for each of the domains; we will do that in the [following section](#generating-certificates).
 
-Assuming that you have the infrastructure file stored as `config/infra.yml`, the following command can be used to create a `node.yml` for a central node:
+Assuming that you have the other configuration files stored at their default locations, the following command can be used to create a `node.yml` for a worker node:
 ```bash
-branectl generate node -f central
+branectl generate node -f worker <LOCATION_ID>
 ```
 
-Here, the `-f` flag will make sure that any of the missing directories (e.g., `config/certs`) will be generated automatically.
+Here, the `<LOCATION_ID>` is the identifier that the system will use for your location. Accordingly, it must be unique in the instance, and you must choose the same one as defined in the central node of the instance.
 
-Once again, you can change many of the properties in the `node.yml` file by specifying additional command-line options (see the [`branectl` documentation](TODO) or the builtin `branectl generate infra --help`) or by changing the file manually (see the [`node.yml` documentation](TODO)).
+The `-f` flag will make sure that any of the missing directories (e.g., `config/certs`) will be generated automatically.
+
+For example, we can generate a `node.yml` file for a worker with the identifier `bob`:
+```bash
+branectl generate node -f worker bob
+```
+
+Once again, you can change many of the properties in the `node.yml` file by specifying additional command-line options (see the [`branectl` documentation](TODO) or the builtin `branectl generate node --help`) or by changing the file manually (see the [`node.yml` documentation](TODO)).
 
 > <img src="../../assets/img/warning.png" alt="warning" width="16" style="margin-top: 3px; margin-bottom: -3px"/> Due to a  [bug](https://github.com/epi-project/brane/issues/27) in one of the framework's dependencies, it cannot handle certificates on IP addresses. To workaround this issue, the `-H` option is provided; it can be used to specify a certain hostname/IP mapping for this node only. Example:
 > ```bash
 > # We can address '1.2.3.4' with 'bob-domain' now
-> branectl generate node -f -H bob-domain:1.2.3.4 central
+> branectl generate node -f -H bob-domain:1.2.3.4 worker bob
 > ```
 > Note that this is local to this domain only; you have to specify this on other nodes as well.
 
 
 ## Generating certificates
+In contrast to setting up a control node, a worker node will have to strongly identify itself to prove to other worker nodes who it is. This is relevant, because worker nodes may want to download data from one another; and if this dataset is private, then the other domains likely won't share it unless they know who they are talking to.
+
+In Brane, the identity of domains is proven by the use of [X.509 certificates](https://en.wikipedia.org/wiki/X.509). Thus, before you can start your worker node, we will have to generate some certificates.
+
+
+### Server-side certificates
+Every worker node is required to have at least a certificate authority (CA) certificate and a server certificate. The first is used as the "authority" of the domain, which is used to sign other certificates such that the worker can see that it has been signed by itself in the past. The latter, in contrast, is used to provide the identity of the worker in case it plays the role of a server (some other domain connects to us and requests a dataset).
+
+Once again, we can use the power of `branectl` to generate both of these certificates for us.
+
+
