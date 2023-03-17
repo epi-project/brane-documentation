@@ -74,4 +74,4 @@ Note, however, the [additional dependencies](./dependencies.md#cross-compilation
 ## Next
 If you can now run `branectl --help` without errors, congratulations! You have successfully installed the management tool for the Brane instance.
 
-You can now choose what kind of node to install. To install a central node, go to the [next chapter](./control-node.md); otherwise, go to the [chapter after that](./worker-node.md) to install a worker node.
+You can now choose what kind of node to install. To install a central node, go to the [next chapter](./control-node.md); go to the [chapter after that](./worker-node.md) to install a worker node; or go the the [final chapter](./proxy-node.md) to setup a proxy node.

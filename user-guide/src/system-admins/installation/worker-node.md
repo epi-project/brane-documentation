@@ -64,23 +64,24 @@ Once you have downloaded the images, it is time to setup the configuration files
 
 For a worker node, this means generating the following files:
 - A node file (`node.yml`), which will contain the node-specific configuration like service names, ports, file locations, etc.;
-- A backend file (`backend.yml`), which will define how the worker node connects to which backend that will actually execute the tasks; and
-- A policy file (`policies.yml`), which will define which datasets may be shared with who and which containers may be executed.
+- A backend file (`backend.yml`), which will define how the worker node connects to which backend that will actually execute the tasks;
+- A policy file (`policies.yml`), which will define which datasets may be shared with who and which containers may be executed; and
+- A proxy file (`proxy.yml`), which describes if any proxying should occur and how.
 
 All three of these can be generated with `branectl` for convenience.
 
 > <img src="../../assets/img/info.png" alt="info" width="16" style="margin-top: 3px; margin-bottom: -3px"/> The `policies.yml` file is temporary. As soon as a more complex Checker-service is added to the framework, it will deal with policies instead of the simple rule-based file we have now. Most certainly, the new service will have its own, more complex way of being configured.
 
-To do so, we will first generate a `backend.yml` file. This will define how the worker node can connect to the infrastructure that will actually execute incoming containers. Multiple backend types are possible (see the [series of chapters on it](../backends/introduction.md)), but by default, the configuration assumes that work will be executed on the local machine's Docker daemon.
+We will first generate a `backend.yml` file. This will define how the worker node can connect to the infrastructure that will actually execute incoming containers. Multiple backend types are possible (see the [series of chapters on it](../backends/introduction.md)), but by default, the configuration assumes that work will be executed on the local machine's Docker daemon.
 
 Thus, to generate such a `backend.yml` file, you can use the following command:
 ```bash
 branectl generate backend -f -p ./config/backend.yml local
 ```
 
-> <img src="../../assets/img/info.png" alt="info" width="16" style="margin-top: 3px; margin-bottom: -3px"/> While the `-f` flag (`--fix-dirs`, fix missing directories) and the `-p` option (`--path`, path of generated file) are not required, you will typically use these to make your life easier down the road. See the `branectl generate node` command below to find out why.
-
 Running this command will generate the file `./config/backend.yml` for you, with default settings for how to connect to the local daemon. If you want to change these, you can simply use more options and flags in the tool itself (see the [`branectl` documentation](TODO) or the builtin `branectl generate backend --help`), or change the file manually (see the [`backend.yml` documentation](TODO)).
+
+> <img src="../../assets/img/info.png" alt="info" width="16" style="margin-top: 3px; margin-bottom: -3px"/> While the `-f` flag (`--fix-dirs`, fix missing directories) and the `-p` option (`--path`, path of generated file) are not required, you will typically use these to make your life easier down the road. See the `branectl generate node` command below to find out why.
 
 Then, we will generate the `policies.yml` file. This is done with a similar command:
 ```bash
@@ -90,7 +91,18 @@ Note that the default policy file denies all dataset requests and incoming tasks
 
 > <img src="../../assets/img/info.png" alt="info" width="16" style="margin-top: 3px; margin-bottom: -3px"/> You can also specify `-a` or `--allow-all` to generate a file that, by default, will allow everything instead of denying it. However, note that doing so is strongly discouraged in production environments; only do so in testing environments.
 
-Then we will generate the final file, the `node.yml` file. This file is done last, because it itself defines where the node services and the `branectl` tool may find any of the others.
+Next up is the `proxy.yml` file. Typically, these can be left to the default settings, and so the following command will do the trick in most situations:
+```bash
+branectl generate proxy -f -p ./config/proxy.yml
+```
+
+A `proxy.yml` file should be available in `./config/proxy.yml` after running this command.
+
+The contents of this file will typically only differ if you have advanced networking requirements. If so, consult the [`branectl` documentation](TODO) or the builtin `branectl generate proxy --help`, or the [`proxy.yml` documentation](TODO).
+
+> <img src="../../assets/img/info.png" alt="info" width="16" style="margin-top: 3px; margin-bottom: -3px"/> This file may be skipped if you are setting up an external proxy node for this node. See the [chapter on proxy nodes](./proxy-node.md) for more information.
+
+Finally, we will generate the `node.yml` file. This file is done last, because it itself defines where the node services and the `branectl` tool may find any of the others.
 
 When generating this file, it is possible to manually specify where to find each of those files. However, in practise, it is more convenient to make sure that the files are at the default locations that the tools expects. The following tree structure displays the default locations for the configuration of a central node:
 ```

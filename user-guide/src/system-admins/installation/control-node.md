@@ -69,12 +69,13 @@ The `make.py` script will handle the rest, compiling the Docker images to the `t
 Once you have downloaded the images, it is time to setup the configuration files for the node. These files determine the type of node, as well as any of the node's properties and network specifications.
 
 For a control node, this means generating the following files:
-- A node file (`node.yml`), which will contain the node-specific configuration like service names, ports, file locations, etc.; and
-- An infrastructure file (`infra.yml`), which will determine the worker nodes available in the instance.
+- A node file (`node.yml`), which will contain the node-specific configuration like service names, ports, file locations, etc.;
+- An infrastructure file (`infra.yml`), which will determine the worker nodes available in the instance; and
+- A proxy file (`proxy.yml`), which describes if any proxying should occur and how.
 
-Both of these can be generated with `branectl` for convenience.
+All of these can be generated with `branectl` for convenience.
 
-To do so, first generate the `infra.yml` file. This can be done using the following command:
+First, we generate the `infra.yml` file. This can be done using the following command:
 ```bash
 branectl generate infra <ID>:<ADDR> ...
 ```
@@ -85,11 +86,22 @@ For example, suppose that we want to instantiate a central node for a Brane inst
 branectl generate infra -f -p ./config/infra.yml amy:amy-worker-node.com bob:1.2.3.4
 ```
 
-> <img src="../../assets/img/info.png" alt="info" width="16" style="margin-top: 3px; margin-bottom: -3px"/> While the `-f` flag (fix missing directories) and the `-p` option (path of generated file) are not required, you will typically use these to make your life easier down the road. See the `branectl generate node` command below to find out why.
-
 Running this command will generate the file `./config/infra.yml` for you, with default settings for each domain. If you want to change these, you can simply use more options and flags in the tool itself (see the [`branectl` documentation](TODO) or the builtin `branectl generate infra --help`), or change the file manually (see the [`infra.yml` documentation](TODO)).
 
-Then we will generate the final file, the `node.yml` file. This file is done last, because it itself defines where the node services and the `branectl` tool may find any of the others.
+> <img src="../../assets/img/info.png" alt="info" width="16" style="margin-top: 3px; margin-bottom: -3px"/> While the `-f` flag (fix missing directories) and the `-p` option (path of generated file) are not required, you will typically use these to make your life easier down the road. See the `branectl generate node` command below to find out why.
+
+Next, we will generate the `proxy.yml` file. Typically, this configuration can be left to the default settings, and so the following command will do the trick in most situations:
+```bash
+branectl generate proxy -f -p ./config/proxy.yml
+```
+
+A `proxy.yml` file should be available in `./config/proxy.yml` after running this command.
+
+The contents of this file will typically only differ if you have advanced networking requirements. If so, consult the [`branectl` documentation](TODO) or the builtin `branectl generate proxy --help`, or the [`proxy.yml` documentation](TODO).
+
+> <img src="../../assets/img/info.png" alt="info" width="16" style="margin-top: 3px; margin-bottom: -3px"/> This file may be skipped if you are setting up an external proxy node for this node. See the [chapter on proxy nodes](./proxy-node.md) for more information.
+
+Then we will generate the final file, the `node.yml` file. This file is done last, because it itself defines where the node services and the `branectl` tool may find any of the others configuration files.
 
 When generating this file, it is possible to manually specify where to find each of those files. However, in practise, it is more convenient to make sure that the files are at the default locations that the tools expects. The following tree structure displays the default locations for the configuration of a central node:
 ```
@@ -97,7 +109,8 @@ When generating this file, it is possible to manually specify where to find each
 ├ config
 │ ├ certs
 │ │ └ <domain certs>
-│ └ infra.yml
+│ ├ infra.yml
+│ └ proxy.yml
 └ node.yml
 ```
 
@@ -117,7 +130,7 @@ Once again, you can change many of the properties in the `node.yml` file by spec
 > <img src="../../assets/img/warning.png" alt="warning" width="16" style="margin-top: 3px; margin-bottom: -3px"/> Due to a  [bug](https://github.com/epi-project/brane/issues/27) in one of the framework's dependencies, it cannot handle certificates on IP addresses. To workaround this issue, the `-H` option is provided; it can be used to specify a certain hostname/IP mapping for this node only. Example:
 > ```bash
 > # We can address '1.2.3.4' with 'bob-domain' now
-> branectl generate node -f -H bob-domain:1.2.3.4 central
+> branectl generate node -f -H bob-domain:1.2.3.4 central central-domain.com
 > ```
 > Note that this is local to this domain only; you have to specify this on other nodes as well.
 
@@ -150,13 +163,17 @@ This will launch the services in the local Docker daemon, which completes the se
 >   branectl -n <PATH TO NODE YML> start central
 >   ```
 >   It will define the rest of the configuration locations.
-> - If you have installed the images to `./target/debug` instead of `./target/release`, you can use the quick option `--mode` to change the folders. Specifically:
+> - If you have installed all images to another folder than `./target/release` (e.g., `./target/debug`), you can use the quick option `--image-dir` to change the folders. Specifically:
 >   ```bash
->   branectl start --mode debug central
+>   branectl start --image-dir "./target/debug" central
 >   ```
-> - Otherwise, you can also specify the location of each image individually. This must be done for each of the three auxillary images if you use the downloaded version. To see how, refer to the [`branectl` documentation](TODO) or the builtin `branectl --help`.
+> - If you want to use pre-downloaded image for the three auxillary services (`aux-scylla`, `aux-kafka` and `aux-zookeeper`) that are in the same folder as the one indicated by `--image-dir`, you can specify `--local-aux` to use the folder version instead:
+>   ```bash
+>   branectl start central --local-aux
+>   ```
+> - You can also specify the location of each image individually. To see how, refer to the [`branectl` documentation](TODO) or the builtin `branectl start --help`.
 
-> <img src="../../assets/img/warning.png" alt="warning" width="16" style="margin-top: 3px; margin-bottom: -3px"/> Note that the underlying Scylla database might need a minute to come online, even though its container already reports ready. Thus, before you can use your instance, wait until `docker ps` shows all Brane containers running (in particular the `brane-api` service will crash until the Scylla service is done). You can use `watch docker ps` if you don't want to re-call the command yourself.
+> <img src="../../assets/img/warning.png" alt="warning" width="16" style="margin-top: 3px; margin-bottom: -3px"/> Note that the Scylla database this command launches might need a minute to come online, even though its container already reports ready. Thus, before you can use your instance, wait until `docker ps` shows all Brane containers running (in particular the `brane-api` service will crash until the Scylla service is done). You can use `watch docker ps` if you don't want to re-call the command yourself.
 
 
 ## Next
