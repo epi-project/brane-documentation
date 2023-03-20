@@ -152,5 +152,38 @@ Every worker node is required to have at least a certificate authority (CA) cert
 
 Once again, we can use the power of `branectl` to generate both of these certificates for us. Use the following command to generate both a certificate autority and server certificate:
 ```bash
-branectl generate certs --help
+branectl generate certs -f -p ./config/certs server <LOCATION_ID> -H <HOSTNAME>
 ```
+where `<LOCATION_ID>` is the identifier of the worker node (the one configured in the `node.yml` file), and `<HOSTNAME>` is the hostname that other domains can connect to this domain to.
+
+You can omit the `-H <HOSTNAME>` flag to default the hostname to be the same as the `<LOCATION_ID>`. This is useful where you've given manual host mappings when generating the `node.yml` file (i.e., the `-H` option there).
+
+For example, to generate certificates for the domain `alice` that lives at `alice-is-cool.com`:
+```bash
+branectl generate certs -f -p ./config/certs server alice -H alice-is-cool.com
+```
+This should generate multiple files in the `./config/certs` directory, chief of which are `ca.pem` and `server.pem`.
+
+> <img src="../../assets/img/info.png" alt="info" width="16" style="margin-top: 3px; margin-bottom: -3px"/> Certificate generation is done using [cfssl](https://github.com/cloudflare/cfssl), which is dynamically downloaded by `branectl`. The checksum of the downloaded file is asserted, and if you ever see a checksum-related error, then you might be dealing with a fake binary that is being downloaded under a real address. In that case, tread with care.
+
+
+### Client-side certificates
+The previous certificates only authenticate a server to a client; not the other way around. That is where the client certificates come into play.
+
+The power of client certificates come from the fact that they are signed using the certificate authority of the domain to which they want to authenticate. In other words, the domain has to "approve" that a certain user exists by creating a certificate for them, and then sending it over.
+
+Note, however, that, currently, Brane does not use any hostnames or IPs embedded in the client certificate. This means that anyone with the client certificate can obtain access to the domain as if they were the user for which it was issued. Treat the certificates with care, and be sure that the client is also careful with the certificate.
+
+> <img src="../../assets/img/info.png" alt="info" width="16" style="margin-top: 3px; margin-bottom: -3px"/> If a certificate is leaked or compromised, don't worry; the certificate only proves the identity of a user. What kind of rights that user has can be separately determined (see the chapter series for [policy experts](../../policy-experts/introduction.md)), and so you can simply withdraw any rights that user has when it happens.
+
+To generate a client certificate, its easiest to navigate to the `./config/certs` directory where you generate the server certificates. Then, you can run:
+```bash
+branectl generate certs client <LOCATION_ID> -H <HOSTNAME>
+```
+where, again, the `<LOCATION_ID>` is the ID of the worker for which you are generating the command, and `<HOSTNAME>` is the hostname where it may be reached. Similarly, you can omit `-H <HOSTNAME>` to default to the `<LOCATION_ID>`.
+
+For example, contuining the example in the previous subsection, we now generate a client certificate for `bob` at `bobs-emporium.com`:
+```bash
+branectl generate certs client bob -H bobs-emporium.com
+```
+
