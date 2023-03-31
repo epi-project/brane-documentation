@@ -4,11 +4,10 @@ The first tutorial that introduced users to the BRANE framework is given at [ICT
 The tutorial is written for framework version [2.0.0](https://github.com/epi-project/brane/tree/v2.0.0).
 
 The tutorial consists of the following parts:
-- **09:00**-**09:15**: Introduction to the framework (presentation)
-- **09:15**-**10:00**: Setup/Writing a simple package (hands-on)
-- **10:00**-**10:15**: Break
-- **10:15**-**10:45**: Writing a simple workflow (hands-on)
-- **10:45**-**11:00**: Evaluation (both about the framework and the tutorial)
+- **12:30**-**12:45**: Introduction to the framework (presentation)
+- **12:45**-**13:30**: Hello, world! (guided hands-on)
+- **13:30**-**13:45**: Break
+- **13:45**-**14:15**: Writing a simple workflow (hands-on)
+- **14:15**-**14:30**: Evaluation (both about the framework and the tutorial)
 
-The following resources are used, which are hosted on this website:
 
