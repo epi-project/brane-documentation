@@ -11,5 +11,7 @@ The tutorial consists of the following parts:
 - **14:15**-**14:30**: Evaluation
 
 The following resources are used, which are hosted on this website:
+- Generic handout ([here](./EPI-Tutorial-ICT-OPEN.docx.pdf))
 - Handout for Part 1: Hello, world! ([here](./p1_hello_world.md))
 - Handout for Part 2: A workflow for disaster tweets ([here](./p2_disaster_tweets.md))
+- Introduction slides ([here](./2023-04-20%20EPIF%20Tutorial%20Introduction.pdf))
