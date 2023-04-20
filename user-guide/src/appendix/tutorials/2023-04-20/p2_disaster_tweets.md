@@ -131,11 +131,48 @@ And with that, we have a workflow that can train a binary classifier on the Disa
 
 
 ## Writing a workflow - Visualization
-We will continue writing the same workflow which we wrote in the previous section.
+The next step is to add inference to the network, and to generate some plots that can show it works. To do so, we will add a few extra function calls at the bottom of your `workflow.bs` file.
 
+> <img src="../../../assets/img/info.png" alt="info" width="16" style="margin-top: 3px; margin-bottom: -3px"/> You can also easily create a new workflow file to separate training and inference. If you want to, create a new workflow file and try to write the start yourself. You will probably have to commit the cleaned and final datasets in the previous workflow, and then use them and the model here. Also, don't forget to add the `import`s on top of your file.
 
-
-Underneath the training of the model, add the following:
+Scroll past the training, and write the following:
 ```bscript
+// ... training
 
+// Create a "submission", i.e., classify the test set
+let submission := create_submission(test, vectors, model);
 ```
+This line will use the existing test set, its vectors (the training-vectors are unused) and the trained model to create a so-called _submission_. This is just a small dataset that matches tweet identifiers to the prediction the model made (`1` if it classified it as a disaster tweet, or `0` otherwise). The terminology stems from the package being written for a Kaggle challenge, where this classification has to be submitted to achieve a particular score.
+
+We can then use this submission to generate the visualizations. The easiest way is to call the `visualization_action()` function from the `visualization` package:
+```bscript
+// ... submission
+
+// Create the plots, bundled in an HTML file
+let plot := visualization_action(
+    train,
+    test,
+    submission
+);
+return commit_result("nlp_plot", plot);
+```
+Here, we call the function (which takes both datasets and the classification), and commit its resulting plot. Note, however, that we `return` this dataset from the workflow. This means that, upon completion, the client will automatically attempt to download this dataset from the remote instance. Only one result can be returned at a time, and if you ever need to download more, simply submit a new workflow with only the return statement.
+
+> <img src="../../../assets/img/info.png" alt="info" width="16" style="margin-top: 3px; margin-bottom: -3px"/> As an alternative to using the generic function, the `visualization` package exposes its individual plot generation logic as separate functions. It might be a fun exercise to try and add these yourself, by using `brane inspect` and the package's code itself.
+
+And that's it! You can now save and close your workflow file(s), and then move on to the next step: executing it.
+
+
+## Local execution
+We can execute the workflow locally first to see if it all works properly. To do so, open up a terminal, and then run the following:
+```bscript
+brane run <PATH_TO_WORKFLOW>
+```
+
+If your workflow works, you should see it blocking which indicates it is working. Eventually, the workflow should return and show you where it stored the final result of the workflow. If not, then it will likely show you an error of what went wrong, which may be anything from passing the wrong arguments to forgetting a semicolon (the latter tends to generate "end-of-file" errors, as do missing parenthesis errors).
+
+> <img src="../../../assets/img/info.png" alt="info" width="16" style="margin-top: 3px; margin-bottom: -3px"/> Tip: If you want to better monitor the progression, insert `println()` calls in your workflow! It takes a single argument, which will always be serialized to a string before printing it to stdout. By mixing `print()` (print without newline) and `println()`, you can even write formatted strings.
+
+After having added some additional `println()` statements, you might see something like the following:
+
+
