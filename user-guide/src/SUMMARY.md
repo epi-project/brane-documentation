@@ -14,6 +14,7 @@
   - [`branectl`](./system-admins/installation/branectl.md)
   - [Control node](./system-admins/installation/control-node.md)
   - [Worker node](./system-admins/installation/worker-node.md)
+  - [Proxy node](./system-admins/installation/proxy-node.md)
 - [Brane compute backends](./system-admins/backends/introduction.md)
   - [Local backend](./system-admins/backends/local.md)
   - [VM backend](./system-admins/backends/vm.md)
@@ -67,6 +68,12 @@
 # Configuration files
 - [Introduction](./config/introduction.md)
 - [Administrators](./config/admins/introduction.md)
+  - [`infra.yml`](./config/admins/infra.md)
+  - [`backend.yml`](./config/admins/backend.md)
+  - [`policies.yml`](./policy-experts/policy-file.md)
+  - [`data.yml`](./config/users/data.md)
+  - [`proxy.yml`](./config/admins/proxy.md)
+  - [`node.yml`](./config/admins/node.md)
 - [Users](./config/users/introduction.md)
   - [`data.yml`](./config/users/data.md)
 

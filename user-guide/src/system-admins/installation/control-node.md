@@ -69,9 +69,9 @@ The `make.py` script will handle the rest, compiling the Docker images to the `t
 Once you have downloaded the images, it is time to setup the configuration files for the node. These files determine the type of node, as well as any of the node's properties and network specifications.
 
 For a control node, this means generating the following files:
-- A node file (`node.yml`), which will contain the node-specific configuration like service names, ports, file locations, etc.;
-- An infrastructure file (`infra.yml`), which will determine the worker nodes available in the instance; and
-- A proxy file (`proxy.yml`), which describes if any proxying should occur and how.
+- An infrastructure file (`infra.yml`), which will determine the worker nodes available in the instance;
+- A proxy file (`proxy.yml`), which describes if any proxying should occur and how; and
+- A node file (`node.yml`), which will contain the node-specific configuration like service names, ports, file locations, etc.
 
 All of these can be generated with `branectl` for convenience.
 
@@ -101,7 +101,7 @@ The contents of this file will typically only differ if you have advanced networ
 
 > <img src="../../assets/img/info.png" alt="info" width="16" style="margin-top: 3px; margin-bottom: -3px"/> This file may be skipped if you are setting up an external proxy node for this node. See the [chapter on proxy nodes](./proxy-node.md) for more information.
 
-Then we will generate the final file, the `node.yml` file. This file is done last, because it itself defines where the node services and the `branectl` tool may find any of the others configuration files.
+Then we will generate the final file, the `node.yml` file. This file is done last, because it itself defines where the BRANE software may find any of the other configuration files.
 
 When generating this file, it is possible to manually specify where to find each of those files. However, in practise, it is more convenient to make sure that the files are at the default locations that the tools expects. The following tree structure displays the default locations for the configuration of a central node:
 ```
@@ -132,7 +132,7 @@ Once again, you can change many of the properties in the `node.yml` file by spec
 > # We can address '1.2.3.4' with 'bob-domain' now
 > branectl generate node -f -H bob-domain:1.2.3.4 central central-domain.com
 > ```
-> Note that this is local to this domain only; you have to specify this on other nodes as well.
+> Note that this is local to this domain only; you have to specify this on other nodes as well. For more information, see the [`node.yml` documentation](TODO).
 
 
 ## Adding certificates

@@ -13,4 +13,4 @@ If you want to know more about Brane before you begin, checkout the [overview](.
 
 
 ## Attribution
-The icons used in this book (<img src="./assets/img/info.png" alt="info" width="16" style="margin-top: 3px; margin-bottom: -3px;"/>, <img src="./assets/img/warning.png" alt="warning" width="16" style="margin-top: 3px; margin-bottom: -3px;"/>) are provided by [Flaticon](https://flaticon.com).
+The icons used in this book (<img src="./assets/img/info.png" alt="info" width="16" style="margin-top: 3px; margin-bottom: -3px;"/>, <img src="./assets/img/warning.png" alt="warning" width="16" style="margin-top: 3px; margin-bottom: -3px;"/>, <img src="./assets/img/source.png" alt="source" width="16" style="margin-top: 3px; margin-bottom: -3px;"/>) are provided by [Flaticon](https://flaticon.com).
