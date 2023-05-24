@@ -111,9 +111,9 @@ actions:
 ```
 We will focus on the two new parts in `max` only, since they are identical for `min`.
 
-The first is that, instead of requiring an atomic variable such as a `string` or an `int` as input, we now require a _class_ named `Dataset`. Classes are a whole different story altogher (see the [BraneScript documentation](TODO) or the [container.yml documentation](TODO)), but because Data is a special builtin we can safely ignore it for now.
+The first is that, instead of requiring an atomic variable such as a `string` or an `int` as input, we now require a _class_ named `Dataset`. Classes are a whole different story altogher (see the [BraneScript documentation](TODO) or the [container.yml documentation](../config/users/container.md)), but because Data is a special builtin we can safely ignore it for now.
 
-All that you have to know is that `Data` represents a dataset reference; it is not the data itself, but merely some way for the framework to known which dataset you are talking about. You can find more information about this in the [chapters for scientists](TODO), but as a teaser, this is how such a reference is created:
+All that you have to know is that `Data` represents a dataset reference; it is not the data itself, but merely some way for the framework to known which dataset you are talking about. You can find more information about this in the [chapters for scientists](../scientists/introduction.md), but as a teaser, this is how such a reference is created:
 ```bscript
 let data_reference := new Data { name := "numbers" };
 ```
@@ -279,4 +279,4 @@ You should also see that executing your package call will not be very exciting, 
 ## Next
 Congratulations! You have now mastered Brane's packaging system. This should allow you to create useful data science packages for the Brane ecosystem, that scientists may rely upon in their workflows.
 
-As a follow-up to these chapters, you can continue with the [chapters for scientists](../scientists/introduction.md) to learn about the workflows for which you write packages. Alternatively, you can also check the documentation of [`container.yml`](TODO) or [`data.yml`](TODO) to see everything you can do with those files. Finally, you can also go to the [BraneScript documentation](../branescript/introduction.md) to find a complete overview of the language if you're interested.
+As a follow-up to these chapters, you can continue with the [chapters for scientists](../scientists/introduction.md) to learn about the workflows for which you write packages. Alternatively, you can also check the documentation of [`container.yml`](../config/users/container.md) or [`data.yml`](../config/users/data.md) to see everything you can do with those files. Finally, you can also go to the [BraneScript documentation](../branescript/introduction.md) to find a complete overview of the language if you're interested.

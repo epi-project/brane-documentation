@@ -1,4 +1,4 @@
-# Administrators
+# Configuration files for administrators
 In this chapter, you can find an overview of the configuration files for administrators.
 
 There are also a few configuration files not mentioned here, which are user-facing. You can find them in [these chapters](../users/introduction.md) instead. Or check the sidebar on the left.

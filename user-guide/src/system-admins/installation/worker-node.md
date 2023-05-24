@@ -79,7 +79,7 @@ Thus, to generate such a `backend.yml` file, you can use the following command:
 branectl generate backend -f -p ./config/backend.yml local
 ```
 
-Running this command will generate the file `./config/backend.yml` for you, with default settings for how to connect to the local daemon. If you want to change these, you can simply use more options and flags in the tool itself (see the [`branectl` documentation](TODO) or the builtin `branectl generate backend --help`), or change the file manually (see the [`backend.yml` documentation](TODO)).
+Running this command will generate the file `./config/backend.yml` for you, with default settings for how to connect to the local daemon. If you want to change these, you can simply use more options and flags in the tool itself (see the [`branectl` documentation](TODO) or the builtin `branectl generate backend --help`), or change the file manually (see the [`backend.yml` documentation](../../config/admins/backend.md)).
 
 > <img src="../../assets/img/info.png" alt="info" width="16" style="margin-top: 3px; margin-bottom: -3px"/> While the `-f` flag (`--fix-dirs`, fix missing directories) and the `-p` option (`--path`, path of generated file) are not required, you will typically use these to make your life easier down the road. See the `branectl generate node` command below to find out why.
 
@@ -98,7 +98,7 @@ branectl generate proxy -f -p ./config/proxy.yml
 
 A `proxy.yml` file should be available in `./config/proxy.yml` after running this command.
 
-The contents of this file will typically only differ if you have advanced networking requirements. If so, consult the [`branectl` documentation](TODO) or the builtin `branectl generate proxy --help`, or the [`proxy.yml` documentation](TODO).
+The contents of this file will typically only differ if you have advanced networking requirements. If so, consult the [`branectl` documentation](TODO) or the builtin `branectl generate proxy --help`, or the [`proxy.yml` documentation](../../config/admins/proxy.md).
 
 > <img src="../../assets/img/info.png" alt="info" width="16" style="margin-top: 3px; margin-bottom: -3px"/> This file may be skipped if you are setting up an external proxy node for this node. See the [chapter on proxy nodes](./proxy-node.md) for more information.
 
@@ -131,14 +131,14 @@ For example, we can generate a `node.yml` file for a worker with the identifier 
 branectl generate node -f worker 1.2.3.4 bob
 ```
 
-Once again, you can change many of the properties in the `node.yml` file by specifying additional command-line options (see the [`branectl` documentation](TODO) or the builtin `branectl generate node --help`) or by changing the file manually (see the [`node.yml` documentation](TODO)).
+Once again, you can change many of the properties in the `node.yml` file by specifying additional command-line options (see the [`branectl` documentation](TODO) or the builtin `branectl generate node --help`) or by changing the file manually (see the [`node.yml` documentation](../../config/admins/node.md)).
 
 > <img src="../../assets/img/warning.png" alt="warning" width="16" style="margin-top: 3px; margin-bottom: -3px"/> Due to a  [bug](https://github.com/epi-project/brane/issues/27) in one of the framework's dependencies, it cannot handle certificates on IP addresses. To workaround this issue, the `-H` option is provided; it can be used to specify a certain hostname/IP mapping for this node only. Example:
 > ```bash
 > # We can address '1.2.3.4' with 'some-domain' now
 > branectl generate node -f -H some-domain:1.2.3.4 worker bob-domain.com bob
 > ```
-> Note that this is local to this domain only; you have to specify this on other nodes as well. For more information, see the [`node.yml` documentation](TODO).
+> Note that this is local to this domain only; you have to specify this on other nodes as well. For more information, see the [`node.yml` documentation](../../config/admins/node.md).
 
 
 ## Generating certificates

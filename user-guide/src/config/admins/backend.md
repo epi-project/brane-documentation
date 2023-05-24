@@ -13,8 +13,6 @@ The `backend.yml` file is written in [YAML](https://yaml.org). It features only 
   - `!Local`: Connects to the Docker engine local to the node on which the worker node runs. This variant has the following two fields:
     - `path` _\[optional\]_: A string with the path to the Docker socket to connect to. If omitted, will default to `/var/docker/run.sock`.
     - `version` _\[optional\]_: A sequence of two numbers detailling the Docker client version to connect to. If omitted, will negotiate a client version on the fly.
-
-  (_<img src="../../assets/img/source.png" alt="source" width="16" style="margin-top: 3px; margin-bottom: -3px;"/> The method map is defined as [`Credentials`](https://wiki.enablingpersonalizedinterventions.nl/docs/brane_cfg/backend/enum.Credentials.html) in [`brane_cfg/backend.rs`](https://wiki.enablingpersonalizedinterventions.nl/docs/src/brane_cfg/backend.rs.html)._)
 - `capabilities` _\[optional\]_: A sequence of strings, each of which defines a capability of the computing backend. Currently supported capabilities are defined [below](#capabilities). If omitted, no capabilities are enabled.
 - `hash_containers` _\[optional\]_: A boolean that defines whether to hash containers, enabling [container policies](../../policy-experts/policy-file.md#container-policies) in the [`policies.yml`](../../policy-experts/policy-file.md) file. It may give a massive performance boost when using many different larger containers (100MB+), although the hashes are cached as long as the containers are cached. If omitted, will default to 'true'.
 
@@ -53,4 +51,4 @@ hash_containers: true
 
 ## Capabilities
 The following capabilities can be used in the `backend.yml` file:
-- `cuda_gpu`: States that the compute backend can provide a CUDA accelerator to containers who ask for that. See the [`requirements`](TODO)-field in the user's [`container.yml`](TODO) file.
+- `cuda_gpu`: States that the compute backend can provide a CUDA accelerator to containers who ask for that. See the [`requirements`](../users/container.md#functions--classes)-field in the user's [`container.yml`](../users/container.md) file.

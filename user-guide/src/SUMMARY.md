@@ -20,14 +20,6 @@
   - [VM backend](./system-admins/backends/vm.md)
   - [Kubernetes backend](./system-admins/backends/k8s.md)
   - [Slurm backend](./system-admins/backends/slurm.md)
-- [Documentation](./system-admins/docs/overview.md)
-  - [Tools](./system-admins/docs/tools/overview.md)
-    - [Brane CTL](./system-admins/docs/tools/branectl.md)
-  - [Config](./system-admins/docs/config/overview.md)
-    - [Node config](./system-admins/docs/config/node.md)
-    - [Infrastructure file](./system-admins/docs/config/infra.md)
-    - [Secrets file](./system-admins/docs/config/secrets.md)
-    - [Backend credentials](./system-admins/docs/config/creds.md)
 
 
 # Policy experts
@@ -67,6 +59,9 @@
 -----
 # Configuration files
 - [Introduction](./config/introduction.md)
+- [Users](./config/users/introduction.md)
+  - [`container.yml`](./config/users/container.md)
+  - [`data.yml`](./config/users/data.md)
 - [Administrators](./config/admins/introduction.md)
   - [`infra.yml`](./config/admins/infra.md)
   - [`backend.yml`](./config/admins/backend.md)
@@ -74,8 +69,6 @@
   - [`data.yml`](./config/users/data.md)
   - [`proxy.yml`](./config/admins/proxy.md)
   - [`node.yml`](./config/admins/node.md)
-- [Users](./config/users/introduction.md)
-  - [`data.yml`](./config/users/data.md)
 
 
 
