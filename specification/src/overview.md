@@ -1,6 +1,10 @@
 # Overview of the Brane framework
 The Brane framework is an infrastructure designed to facilitate computing over multiple compute sites, in a site-agnostic way. It is thus meant as a middleware, between a workflow that a scientist wants to run and various compute facilities with different capabilities, hardware and software.
 
+Although originally developed as a general purpose workflow execution system, it has recently been adopted for use in healthcare as part of the [Enabling Personalized Interventions](https://enablingpersonalizedinterventions.nl) (EPI) project. To this end, the framework is being adapted and redesigned with a focus on working with sensitive datasets owned by different domains, and keeping the datasets in control of the data.
+
+/\* old \*/
+
 An additional feature of the framework is that it features a separation of concerns. It tries to facilitate three different roles, that each have their own concerns and their own interface they are used to work with: **system engineers**, who manage and build the compute site; **software engineers**, who program the algorithms that are needed in the execution of a workflow; and finally **scientists**, who design the final workflow and use that workflow to do research.
 
 This split in work means that Brane is quite complex, and features different abstraction levels on how to interact with it. Part of this are the two domain-specific languages that are included in the framework: **BraneScript**, for software engineers, and **Bakery**, for scientists. The split in abstraction allows software engineers to use tools they are familiar with, while scientists can use an easier and more intuitive way of interacting with the framework. Finally, system engineers will interact with the framework more as a tool, the way they are used to.

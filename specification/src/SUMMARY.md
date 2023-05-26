@@ -25,7 +25,16 @@
   - [Compiling from BraneScript and Bakery](./operation/workflows/branescript-and-bakery.md)
   - [Execution](./operation/workflows/execution.md)
 
-----
+-----
+
+# Interfaces
+- [Introduction](./interfaces/introduction.md)
+- [Container processing](./interfaces/container-processing/introduction.md)
+- [Dataset access](./interfaces/dataset-access/introduction.md)
+- [Policy reasoning](./interfaces/policy-reasoning/introduction.md)
+- [Authentication](./interfaces/authentication/introduction.md)
+
+
 # BraneScript
 - [Introduction](./branescript/introduction.md)
 - [Statements](./branescript/statements.md)
@@ -35,5 +44,6 @@
 - [Builtins](./branescript/builtins.md)
 <!-- - [Annotations](./branescript/annotations.md) -->
 
-----
+
+-----
 [Appendix A: Figures](./appendix/figures.md)
