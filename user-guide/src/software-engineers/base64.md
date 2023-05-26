@@ -131,7 +131,7 @@ import sys
 
 However, to call our functions, we will first have to know the input that the caller of the function wants to be encoded or decoded.
 
-Brane does this by passing the arguments of the function call to the package as environment variables. Specifically, it takes the value in BraneScript, serializes it to [JSON]() and then sets the resulting string in the matching environment variable. The names of these variables are derived from the `container.yml` file (see below), but let's for now just assume that it's called: `INPUT`. 
+Brane does this by passing the arguments of the function call to the package as environment variables. Specifically, it takes the value in BraneScript, serializes it to [JSON](https://www.json.org) and then sets the resulting string in the matching environment variable. The names of these variables are derived from the `container.yml` file (see below), but let's for now just assume that it's called: `INPUT`. 
 
 Thus, to give our functions their input, we can just pass the value of the `INPUT` environment variable to the `json` package, and pass the resulting string to our functions:
 ```python
@@ -343,7 +343,7 @@ This (correctly) implies that there are other ways of selecting functions in a p
 
 With the function selected, we will next specify the input arguments to each function. For both functions, this is a simple string that we would like to encode.
 
-Now, remember that Brane will pass the input arguments as environment variables. Because environment variables are (by convention) spelled with CAPS, Brane will translate the name you give to an input argument to an appropriate environment variable name (i.e., the same but all caps - but specific rules are discussed in [this chapter](TODO)).
+Now, remember that Brane will pass the input arguments as environment variables. Because environment variables are (by convention) spelled with CAPS, Brane will translate the name you give to an input argument to an appropriate environment variable name - which is the same but all alphabetical characters converted to UPPERCASE.
 
 Thus, for each function, we define an input argument `input` (which translates to the `INPUT` in the `code.py` file) that is of type `string`:
 ```yaml

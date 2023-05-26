@@ -11,8 +11,6 @@ The [`branectl`](TODO) tool can generate this file for you, using the [`branectl
 The `node.yml` file is written in [YAML](https://yaml.org). It defines only two toplevel fields:
 - `hostnames`: A map of strings to other strings, which maps hostnames to IP addresses. This is used to work around the issue that certificates cannot be issued for raw IP addresses alone, and need a hostname instead. The hostnames can be defined in this map to make them available to all the services running in this node. For more information, see the [chapter on installing a control node](../../system-admins/installation/control-node.md#generating-configuration) (at the end).
 - `node`: A map that has multiple variants based on the specific node configuration. These are all treated below in their own sections.
-  
-  (_<img src="../../assets/img/source.png" alt="source" width="16" style="margin-top: 3px; margin-bottom: -3px;"/> The node map is defined as [`NodeSpecificConfig`](https://wiki.enablingpersonalizedinterventions.nl/docs/brane_cfg/node/enum.NodeSpecificConfig.html) in [`brane_cfg/node.rs`](https://wiki.enablingpersonalizedinterventions.nl/docs/src/brane_cfg/node.rs.html)._)
 
 An example of just the toplevel fields would be:
 ```yaml
@@ -40,8 +38,6 @@ The first variant of the `node`-map is the `!central` variant, which defines a c
   - `packages`: The path to the directory where uploaded packages will be stored. This should be a persistent directory, or at the very least exactly as persistent as the storage of the instance's Scylla database.
   - `infra`: The path to the [`infra.yml`](./infra.md) configuration file.
   - `proxy`: The path to the [`proxy.yml`](./proxy.md) configuration file.
-  
-  (_<img src="../../assets/img/source.png" alt="source" width="16" style="margin-top: 3px; margin-bottom: -3px;"/> The paths map is defined as [`CentralPaths`](https://wiki.enablingpersonalizedinterventions.nl/docs/brane_cfg/node/struct.CentralPaths.html) in [`brane_cfg/node.rs`](https://wiki.enablingpersonalizedinterventions.nl/docs/src/brane_cfg/node.rs.html)._)
 
   > <img src="../../assets/img/warning.png" alt="warning" width="16" style="margin-top: 3px; margin-bottom: -3px;"/> Note that all paths defined in the `node.yml` file _must_ be absolute paths, since they are mounted as Docker volumes.
 
@@ -54,8 +50,6 @@ The first variant of the `node`-map is the `!central` variant, which defines a c
   - `aux_scylla` _(or `scylla`)_: Defines the `aux-scylla` container as a [private service](#private-services).
   - `aux_kafka` _(or `kafka`)_: Defines the `aux-kafka` container as a [private service](#private-services).
   - `aux_zookeeper` _(or `zookeeper`)_: Defines the `aux-zookeeper` container as a [private service](#private-services).
-  
-  (_<img src="../../assets/img/source.png" alt="source" width="16" style="margin-top: 3px; margin-bottom: -3px;"/> The services map is defined as [`CentralServices`](https://wiki.enablingpersonalizedinterventions.nl/docs/brane_cfg/node/struct.CentralServices.html) in [`brane_cfg/node.rs`](https://wiki.enablingpersonalizedinterventions.nl/docs/src/brane_cfg/node.rs.html)._)
 
 An example illustrating just the central node:
 ```yaml
@@ -103,8 +97,6 @@ The second variant of the `node`-map is the `!worker` variant, which defines a w
   - `results`: The path to a directory where intermediate results are stored that are created on this node. It does not have to be persistent per sé, although the services will assume they are persistent for the duration of a workflow execution.
   - `temp_data`: The path to a directory where datasets are stored that are downloaded from other nodes. It does not have to be a persistent folder.
   - `temp_results`:  The path to a directory where intermediate results are stored that are downloaded from other nodes. It does not have to be a persistent folder.
-  
-  (_<img src="../../assets/img/source.png" alt="source" width="16" style="margin-top: 3px; margin-bottom: -3px;"/> The paths map is defined as [`WorkerPaths`](https://wiki.enablingpersonalizedinterventions.nl/docs/brane_cfg/node/struct.WorkerPaths.html) in [`brane_cfg/node.rs`](https://wiki.enablingpersonalizedinterventions.nl/docs/src/brane_cfg/node.rs.html)._)
 
   > <img src="../../assets/img/warning.png" alt="warning" width="16" style="margin-top: 3px; margin-bottom: -3px;"/> Note that all paths defined in the `node.yml` file _must_ be absolute paths, since they are mounted as Docker volumes.
 - `services`: A map that defines the service containers in the central node and how they are reachable. It is a map of a service identifier to one of two possible maps: a [public service](#public-services) or a [variable service](#variable-services). Each of these are explained at the [end of the chapter](#service-maps).  
@@ -113,8 +105,6 @@ The second variant of the `node`-map is the `!worker` variant, which defines a w
   - `job` _(or `delegate`)_: Defines the `brane-job` container as a [public service](#public-services).
   - `chk` _(or `checker`)_: Defines the `brane-chk` container as a [public service](#public-services).
   - `prx` _(or `proxy`)_: Defines the `brane-prx` container as a [variable service](#variable-services).
-  
-  (_<img src="../../assets/img/source.png" alt="source" width="16" style="margin-top: 3px; margin-bottom: -3px;"/> The services map is defined as [`WorkerServices`](https://wiki.enablingpersonalizedinterventions.nl/docs/brane_cfg/node/struct.WorkerServices.html) in [`brane_cfg/node.rs`](https://wiki.enablingpersonalizedinterventions.nl/docs/src/brane_cfg/node.rs.html)._)
 
 An example illustrating just the worker node:
 ```yaml
@@ -153,15 +143,11 @@ The third variant of the `node`-map is the `!proxy` variant, which defines a pro
 - `paths`: A map that defines all paths relevant to the proxy node. Specifically, it maps a string identifier to a string path. The following identifiers are defined:
   - `certs`: The path to the directory with certificate authority files for the worker nodes in the instance. See the [chapter on installing a control node](../../system-admins/installation/control-node.md#adding-certificates) for more information.
   - `proxy`: The path to the [`proxy.yml`](./proxy.md) configuration file.
-  
-  (_<img src="../../assets/img/source.png" alt="source" width="16" style="margin-top: 3px; margin-bottom: -3px;"/> The paths map is defined as [`ProxyPaths`](https://wiki.enablingpersonalizedinterventions.nl/docs/brane_cfg/node/struct.ProxyPaths.html) in [`brane_cfg/node.rs`](https://wiki.enablingpersonalizedinterventions.nl/docs/src/brane_cfg/node.rs.html)._)
 
   > <img src="../../assets/img/warning.png" alt="warning" width="16" style="margin-top: 3px; margin-bottom: -3px;"/> Note that all paths defined in the `node.yml` file _must_ be absolute paths, since they are mounted as Docker volumes.
 - `services`: A map that defines the service containers in the proxy node and how they are reachable. It is a map of a service identifier to a [variable service](#variable-services). This is explained at the [end of the chapter](#service-maps).  
   The following identifiers are available:
   - `prx` _(or `proxy`)_: Defines the `brane-prx` container as a [public service](#public-services) (note: this is different from the other node types).
-  
-  (_<img src="../../assets/img/source.png" alt="source" width="16" style="margin-top: 3px; margin-bottom: -3px;"/> The services map is defined as [`ProxyServices`](https://wiki.enablingpersonalizedinterventions.nl/docs/brane_cfg/node/struct.ProxyServices.html) in [`brane_cfg/node.rs`](https://wiki.enablingpersonalizedinterventions.nl/docs/src/brane_cfg/node.rs.html)._)
 
 An example illustrating just the worker node:
 ```yaml

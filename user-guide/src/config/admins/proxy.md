@@ -12,14 +12,10 @@ The `proxy.yml` file is written in [YAML](https://yaml.org). It features only th
 - `outgoing_range`: A map that defines the range of ports that can be allocated when other BRANE services request new outgoing connections. This port should be sufficiently large to support at least two connections to every worker node that this node will talk to (which, in the case of a central node('s proxy node), is all worker nodes). The map has the following two fields:
   - `start`: A positive number indicating the start port (inclusive).
   - `end`: A positive number indicating the end port (inclusive).
-
-  (_<img src="../../assets/img/source.png" alt="source" width="16" style="margin-top: 3px; margin-bottom: -3px;"/> The outgoing range map is defined as [`RangeInclusive`](_https://doc.rust-lang.org/1.68.0/core/ops/struct.RangeInclusive.html) in the Rust standard library._)
 - `incoming`: A map that maps incoming ports to BRANE service addresses for incoming connections. Specifically, every key is a number indicating the port that can be connected to, where the connection will then be forwarded to the address specified in the value. Must be given using a scheme, an IP address or hostname and a port.
 - `forward` _\[optional\]_: A map that carries any configuration for forwarding traffic through a sockx proxy. Specifically, it is a map with the following fields:
   - `address`: The address to forward the traffic to. Must be given using a scheme (either `socks5` or `socks6`), an IP address or hostname and a port.
   - `protocol`: The protocol to use for forwarding traffic. Can be either `socks5` or `socks6` to use the [SOCKS](https://en.wikipedia.org/wiki/SOCKS) protocol version 5 or 6, respectively.
-
-  (_<img src="../../assets/img/source.png" alt="source" width="16" style="margin-top: 3px; margin-bottom: -3px;"/> The forward map is defined as [`ForwardConfig`](https://wiki.enablingpersonalizedinterventions.nl/docs/brane_cfg/proxy/struct.ForwardConfig.html) in [`brane_cfg/proxy.rs`](https://wiki.enablingpersonalizedinterventions.nl/docs/src/brane_cfg/proxy.rs.html)._)
 
 The following examples are examples of valid `proxy.yml` files:
 ```yaml
