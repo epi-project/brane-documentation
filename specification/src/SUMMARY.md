@@ -36,6 +36,8 @@
 - [Scoping rules](./branescript/scoping.md)
 - [Builtins](./branescript/builtins.md)
 <!-- - [Annotations](./branescript/annotations.md) -->
+- [Compiler](./branescript/compiler/introduction.md)
+  - [Type Analysis Traversal](./branescript/compiler/traversals/typing.md)
 
 ----
 [Appendix A: Figures](./appendix/figures.md)
