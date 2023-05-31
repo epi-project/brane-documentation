@@ -37,7 +37,9 @@
 - [Builtins](./branescript/builtins.md)
 <!-- - [Annotations](./branescript/annotations.md) -->
 - [Compiler](./branescript/compiler/introduction.md)
-  - [Type Analysis Traversal](./branescript/compiler/traversals/typing.md)
+  - [Annotation parsing traversal](./branescript/compiler/traversals/annotations.md)
+  - [Symbol resolve traversal](./branescript/compiler/traversals/resolve.md)
+  - [Type analysis traversal](./branescript/compiler/traversals/typing.md)
 
 ----
 [Appendix A: Figures](./appendix/figures.md)
