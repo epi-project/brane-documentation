@@ -17,7 +17,7 @@
   - [Proxy node](./system-admins/installation/proxy-node.md)
 - [Brane compute backends](./system-admins/backends/introduction.md)
   - [Local backend](./system-admins/backends/local.md)
-  - [VM backend](./system-admins/backends/vm.md)
+  - [SSH backend](./system-admins/backends/ssh.md)
   - [Kubernetes backend](./system-admins/backends/k8s.md)
   - [Slurm backend](./system-admins/backends/slurm.md)
 
