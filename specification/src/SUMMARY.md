@@ -11,6 +11,8 @@
 
 # High-level design
 - [Introduction](./design/introduction.md)
+- [Bird's-eye view](./design/bird_eye.md)
+- [Components](./design/components/overview.md)
 
 # Framework specification
 - [Introduction](./spec/introduction.md)
@@ -21,4 +23,5 @@
 
 -----
 # Appendix
+- [Overview](./appendix/overview.md)
 - [Appendix A: BraneScript specification](./appendix/languages/bscript/introduction.md)

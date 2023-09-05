@@ -3,11 +3,11 @@ In the [first](./background.md)- and [second](./use_case.md) chapters in this se
 
 > <img src="../assets/img/info.png" alt="info" width="16" style="margin-top: 2px; margin-bottom: -2px"/> The assumptions defined in this chapter may be referred to later by their number; for example, you may see
 > ```
-> This is because ... (Assumption 1)
+> This is because ... (Assumption A2)
 > ```
 > or
 > ```
-> This is a consequence of ... (Requirement 1)
+> This is a consequence of ... (Requirement B1)
 > ```
 > 
 > used in other chapters in this book to refer to assumptions and requirements defined here, respectively.
@@ -56,37 +56,51 @@ Most importantly, the shift to the medical domain introduces a heterogeneity in 
 > #### Assumption B1
 > Organisations often maximise control over their data and minimize their peers' access to their data.
 
-This is motivated by often highly-sensitive nature of medical data, combined with the responsibilities of the organisations owning that data to keep it private. Thus, the organisations will want to stay in control and are typically conservative in sharing it with other domains.
+This is motivated by the often highly-sensitive nature of medical data, combined with the responsibilities of the organisations owning that data to keep it private. Thus, the organisations will want to stay in control and are typically conservative in sharing it with other domains.
 
-From this, we can formulate the following requirement:
-> #### Requirement B2
+From this, we can formulate the following requirement for Brane:
+> #### Requirement B1
 > Domains must be as autonomous as possible; concretely, they cannot be forced by the orchestrator or other domains (not) to act.
 
+To this end, the role of the Brane orchestrator is weakened from _instructing_ what domains do to instead _requesting_ what domains do. Put differently, the orchestrator now merely acts as an intermediary trying to get everyone to work together and share data; but the final decision should remain with the domains themselves.
 
+To this end, [Requirement A4](#requirement-a4) helps by allowing domains to implement their own components of the framework for maximum control and decision making.
 
-Further, in light of recent laws such as GDPR [\[2\]](#references), it may be that rules governing data (e.g., institutional policies) may be privacy-sensitive themselves; for example, Article 17.2 of the GDPR states that "personal data shall, with the exception of storage, only be processed with the data subject's consent"; so the fact that a particular patient has given consent to the processing of a particular dataset may already indicate that patient has the disease recorded in that data. Or, framed as an assumption:
+In addition to maximising autonomy, recent laws such as GDPR [\[1\]](#references) open the possibility that rules governing data (e.g., institutional policies) may be privacy-sensitive themselves. For example, Article 17.2 of the GDPR states that "personal data shall, with the exception of storage, only be processed with the data subject's consent". However, if this consent is given for data with a public yet sensitive topic (e.g., data about the treatment of a disease), then it can easily be deduced that the data subject's consent means that the patient suffers from that disease.
 
-> #### Assumption 2
+This leads to the following assumption:
+> #### Assumption B2
 > Rules governing data access may be privacy-sensitive, or may require privacy-sensitive information to be resolved.
 
 This prompts the following design requirement:
+> #### Requirement B2
+> The decision process to give another domain access to a particular domain's data must be kept as private as possible.
 
-> #### Requirement 2
-> The access control rules specified in Brane must be kept private to maximum extend.
-
-Note, however, that by nature of these rules it is impossible to keep them fully private. After all, there is exist attacks to reconstruct the state of a state machine by observing its behaviour [\[3\]](#references); which means that enforcing the access control rules necessarily offers opportunity for any attacker to discover them. However, Brane can give _opportunity_ for domains to hide their access control rules.
+Note, however, that by nature of these rules it is impossible to keep them fully private. After all, there is exist attacks to reconstruct the state of a state machine by observing its behaviour [\[2\]](#references); which means that enforcing the decision process necessarily offers opportunity for any attacker to discover them. However, Brane can give _opportunity_ for domains to hide their access control rules by implementing an indirection between the internal behaviour of the decision process and an outward interface (see [\[3\]](#references) for more information).
 
 Finally, for practical purposes, though, the following two assumptions are made that allow us a bit more freedom in the implementation:
-> #### Assumption 3
+> #### Assumption B3
 > A domain always adheres to its own data access rules.
 
-(i.e., domains will act rationally and to their own intentions)
+(i.e., domains will act rationally and to their own intentions); and
 
-> #### Assumption 4
+> #### Assumption B4
 > Whether data is present on a domain, as well as data metadata, is non-sensitive information.
 
-(i.e., the fact that someone has a particular dataset is non-sensitive; we only consider the access control rules to that data and its contents as potentially sensitive information)
+(i.e., the fact that someone has a particular dataset is non-sensitive; we only consider the access control rules to that data and its contents as potentially sensitive information).
+
+
+## Next
+In this chapter, we presented the assumptions and requirements that motivate and explain Brane. This builds upon the general [context](./background.md) and [use-cases](./use_case.md) of Brane, and serves as a background for understanding the framework.
+
+Next, you can start examining the design in high-level in the [High-level design](../design/introduction.md) chapter series. Alternatively, you can also skip ahead to the [Framework specifiction](../spec/introduction.md) if you are more implementation-oriented.
+
+Alternatively, you can also visit the [Appendix](../appendix/overview.md) to learn more about the tools surrounding Brane.
 
 
 ## References
-[2] European Commission, _Regulation (EU) 2016/679 of the European Parliament and of the Council of 27 April 2016 on the protection of natural persons with regard to the processing of personal data and on the free movement of such data, and repealing Directive 95/46/EC (General Data Protection Regulation) (Text with EEA relevance)_ (2016).
+[1] European Commission, _Regulation (EU) 2016/679 of the European Parliament and of the Council of 27 April 2016 on the protection of natural persons with regard to the processing of personal data and on the free movement of such data, and repealing Directive 95/46/EC (General Data Protection Regulation) (Text with EEA relevance)_ (2016).
+
+[2] F. W. Vaandrager, B. Garhewal, J. Rot, T. Wiẞmann, _A new approach for active automata learning based on apartness_, in: D. Fisman, G. Rosu (Eds.), Tools and Algorithms for the Construction and Analysis of Systems - 28th International Conference, TACAS 2022, Held as Part of the European Joint Conferences on Theory and Practice of Software, ETAPS 2022, Munich, Germany, April 2-7, 2022, Proceedings, Part I, Vol. 13243 of Lecture Notes in Computer Science, Springer, 2022, pp. 223–243. doi:[10.1007/978-3-030-99524-9_12](http://dx.doi.org/10.1007/978-3-030-99524-9_12). URL <http://dx.doi.org/10.1007/978-3-030-99524-9_12>
+
+[3] C. A. Esterhuyse, T. Müller, L. T. van Binsbergen and A. S. Z. Belloum, _Exploring the enforcement of private, dynamic policies on medical workflow execution_, in: 18th IEEE International Conference on e-Science, e-Science 2022, Salt Lake City, UT, USA, October 11-14, 2022, IEEE, 2022, pp. 481-486
