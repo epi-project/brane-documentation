@@ -9,10 +9,19 @@
 - [Context & Use-case](./requirements/use_case.md)
 - [Requirements](./requirements/requirements.md)
 
-# High-level design
+# Brane design
 - [Introduction](./design/introduction.md)
 - [Bird's-eye view](./design/bird_eye.md)
 - [Components](./design/components/overview.md)
+    - [Driver](./design/components/driver.md)
+    - [Planner](./design/components/planner.md)
+    - [Global audit log](./design/components/glog.md)
+    - [Worker](./design/components/worker.md)
+    - [Checker](./design/components/checker.md)
+    - [Local audit log](./design/components/llog.md)
+    - [Backend](./design/components/backend.md)
+    - [Data source](./design/components/data_source.md)
+- [Services](./design/services/overview.md)
 
 # Framework specification
 - [Introduction](./spec/introduction.md)

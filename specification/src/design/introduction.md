@@ -1,5 +1,5 @@
 # Introduction
-In the High-level design chapters, we will present the high-level design of the framework. Specifically, we discuss what is defined in the specification and what is left up for implementation by domains in the framework.
+In the Brane design chapters, we will present the high-level and low-level design of the framework. Specifically, we discuss through everything up to the actual implementation of the framework, including the framework's components, their intended behaviour, safety guarantees and more.
 
 For any specifics on implementing software adherent to the specification, you should refer to the [Framework specification](../spec/introduction.md) chapters. Further, it is advisable to read the [Design requirements](../requirements/introduction.md) chapters first to contextualise the design explained here.
 

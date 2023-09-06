@@ -22,7 +22,7 @@ First, we specify more concretely what kind of work Brane is intended to perform
 
 However, as the data pipelines increase in complexity and required capacity, it becomes more and more complex to design and execute the workflows representing these pipelines. It is assumed that this work can be divided into the following concerns:
 > #### Assumption A2
-> To design and execute a data pipeline, expertise is needed from a _(system) administrator_, to manage the compute resources;, a _(software) engineer_, to implement the required algorithms; and a _(domain) scientist_, to design the high-level workflow and analyse the results.
+> To design and execute a data pipeline, expertise is needed from a _(system) administrator_, to manage the compute resources; a _(software) engineer_, to implement the required algorithms; and a _(domain) scientist_, to design the high-level workflow and analyse the results.
 
 Tied to this, we state the following requirement on Brane:
 > #### Requirement A1
@@ -64,8 +64,6 @@ From this, we can formulate the following requirement for Brane:
 
 To this end, the role of the Brane orchestrator is weakened from _instructing_ what domains do to instead _requesting_ what domains do. Put differently, the orchestrator now merely acts as an intermediary trying to get everyone to work together and share data; but the final decision should remain with the domains themselves.
 
-To this end, [Requirement A4](#requirement-a4) helps by allowing domains to implement their own components of the framework for maximum control and decision making.
-
 In addition to maximising autonomy, recent laws such as GDPR [\[1\]](#references) open the possibility that rules governing data (e.g., institutional policies) may be privacy-sensitive themselves. For example, Article 17.2 of the GDPR states that "personal data shall, with the exception of storage, only be processed with the data subject's consent". However, if this consent is given for data with a public yet sensitive topic (e.g., data about the treatment of a disease), then it can easily be deduced that the data subject's consent means that the patient suffers from that disease.
 
 This leads to the following assumption:
@@ -78,13 +76,17 @@ This prompts the following design requirement:
 
 Note, however, that by nature of these rules it is impossible to keep them fully private. After all, there is exist attacks to reconstruct the state of a state machine by observing its behaviour [\[2\]](#references); which means that enforcing the decision process necessarily offers opportunity for any attacker to discover them. However, Brane can give _opportunity_ for domains to hide their access control rules by implementing an indirection between the internal behaviour of the decision process and an outward interface (see [\[3\]](#references) for more information).
 
-Finally, for practical purposes, though, the following two assumptions are made that allow us a bit more freedom in the implementation:
+Because it becomes important to specify the rules governing data access properly and correctly, we can extend [Assumption A2](#assumption-a2) to include a fourth role (the extension is emphasised):
 > #### Assumption B3
+> To design and execute a data pipeline, expertise is needed from a _(system) administrator_, to manage the compute resources; **a _policy expert_, to design and implement the data access restrictions;** a _(software) engineer_, to implement the required algorithms; and a _(domain) scientist_, to design the high-level workflow and analyse the results.
+
+Finally, for practical purposes, though, the following two assumptions are made that allow us a bit more freedom in the implementation:
+> #### Assumption B4
 > A domain always adheres to its own data access rules.
 
 (i.e., domains will act rationally and to their own intentions); and
 
-> #### Assumption B4
+> #### Assumption B5
 > Whether data is present on a domain, as well as data metadata, is non-sensitive information.
 
 (i.e., the fact that someone has a particular dataset is non-sensitive; we only consider the access control rules to that data and its contents as potentially sensitive information).
@@ -93,7 +95,7 @@ Finally, for practical purposes, though, the following two assumptions are made 
 ## Next
 In this chapter, we presented the assumptions and requirements that motivate and explain Brane. This builds upon the general [context](./background.md) and [use-cases](./use_case.md) of Brane, and serves as a background for understanding the framework.
 
-Next, you can start examining the design in high-level in the [High-level design](../design/introduction.md) chapter series. Alternatively, you can also skip ahead to the [Framework specifiction](../spec/introduction.md) if you are more implementation-oriented.
+Next, you can start examining the design in the [Brane design](../design/introduction.md) chapter series. Alternatively, you can also skip ahead to the [Framework specifiction](../spec/introduction.md) if you are more implementation-oriented.
 
 Alternatively, you can also visit the [Appendix](../appendix/overview.md) to learn more about the tools surrounding Brane.
 

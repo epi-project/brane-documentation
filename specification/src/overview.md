@@ -12,7 +12,7 @@ We cover a number of different aspects of Brane's design in this book, separated
 
 In the first series of chapters, we will discuss the design [requirements](./requirements/introduction.md). Here, we will discuss the parculiarities of Brane's use case and which assumptions where made. This will help to contextualise the more technical discussion later on.
 
-The second series discusses the [design](./design/introduction.md) of Brane. This enumerates the components that make the framework and how these should behave. These chapters act as a high-level overview of Brane's inner workings.
+The second series discusses the [design](./design/introduction.md) of Brane. This enumerates the components that make the framework and how these should behave. These chapters display Brane's inner workings up to (but not including) the point of implementation.
 
 Next, the third series of chapters focuses on the [specification](./spec/introduction.md) of the framework. This is a really technical chapter, where the protocols between the components are defind. This chapter is mostly useful if you intend to implement parts of the framework.
 
