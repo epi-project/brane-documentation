@@ -5,7 +5,7 @@
 # Created:
 #   23 Feb 2022, 16:36:17
 # Last edited:
-#   21 Nov 2022, 16:05:04
+#   06 Sep 2023, 15:23:31
 # Auto updated?
 #   Yes
 #
@@ -31,5 +31,23 @@ rsync -ar --delete book/* "$target" || exit $?
 # Also upload the .htaccess, if it has one
 if [[ -f "www/.htaccess" ]]; then
     echo "Uploading .htaccess to '$target'..."
-    rsync -ar www/.htaccess "$target" || exit $?
+    rsync -ar www/.htaccess "$target/.htaccess" || exit $?
+fi
+# Also upload the custom highlight.js, if it has one
+if [[ -d "www/highlight.js" ]]; then
+    # Copy highlight.js itself
+
+    # Append all files to the end of the highlight.js file
+    echo "Constructing custom highlight.js..."
+    cp www/highlight.js/highlight.js www/highlight.js.custom
+    for f in www/highlight.js/*.js; do
+        # Skip the file itself
+        if [[ "$f" == "www/highlight.js/highlight.js" ]]; then continue; fi
+
+        # Append it
+        cat "$f" >> www/highlight.js.custom
+    done
+
+    echo "Uploading highlight.js to '$target'..."
+    rsync -ar www/highlight.js.custom "$target/highlight.js" || exit $?
 fi

@@ -8,5 +8,9 @@ title = "Brane: A Specification"
 [output.html]
 default-theme = "navy"
 site-url = "/specification/"
+mathjax-support = true
 git-repository-url = "https://github.com/epi-project/brane"
 git-repository-icon = "fa-github"
+
+# # Use the Tera preprocessor
+# [preprocessor.tera]

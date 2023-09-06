@@ -38,9 +38,7 @@ _**Figure 3**: An overview of Brane's components, separated in the central plane
 
 ### Central components
 First, we introduce the components found in Brane's orchestrator. More details about each component can be found in their respective chapters.
-- The [_driver_](./components/driver.md) acts as both the entrypoint to the framework from a user's perspective, and as the main engine driving the framework operations. Specifically, it takes a workflow and traverses it to emit a series of events that need to be executed or otherwise processed to the domains.
-- The [_planner_](./components/planner.md) takes a workflow submitted by the user and attempts to resolve any missing information needed for execution. Most notably, this includes assigning tasks to domains that should execute them and input to domains that should provide them. However, this can also include translating internal representations or adding additional security. Finally, the planner is also the first step where policies are consulted.
-- The [_global audit log_](./components/glog.md) keeps track of the global state of the system, and can be inspected both by global components and local components (the latter is not depicted in the figure for brevity).
+{{#include ./snippets/central_services.md}}
 
 In a nutshell, these components work together to translate a workflow into a series of events that can be executed by the domains. Crucially, the orchestrator never sees any data, but does make decisions about which domain gets assigned which tasks if the user does not specify this.
 
@@ -48,13 +46,10 @@ In a nutshell, these components work together to translate a workflow into a ser
 Next, we introduce the components found on every Brane domain. Two types of components exist: Brane components and third-party components. For both of these, more details can be found in their respective chapters.
 
 First, we list the Brane components:
-- The [_worker_](./components/worker.md) acts as a local counterpart to the global [driver](#central-components). It takes events emitted by the driver and attempts to execute them locally. An important function of the worker is to consult various [checkers](#local-components) to ensure that what it does it in line with domain restrictions on data usage.
-- The [_checker_](./components/checker.md) is the decision point where a domain can express restrictions on what happens to data they own. At the least, because of [Assumption B4](../requirements/requirements.md#assumption-b4), the checker enforces its own [worker](#local-components)'s behaviour; but if other domains are well-behaved, the checker gets to enforce their workers too. As such, the checker must also reason about which domains it expects to act in a well-behaved manner.
-- The [_local audit log_](./components/llog.md) acts as the local counterpart of the [global audit log](#central-components). As the global log keeps track of the global state, the local log keeps track of local state; and together, they can provide a complete overview of the entire system.
+{{#include ./snippets/worker_services_brane.md}}
 
 The third-party components:
-- The [_backend_](./components/backend.md) is the compute infrastructure that can actually execute tasks and process datasets. Conceptually, every domain only has one, although in practise it depends on the implementation of the worker. However, they are all grouped as one location as far as the planner is concerned.
-- The [_data sources_](./components/data_source.md) are machines or other sources that provide the actual data on which the tasks are executed. Their access is mostly governed by [checkers](#local-components), and they can supply data in many forms. From a conceptual point of view, every data source is a dataset, which can be given as input to a task - or gets created when a task completes to represent an output.
+{{#include ./snippets/worker_services_tp.md}}
 
 In a nutshell, the local components work together to execute or process events emitted by the central components. Crucially, these components _may_ see the data (especially the third-party components), and are managed fully by the owning domain. As such, they are also trusted to represent that domain's policies.
 

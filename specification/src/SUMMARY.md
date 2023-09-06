@@ -21,7 +21,12 @@
     - [Local audit log](./design/components/llog.md)
     - [Backend](./design/components/backend.md)
     - [Data source](./design/components/data_source.md)
-- [Services](./design/services/overview.md)
+- [Protocols](./design/protocols/overview.md)
+    - [Workflow execution](./design/protocols/workflows.md)
+
+# Implementation
+- [Introduction](./implementation/introduction.md)
+- [Services](./implementation/services/overview.md)
 
 # Framework specification
 - [Introduction](./spec/introduction.md)
@@ -34,3 +39,8 @@
 # Appendix
 - [Overview](./appendix/overview.md)
 - [Appendix A: BraneScript specification](./appendix/languages/bscript/introduction.md)
+    - [Introduction](./appendix/languages/bscript/introduction.md)
+    - [Structure](./appendix/languages/bscript/structure.md)
+    - [Abstract syntax](./appendix/languages/bscript/syntax.md)
+    - [Semantics](./appendix/languages/bscript/semantics.md)
+    - [Future work](./appendix/languages/bscript/future.md)

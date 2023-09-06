@@ -2,11 +2,11 @@
 In the [first](./background.md)- and [second](./use_case.md) chapters in this series, we defined the context and use cases for which Brane was designed. With this in mind, we can now enumerate a set of requirements and assumptions that Brane has to satisfy.
 
 > <img src="../assets/img/info.png" alt="info" width="16" style="margin-top: 2px; margin-bottom: -2px"/> The assumptions defined in this chapter may be referred to later by their number; for example, you may see
-> ```
+> ```plaintext
 > This is because ... (Assumption A2)
 > ```
 > or
-> ```
+> ```plaintext
 > This is a consequence of ... (Requirement B1)
 > ```
 > 
