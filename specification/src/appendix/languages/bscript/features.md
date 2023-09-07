@@ -53,4 +53,58 @@ Finally, specific to BraneScript, _external functions_ are imported as _packages
 ## Statements
 This section lists the specific statements supported by BraneScript.
 
+### (Let) Assignments
+```bscript
+// Example assignment to new variables
+let value := 42;
+
+// Example assignment to existing variables
+value := 84;
+```
+Variables can remember values, and as such can be assigned a particular value. There are two versions of this syntax: first, there is the _let assignment_, which can be used to declare a variable with a particular value. Then, once the variable has been declared, its variable can be updated using a normal _assignment_.
+
+### Block statements
+```bscript
+// We can nest statements in a block arbitrarily to play with scoping rules
+let foo := 42;
+println(foo);         // 42
+{
+    // Shadowed!
+    let foo := 84;
+    println(foo);     // 84
+}
+println(foo);         // 42
+```
+Typically, _blocks_ of statements are used in [function definitions](TODO), [if-statements](TODO) or other constructs. Essentially, they just group statements together visually. However, importantly, blocks also directly define [scopes](TODO), i.e., they specify which variables are visible and thus usable for the programmer. When using a block as a separate statement, it is used to introduce an additional scope to shadow variables or free values early.
+
+### Class declarations
+```bscript
+// A class is a statically-sized, heterogenous container of multiple values
+class Test {
+    value1: int;
+    value2: string;
+
+    // ...with functions that can act on it!
+    func print(self) {
+        print(self.value1);
+        print(" and '");
+        print(self.value2);
+        println("'");
+    }
+}
+```
+Oftentimes, it is practical to group multiple values together. A BraneScript _class_ is one way of doing so. Unlike [arrays](TODO), classes can contain values of different types; but to do so, first they have to be statically defined so that the execution engine knows the shape of the class and how to access its contents.
+
+To support [OOP](https://en.wikipedia.org/wiki/Object-oriented_programming)-like programming paradigms, BraneScript classes can also be annotated _methods_. These are functions that act on a particular instance of a class, and come accompanied with convenient syntax for using them. Note, however, that BraneScript misses a few features for using full OOP; for example, there is no way to define object inheritance.
+
+### Expression statements
+```bscript
+// Since a function call is an expression, expression statements are used
+//   anytime there is a function but we're not interested in the return value.
+println("Hello, world!");
+
+// But this is also legal (though effectless)
+42 + 42;
+55 + add(33, 44);
+```
 
