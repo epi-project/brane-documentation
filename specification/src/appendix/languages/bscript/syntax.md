@@ -1,7 +1,7 @@
-# Abstract syntax
-In this chapter, we present the Abstract Syntax of Brane in [Backus-Naur form](https://en.wikipedia.org/wiki/Backus%E2%80%93Naur_form) (or something very much like it). This will show you what's possible to write in BraneScript and how the language is structure.
+# Formal grammar
+In this chapter, we present the formal grammar of Brane in [Backus-Naur form](https://en.wikipedia.org/wiki/Backus%E2%80%93Naur_form) (or something very much like it). This will show you what's possible to write in BraneScript and how the language is structured.
 
-For a discussion on the semantics of the various statements and expressions, consult the [next chapter](./semantics.md).
+This chapter is very technical, and mostly suited for implementing a BraneScript parser. To find out more details about compiling BraneScript to the [Workflow Intermediate Representation](TODO) (WIR), consult the [next chapters](TODO).
 
 
 ## Conventions
@@ -202,6 +202,6 @@ _**Table 1**: Operator precedence and associativity for BraneScript. An operator
 
 
 ## Next
-The semantics of BraneScript are discussed in the [next chapter](./semantics.md). This will provide the meaning and interpretation to the nonterminals introduced in this chapter.
+The compilation of BraneScript to the WIR, and thus details about how to interpret the AST obtained by parsing BraneScript, are discussed in the [next chapter](TODO).
 
 Alternatively, if you want to know what BraneScript can be instead of what it is, refer to the [Future work](./future.md)-chapter.

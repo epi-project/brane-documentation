@@ -5,6 +5,6 @@ That said, the framework does feature its own workflow language, BraneScript. Th
 
 
 ## Layout
-The chapters are structured as follows. First, in the [Structure](./structure.md)-chapter, we discuss the overall design of the language and introduce the main language concepts. Then, in the [Abstract syntax](./syntax.md)-chapter, we give a formal specification of the syntax of BraneScript. The subsequent chapter, the [Semantics](./semantics.md)-chapter, then defines how the parsed structures can be interpreted by a virtual machine.
+The chapters are structured as follows. First, in the [Features](./features.md)-chapter, we discuss the concepts of the language and which statements exist. Then, we discuss how BraneScript is compiled to the WIR, which will define specifics of the language: the [grammar](./syntax.md), [scoping rules](TODO), [typing rules](TODO) andsoforth.
 
 Finally, in the [Future work](./future.md)-chapter, we elaborate on ideas and improvements not yet implemented.
