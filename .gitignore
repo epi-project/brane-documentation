@@ -1,2 +1,5 @@
 # Ignore mac stuff
 .DS_Store
+
+# Ignore automatically generated higlight.js files
+highlight.js.custom
