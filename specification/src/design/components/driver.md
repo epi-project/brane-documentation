@@ -31,3 +31,13 @@ For example, we can take the workflow specified in **Figure 1**. The driver star
 
 ![Example workflow with a branch](../../assets/diagrams/WorkflowExample1.png)  
 _**Figure 1**: Example workflow showing a branch. Intuitively, this workflow will run function \\( f \\) first, after which \\( g \\) is executed if the result of \\( f \\) is larger than 6, or \\( h \\) is executed otherwise._
+
+
+## Returning results
+As the workflow gets executed, the driver is also responsible for giving feedback to the user who submitted the workflow. This includes both debug messages of the framework itself, and feedback the user explicitly schedules in the workflow and the final workflow result.
+
+Note that the driver, by design, never sees the actual data. Thus, the best thing the driver can do is to report the name of the resulting dataset and where it resides and then lets the user download it separately.
+
+
+## Next
+Next, we will describe the [planner](./planner.md). But if you are curious to how the driver is actually implemented, refer to its relevant page in the [Implementation](TODO) chapters.
