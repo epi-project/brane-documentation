@@ -29,7 +29,9 @@ In this design, in accordance with [Requirement B1](../requirements/requirements
 
 
 ## The components of Brane
-To realise the structure explained above, Brane defines a number of conceptual _components_ which implement the services required for proper functionality. However, note that they are conceptual; multiple components may be implemented by a single physical service, or one component may be implemented by multiple physical services. The components merely highlight the aspects needed from every _node_, i.e., orchestrator and domains, in the system.
+The Brane framework is defined in terms of _components_, each of which has separate responsibilities in achieving the functionality of the framework as a whole. They could be thought of as services, but components are more high-level; in practise, a component can be implemented by many services, or a single service may implement multiple components.
+
+Because Brane is federated, the components are grouped similarly. There are _central components_, which live in the orchestrator and work on processing workflows and emitting (compute) events; and there are _local components_ that live in each domain and work on processing the emitted events.
 
 An overview of the components can be found in **Figure 3**.
 
@@ -37,30 +39,42 @@ An overview of the components can be found in **Figure 3**.
 _**Figure 3**: An overview of Brane's components, separated in the central plane (the orchestrator) and the local plane (the domains). Each node represents a component, and each arrow some high-level interaction between them, where the direction indicates the main information flow. The annotation of the arrows give a hint as to what is exchanged and in what order. Finally, the colours of the nodes indicate a flexible notion of similarity._
 
 ### Central components
-First, we introduce the components found in Brane's orchestrator. More details about each component can be found in their respective chapters.
-{{#include ./snippets/central_services.md}}
-
-In a nutshell, these components work together to translate a workflow into a series of events that can be executed by the domains. Crucially, the orchestrator never sees any data, but does make decisions about which domain gets assigned which tasks if the user does not specify this.
+The following components are defined at the central orchestrator:
+- The _driver_ acts as both the entrypoint to the framework from a user's perspective, and as the main engine driving the framework operations. Specifically, it takes a workflow and traverses it to emit a series of events that need to be executed by, or otherwise processed on, the domains.
+- The _planner_ takes a workflow submitted by the user and attempts to resolve any missing information needed for execution. Most notably, this includes assigning tasks to domains that should execute them and input to domains that should provide them. However, this can also include translating internal representations or adding additional security. Finally, the planner is also the first step where policies are consulted.
+- The _global audit log_ keeps track of the global state of the system, and can be inspected both by global components and local components (the latter is not depicted in the figure for brevity).
+- The _proxy_ acts as a gateway for traffic entering or leaving the node. It is more clever than a simple network proxy, though, as it may also enforce security, such as client authentication, and acts as a hook for sending traffic through [Bridging Function Chains](https://github.com/epi-project/EPIF-Configurations).
 
 ### Local components
-Next, we introduce the components found on every Brane domain. Two types of components exist: Brane components and third-party components. For both of these, more details can be found in their respective chapters.
+Next, we introduce the components found on every Brane domain. Two types of components exist: Brane components and third-party components.
 
 First, we list the Brane components:
-{{#include ./snippets/worker_services_brane.md}}
+- The _worker_ acts as a local counterpart to the global driver. It takes events emitted by the driver and attempts to execute them locally. An important function of the worker is to consult various checkers to ensure that what it does it in line with domain restrictions on data usage.
+- The _checker_ is the decision point where a domain can express restrictions on what happens to data they own. At the least, because of [Assumption B4](/specification/requirements/requirements.md#assumption-b4), the checker enforces its own worker's behaviour; but if other domains are well-behaved, the checker gets to enforce their workers too. As such, the checker must also reason about which domains it expects to act in a well-behaved manner and thus allow them to access its data.
+- The _local audit log_ acts as the local counterpart of the global audit log. As the global log keeps track of the global state, the local log keeps track of local state; and together, they can provide a complete overview of the entire system.
+- The _proxy_ acts as a gateway for traffic entering or leaving the node. It is more clever than a simple network proxy, though, as it may also enforce security, such as client authentication, and acts as a hook for sending traffic through [Bridging Function Chains](https://github.com/epi-project/EPIF-Configurations).
 
 The third-party components:
-{{#include ./snippets/worker_services_tp.md}}
+- The _backend_ is the compute infrastructure that can actually execute tasks and process datasets. Conceptually, every domain only has one, although in practise it depends on the implementation of the worker. However, they are all grouped as one location as far as the planner is concerned.
+- The _data sources_ are machines or other sources that provide the actual data on which the tasks are executed. Their access is mostly governed by checkers, and they can supply data in many forms. From a conceptual point of view, every data source is a dataset, which can be given as input to a task - or gets created when a task completes to represent an output.
 
-In a nutshell, the local components work together to execute or process events emitted by the central components. Crucially, these components _may_ see the data (especially the third-party components), and are managed fully by the owning domain. As such, they are also trusted to represent that domain's policies.
 
-
-## The actual implementation
+## Implementing components
+In the [reference implementation](https://github.com/epi-project/brane), the components discussed in the [previous section](#the-components-of-brane) are implemented by actual services. These really are concrete programs that may run on a set of hosts to implement the functionality of the Brane framework.
 
 ![An overview of how the components are actually implemented](../assets/diagrams/Services.png)  
-_**Figure 4**: An overview of Brane's services as currently implemented. This figure is closely related to Figure 3, but differs in a few details: first, checkers are purely virtual and actually implemented as static policy files; second, planners don't take authorisations into account and instead rely on workers to deny certain workflows; third, the logs are simplified to registries, where the local registries serve as input to the global one; and fourth, data is only available as files instead of the more general data sources._
+_**Figure 4**: An overview of Brane's services as currently implemented. Every node now represents a service, at the identical location as the component they implement but with the name used in the repository. Otherwise, the figure can be read the same way as Figure 3._
+
+Figure 4 shows a similar overview as Figure 3, but then for the concrete implementation instead of the abstract components. Important differences are:
+- Checkers are purely virtual, and implemented as a static file describing the policies.
+- Planners do not consult the domain checker files, but instead create plans without knowledge of the policies. Instead, the planner relies on workers refusing to execute unauthorised plans.
+- The audit logs are simplified as _registries_, of which the global one (`brane-api`) mirrors the local ones (`brane-reg`) for most information.
+- Data is only available as files or directories, not as generic data sources.
 
 
 ## Next
-With the global picture in mind, you can now inspect more concrete design on the rest of the framework. You can start by learning more about each component and how they operate by selecting their respective chapter from the [Components](./components/overview.md)-chapters in the sidebar on the left.
+The remainder of this book will mostly discuss the functionality of the reference implementation. To start with, head over to the description of the individual [services](./services/overview.md), or skip ahead to which [protocols](TODO) they implement.
 
-Alternatively, you can also learn more about the [context of Brane](../requirements/introduction.md) or find out [details for implementing](../spec/introduction.md) (parts of) it yourself.
+The exception to the this is the [Future work](../future/introduction.md) series of chapters, which discusses how the reference implementation may be made to reflect the components better or more efficiently.
+
+Alternatively, you can also learn more about the [context of Brane](../requirements/introduction.md) or its custom Domain-Specific Language, [BraneScript](../appendix/languages/bscript/introduction.md).
