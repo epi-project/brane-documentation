@@ -73,8 +73,8 @@ Figure 4 shows a similar overview as Figure 3, but then for the concrete impleme
 
 
 ## Next
-The remainder of this book will mostly discuss the functionality of the reference implementation. To start with, head over to the description of the individual [services](./services/overview.md), or skip ahead to which [protocols](TODO) they implement.
+The remainder of this series of chapters will mostly discuss the functionality of the reference implementation. To start with, head over to the description of the individual [services](./services/overview.md), or skip ahead to which [protocols](TODO) they implement.
 
-The exception to the this is the [Future work](../future/introduction.md) series of chapters, which discusses how the reference implementation may be made to reflect the components better or more efficiently.
+After this, the [specification](../spec/introduction.md) defines how the various components can talk to each other in terms such that new services implementing the components may be created. Then, in the [Future work](../future/introduction.md) series of chapters, we discuss how the reference implementation can be improved upon to reflect the component more accurately and practically.
 
-Alternatively, you can also learn more about the [context of Brane](../requirements/introduction.md) or its custom Domain-Specific Language, [BraneScript](../appendix/languages/bscript/introduction.md).
+Aside from that, you can also learn more about the [context of Brane](../requirements/introduction.md) or its custom Domain-Specific Language, [BraneScript](../appendix/languages/bscript/introduction.md).

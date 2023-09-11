@@ -13,9 +13,16 @@
 - [Introduction](./implementation/introduction.md)
 - [Bird's-eye view](./implementation/bird_eye.md)
 - [Services](./implementation/services/overview.md)
+    - [`brane-drv`](./implementation/services/brane-drv.md)
+    - [`brane-plr`](./implementation/services/brane-plr.md)
+    - [`brane-api`](./implementation/services/brane-api.md)
+    - [`brane-job`](./implementation/services/brane-job.md)
+    - [`brane-reg`](./implementation/services/brane-reg.md)
+    - [`brane-prx`](./implementation/services/brane-prx.md)
 
 # Framework specification
 - [Introduction](./spec/introduction.md)
+- [Workflow Internal Representation (WIR)](./spec/wir/introduction.md)
 
 # Future work
 - [Introduction](./future/introduction.md)
