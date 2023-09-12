@@ -23,6 +23,9 @@
 # Framework specification
 - [Introduction](./spec/introduction.md)
 - [Workflow Internal Representation (WIR)](./spec/wir/introduction.md)
+    - [Toplevel schema](./spec/wir/schema.md)
+    - [Layer 1: The graph](./spec/wir/graph.md)
+    - [Layer 2: Instructions](./spec/wir/instructions.md)
 
 # Future work
 - [Introduction](./future/introduction.md)
