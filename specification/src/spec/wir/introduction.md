@@ -41,12 +41,22 @@ In Brane, the WIR thus balances the requirements of the two services that intera
 2. The [checker](../../implementation/bird_eye.md#central-components)-service, on the other hand, needs to learn about data dependencies and how data moves from location to location.
 
 
-## WIR in a nutshell
+## WIR to the rescue
 As a solution to embed the two levels of execution, the WIR is structured very much like the graph in Figure 3.
 
 At the toplevel, the WIR denotes a graph, where nodes represent task execution steps and edges represent transitions between them. To support parallel execution, branches, loops, etc, these edges can connect more than two nodes (or less, to represent start- or stop edges).
 
 Then, these edges are annotated with _edge instructions_ that are byte-like instructions encoding the control flow execution required to make conditional decisions. They manipulate a stack, and this stack then serves as input to either certain types of edges (e.g., a branch) or to tasks to allow them to portray conditional behaviour as well.
+
+### Functions
+As an additional complexity, the WIR needs to have support for functions (since they are supported by [BraneScript](../../appendix/languages/bscript/introduction.md)). Besides saving executable size by re-using code at different places in the execution, functions also allow for the use of specialised programming paradigms like [recursion](https://en.wikipedia.org/wiki/Recursion). Thus, the graph structure of the WIR needs to have a similar concept.
+
+Functions in the WIR work similarly to functions in a procedural language. They can be thought of as snippets of the graph that are kept separately and can then be called using a special type of edges that transitions to the snippet graph first before continuing with its actual connection. This process is visualised in Figure 4.
+
+![Graph representation representing a function call](../../assets/diagrams/WorkflowExample6.png)  
+_**Figure 4**: Graphs showing a "graph call", which is how the WIR represents function call. The edge connecting `task_f` to `task_i` implements the call by first executing the snippet `task_g -> task_h` before continuing to its original destination._
+
+To emulate the full statement function, the edge also transfers some of the stack elements in the calling graph to the stack frame of the snippet graph. This way, arguments can be passed from one part of the graph to another to change its control flow as expected.
 
 
 ## Next
