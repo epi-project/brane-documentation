@@ -384,6 +384,7 @@ The following are a few examples of valid `VarDef`s:
 }
 ```
 
+## Miscellaneous
 ### The DataType
 The `DataType` describes the kind of a value. This is typically used to propagate type information across a workflow.
 
