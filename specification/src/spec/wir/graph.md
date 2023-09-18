@@ -202,7 +202,55 @@ The `Loop`-edge connects to one sequence of edges that are taken repeatedly, and
 Because the `Loop` is conditional, it depends on the top value on the stack every time at the start of a new iteration. In particular, this must be a boolean value, and the iteration is taken if it is true, and the next edge is taken if the value is false. Clearly, the loop body is allowed to manipulate the top of the stack in between checks.
 
 The following fields are used in a `Loop`:
-- `c` (): Test
+- `c` (number): Defines the index of the first edge of a series that computes the condition at the start of every iteration.
+- `b` (number): Defines the index of the first edge of a series that implements the body of the loop. These are the edges that are taken repeatedly as long as the edges of `c` compute true.
+- `n` (number): The index of the next edge to traverse once the edges of `c` compute false.
+
+An example `Loop`-edge is:
+```json
+{
+    "kind": "loop",
+    "c": 42,
+    "b": 52,
+    "n": 62
+}
+```
+
+### Call
+![Abstract shape of a call edge](../../assets/diagrams/EdgeCall.png)
+
+_Identifier: `"cll"`_
+
+The `Call`-edge implements a call to another workflow snippet as if it were a function. In particular, before the next edge is traversed, a series of edges are executed until a `Return`-edge is traversed. This then unwinds the stack back to the point of the `Call`, possibly pushing a result of the function on there before continuing.
+
+This edge thus behaves similarly to a [`Node`](#node)-edge from the graph perspective, except that it calls other edges instead of a task container. Another difference is that the call does not inherently encode the function to call; instead, this is represented as a value on the stack and may thus differ dynamically to perform virtual function calls (although the rest of the language does not support this, currently).
+
+The following fields make a `Call`:
+- `n` (number): The index of the next edge to traverse once the function body returns.
+
+An example:
+```json
+{
+    "kind": "cll",
+    "n": 42
+}
+```
+
+### Return
+![Abstract shape of a return edge](../../assets/diagrams/EdgeReturn.png)
+
+_Identifier: `"ret"`_
+
+Counterpart to the [`Call`](#call)-edge, the `Return`-edge marks the end of a function body. Doing so unwinds the stack until the state of the most recent [`Call`](#call), and possibly pushes the top value of the stack before unwinding after it's done (this emulates function return values).
+
+The `Return` does not have any fields, since its behaviour is defined solely based on the stack and its frames.
+
+Example `Return`:
+```json
+{
+    "kind": "ret"
+}
+```
 
 
 ## Miscellaneous
@@ -342,3 +390,9 @@ It is defined as a string with one of the following possible values:
 - `"Min"`: The smallest value of all return values is returned. Only works if the return values are numerical.
 - `"All"`: All values of the branches are aggregated into an array of that type.
 - `"None"`: The execution engine blocks until all branches have returned, but otherwise returns void.
+
+
+## Next
+In the [next chapter](./instructions.md), we define the final parts of the WIR: the instructions that manipulate the stack and that can be annotated on a [`Linear`](#linear)-edge. If you are reading the WIR bottom-up, you should instead proceed to the [previous chapter](./schema.md) where we define the toplevel of the WIR, which mostly relates to definitions and how edges are tied together.
+
+Alternatively, you can select a different topic than the WIR altogether in the sidebar on the left.
