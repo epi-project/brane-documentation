@@ -9,7 +9,7 @@ For clarity, we specify the WIR as [JSON](https://json.org). To refer to JSON ty
 
 Note that the JSON representation of the WIR is implemented directly as Rust structs in the [reference implementation](https://github.com/epi-project/brane). You can refer to the `brane_ast`-crate and then `ast`-module in the [code documentation](https://wiki.enablingpersonalizedinterventions.nl/docs/src/brane_ast/ast.rs.html) to find the full representation.
 
-Finally, the use of the name `Edge` throughout this document is indeed unfortunately chosen, as it represents more than edges. However, it is chosen to keep in sync with the implementation itself.
+Finally, the use of the name `Edge` throughout this document is unfortunately chosen, as it represents more than edges. However, it is chosen to keep in sync with the implementation itself.
 
 
 ## The Workflow
@@ -403,7 +403,7 @@ A `DataType` can be of many variants. However, it always has at least the follow
     - `"any"`: Maps to any possible type. Used as a placeholder for types which the compiler cannot deduce at compile time.
     - `"num"`: Maps to any numeric type (i.e., integers or reals).
     - `"add"`: Maps to any addable type (i.e., numerical types or strings)
-    - `"call"`: Maps to any callable type (i.e., functions)
+    - `"call"`: Maps to any callable type (i.e., functions or methods)
     - `"nvd"`: Maps to any type that is not void.
     - `"void"`: Maps to no type (i.e., no value).
 
