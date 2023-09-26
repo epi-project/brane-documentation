@@ -39,7 +39,7 @@ _**Figure 1**: Workflow graph that can be extracted from Listing 1. It shows the
 ## Main concepts
 BraneScript leans on well-established concepts from other programming languages.
 
-First, a BraneScript program is defined as a series of _statements_. These are the smallest units of coherent programs. Like most scripting languages, they can be given at the toplevel of the program.
+First, a BraneScript program is defined as a series of _statements_. These are the smallest units of coherent programs. Statements typically indicate control flow between expressions (see below), where particular constructs can be used for particular types of flow (e.g., if-statements, for-loops, while-loops, parallel-statements, etc). Like most scripting languages, they can be given at the toplevel of the program.
 
 Actual work is performed in _expressions_, which can be thought of as imperative formulas creating, transforming and consuming values. Aside from _literal values_ (booleans, integers, real numbers, strings), BraneScript also supports _arrays_ of values (i.e., dynamically-sized containers of multiple of the same values) and _classes_ (i.e., statically-sized containers of different values).
 
