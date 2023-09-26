@@ -44,6 +44,11 @@ A convenient index of all instructions:
 - [`VarUndec`](#varundec): Releases the resources of a variable.
 - [`VarGet`](#varget): Gets the value of a variable.
 - [`VarSet`](#varset): Sets the value of a variable.
+- [`Boolean`](#boolean): Pushes a boolean constant.
+- [`Integer`](#integer): Pushes a integer constant.
+- [`Real`](#real): Pushes a floating-point constant.
+- [`String`](#string): Pushes a string constant.
+- [`Function`](#function): Pushes a function handle on top of the stack.
 
 ### Cast
 _Identifier: `"cst"`_
@@ -772,3 +777,122 @@ Example:
     "d": 42
 }
 ```
+
+### Boolean
+_Identifier: `"bol"`_
+
+Pushes a boolean constant on top of the stack.
+
+The following fields are added by a `Boolean`:
+- `v` (bool): The boolean value to push.
+
+Stack-wise, the `Boolean` does the following:
+- _pushes_ `DataType::Boolean` on top of the stack.
+
+The following errors may occur when executing a `Boolean`:
+- `Stack overflow` when pushing.
+
+Example:
+```json
+{
+    "kind": "bol",
+    "v": true
+}
+```
+
+### Integer
+_Identifier: `"int"`_
+
+Pushes an integer constant on top of the stack.
+
+The following fields are added by a `Integer`:
+- `v` (number): The integer value to push.
+
+Stack-wise, the `Integer` does the following:
+- _pushes_ `DataType::Integer` on top of the stack.
+
+The following errors may occur when executing a `Integer`:
+- `Stack overflow` when pushing.
+
+Example:
+```json
+{
+    "kind": "int",
+    "v": -84
+}
+```
+
+### Real
+_Identifier: `"rel"`_
+
+Pushes a floating-point constant on top of the stack.
+
+The following fields are added by a `Real`:
+- `v` (number): The floating-point value to push.
+
+Stack-wise, the `Real` does the following:
+- _pushes_ `DataType::Real` on top of the stack.
+
+The following errors may occur when executing a `Real`:
+- `Stack overflow` when pushing.
+
+Example:
+```json
+{
+    "kind": "rel",
+    "v": 0.42
+}
+```
+
+### String
+_Identifier: `"str"`_
+
+Pushes a string constant on top of the stack.
+
+The following fields are added by a `String`:
+- `v` (string): The string value to push.
+
+Stack-wise, the `String` does the following:
+- _pushes_ `DataType::String` on top of the stack.
+
+The following errors may occur when executing a `String`:
+- `Stack overflow` when pushing.
+
+Example:
+```json
+{
+    "kind": "str",
+    "v": "Hello, world!"
+}
+```
+
+### Function
+_Identifier: `"fnc"`_
+
+Pushes a function handle on top of the stack so it may be called.
+
+The following fields are added by a `Function`:
+- `d` (number): The ID of the function definition which to push on top of the stack.
+
+Stack-wise, the `Function` does the following:
+- _pushes_ `DataType::Function` on top of the stack.
+
+The following errors may occur when executing a `Function`:
+- `Unknown definition` if `d` is not known in the symbol tables; or
+- `Stack overflow` when pushing.
+
+Example:
+```json
+{
+    "kind": "fnc",
+    "v": 42
+}
+```
+
+
+## Next
+This chapter concludes the specification of the WIR.
+
+If you are intending to discover the WIR bottom-up, continue to the [previous chapter](./graph.md) to see how the graph overlaying the instructions is represented.
+
+Otherwise, you can learn other aspects of the framework or the specification by selecting a different topic in the sidebar on the left.
