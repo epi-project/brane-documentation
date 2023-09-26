@@ -39,6 +39,11 @@ A convenient index of all instructions:
 - [`Array`](#array): Pushes an array literal onto the stack (or rather, creates one out of existing values).
 - [`ArrayIndex`](#arrayindex): Takes an array and an index and pushes the element of the array at that index.
 - [`Instance`](#instance): Pushes a new instance of a class onto the stack by popping existing values.
+- [`Proj`](#proj): Projects a field on an instance to get that field's value.
+- [`VarDec`](#vardec): Declares the existance of a variable.
+- [`VarUndec`](#varundec): Releases the resources of a variable.
+- [`VarGet`](#varget): Gets the value of a variable.
+- [`VarSet`](#varset): Sets the value of a variable.
 
 ### Cast
 _Identifier: `"cst"`_
@@ -605,8 +610,8 @@ The `ArrayIndex` specifies the following additional fields:
 - `t` ([`DataType`](./schema.md#the-datatype)): The data type of the element. This is the type of the pushed value.
 
 Stack-wise, the `ArrayIndex` does the following:
-- _pops_ [`DataType::Integer`] for the index;
-- _pops_ [`DataType::Array`] for the array to index, which must have element type `t`; and
+- _pops_ `DataType::Integer` for the index;
+- _pops_ `DataType::Array` for the array to index, which must have element type `t`; and
 - _pushes_ a value of type `t` that is the element at the specified index.
 
 Doing so may trigger the following errors:
@@ -627,4 +632,143 @@ Example:
 ### Instance
 _Identifier: `"ins"`_
 
+Consumes a number of values on top of the stack in order to construct a new instance of a class.
 
+To do so, the `Instance` defines additional fields:
+- `d` (number): Identifier of the type which we are constructing. This definition is given in the parent [symbol table](./schema.md#the-symtable).
+
+Stack-wise, the `Instance` does the following:
+- _pops_ `N` values of varying types from the top off the stack, where `N` is the number of fields (which may be 0) and the types are those matching to the fields. Note that they are popped in _reverse alphabetical order_, e.g., field `a` is below field `z` on the stack; and
+- _pushes_ a value of the type referred to by `d`.
+
+Doing so may trigger the following errors:
+- `Unknown definition` if `d` is not known in the symbol tables;
+- `Empty stack` when popping;
+- `Type error` when any of the popped values are incorrectly typed; or
+- `Stack overflow` when pushing.
+
+Example:
+```json
+{
+    "kind": "ins",
+    "d": 42
+}
+```
+
+### Proj
+_Identifier: `"prj"`_
+
+The `Proj` instruction takes an instance and retrieves the value of the given field from it.
+
+The field is embedded in the instruction. As such, it adds the following specification fields:
+- `f` (string): The name of the field to project.
+
+Stack-wise, the `Proj` does the following:
+- _pops_ an instance value; and
+- _pushes_ the value of field `f` in that instance.
+
+The projection ducktypes the instance, and as such can trigger the following errors:
+- `Empty stack` when popping;
+- `Unknown field` when the popped instance has no field by the name described in `f`; or
+- `Stack overflow` when pushing.
+
+Example:
+```json
+{
+    "kind": "prj",
+    "f": "foo"
+}
+```
+
+### VarDec
+_Identifier: `"vrd"`_
+
+Declares a new variable, giving an opportunity to the underlying execution context to reserve space for it.
+
+The following fields are added by a `VarDec`:
+- `d` (number): The identifier of the variable definition in the parent [symbol table](./schema.md#the-symtable) of the variable we're declaring. Note that, because definitions are scoped to functions, this is a unique identifier for specific variable instances the current scope.
+
+Stack-wise, the `VarDec` doesn't do anything, as it fully acts on the underlying variable system.
+
+The following errors may occur when working with the `VarDec`:
+- `Unknown definition` if `d` is not known in the symbol tables; or
+- `Variable error` if the underlying context finds another reason to crash.
+
+Example:
+```json
+{
+    "kind": "vrd",
+    "d": 42
+}
+```
+
+### VarUndec
+_Identifier: `"vru"`_
+
+Explicitly undeclares a new variable, giving an opportunity to the underlying execution context to claim back space for it.
+
+The following fields are added by a `VarUndec`:
+- `d` (number): The identifier of the variable definition in the parent [symbol table](./schema.md#the-symtable) of the variable we're undeclaring.Note that, because definitions are scoped to functions, this is a unique identifier for specific variable instances the current scope.
+
+Stack-wise, the `VarUndec` doesn't do anything, as it fully acts on the underlying variable system.
+
+The following errors may occur when working with the `VarUndec`:
+- `Unknown definition` if `d` is not known in the symbol tables; or
+- `Variable error` if the underlying context finds another reason to crash.
+
+Example:
+```json
+{
+    "kind": "vru",
+    "d": 42
+}
+```
+
+### VarGet
+_Identifier: `"vrg"`_
+
+Retrieves the value of a variable which was previously [`VarSet`](#varset).
+
+The following fields are added by a `VarGet`:
+- `d` (number): The identifier of the variable definition in the parent [symbol table](./schema.md#the-symtable) of the variable we're undeclaring.Note that, because definitions are scoped to functions, this is a unique identifier for specific variable instances the current scope.
+
+Stack-wise, the `VarGet` does the following:
+- _pushes_ the value stored in the variable on top of the stack.
+
+The following errors may occur when working with the `VarGet`:
+- `Unknown definition` if `d` is not known in the symbol tables;
+- `Variable error` if the underlying context finds another reason to crash; or
+- `Stack overflow` when pushing.
+
+Example:
+```json
+{
+    "kind": "vrs",
+    "d": 42
+}
+```
+
+### VarSet
+_Identifier: `"vrs"`_
+
+Moves the value on top of the stack to a variable so it may be [`VarGet`](#varget).
+
+The following fields are added by a `VarSet`:
+- `d` (number): The identifier of the variable definition in the parent [symbol table](./schema.md#the-symtable) of the variable we're undeclaring.Note that, because definitions are scoped to functions, this is a unique identifier for specific variable instances the current scope.
+
+Stack-wise the `VarSet` does the following:
+- _pops_ `DataType::Any` from the stack to put in the variable.
+
+The following errors may occur when working with the `VarGet`:
+- `Unknown definition` if `d` is not known in the symbol tables;
+- `Variable error` if the underlying context finds another reason to crash;
+- `Empty stack` when popping; or
+- `Type error` when the type of the popped value does not match the type of the variable.
+
+Example:
+```json
+{
+    "kind": "vrs",
+    "d": 42
+}
+```
