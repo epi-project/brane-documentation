@@ -12,6 +12,7 @@
 # Implementation
 - [Introduction](./implementation/introduction.md)
 - [Bird's-eye view](./implementation/bird_eye.md)
+- [Virtual Machine (VM) for the WIR](./implementation/vm/introduction.md)
 - [Services](./implementation/services/overview.md)
     - [`brane-drv`](./implementation/services/brane-drv.md)
     - [`brane-plr`](./implementation/services/brane-plr.md)
