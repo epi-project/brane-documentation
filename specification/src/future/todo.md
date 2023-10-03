@@ -5,3 +5,4 @@
 - Data tokens
 - Resource management
 - Weird that the workflow prescribes where to find files
+- Thread parallelism conflicts
