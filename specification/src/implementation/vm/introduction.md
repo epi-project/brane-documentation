@@ -17,6 +17,6 @@ In the reference implementation, the base part of the VM is implemented in the [
 
 
 ## Next
-In the [next chapter](./overview.md), we start by considering the main structure and overview of the VM, including how the VM handles threads and plugins. Then, we examine various implementations of subsystems: the [frame stack](./frame_stack.md) (including virtual symbol tables), the [variable register](./var_reg.md) and the [expression stack](./stack.md) (including the VM's notion of values).
+In the [next chapter](./overview.md), we start by considering the main structure and overview of the VM, including how the VM handles threads and plugins. Then, we examine various implementations of subsystems: the [expression stack](./stack.md) (including the VM's notion of values), the [variable register](./var_reg.md) and the [frame stack](./frame_stack.md) (including virtual symbol tables).
 
 If you're interesting in another topic than the VM, you can select it in the sidebar to the left.
