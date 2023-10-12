@@ -2,11 +2,21 @@
 
 > <img src="../../../assets/img/info.png" alt="info" width="16" style="margin-top: 3px; margin-bottom: -3px"/> This handout will be slightly updated before the tutorial.
 
-In this document, we will detail the steps to take to write a simple package within the EPI Framework (also called the BRANE Framework). Specifically, this tutorial will focus on how to install the CLI client (the `brane` executable), build a `hello_world` package and then call the `hello_world()` function within that package on a local machine.
+In this document, we will detail the steps to take to write a simple package within the EPI Framework (also called the Brane Framework). Specifically, this tutorial will focus on how to install the CLI client (the `brane` executable), build a `hello_world` package and then call the `hello_world()` function within that package on a local machine. Finally, we will also practise submitting the code to a remote machine.
 
 
 ## Background
-The framework revolves around _workflows_, which are high-level descriptions of an algorithm or data processing pipeline that the system will execute. Specifically, every workflow contains zero or more _tasks_, which are conceptual functions that take an in- and output, composed in a particular order or control flow. It helps to think of them as graphs, where the nodes are tasks that must be called, and the edges are some form of data flowing between them. An example of such a workflow is given in Figure 1.
+The framework revolves around _workflows_, which are high-level descriptions of an algorithm or data processing pipeline that the system will execute. Specifically, every workflow contains zero or more _tasks_, which are conceptual functions that take an in- and output, composed in a particular order or control flow. It helps to think of them as graphs, where the nodes are tasks that must be called, and the edges are some form of data flowing between them.
+
+We could formalise a particular data pipeline as a workflow. For example, suppose we have the following steps:
+> 1. Clean dataset
+> 2. Set `loss` to 100
+> 3. While `loss` < 0.1
+>    1. Do forward pass
+>    2. Compute loss and store in `loss`
+>    3. Do backward pass using `loss` as input
+
+We can then represent this as a workflow graph of tasks that indicates which tasks there are and how the data flows between them. This is visualised in Figure 1.
 
 <p align="center">
     <img src="img/workflow-simple.png" alt="A workflow with three functions and four steps." />
