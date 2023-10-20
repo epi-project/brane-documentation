@@ -11,7 +11,7 @@ The framework revolves around _workflows_, which are high-level descriptions of 
 We could formalise a particular data pipeline as a workflow. For example, suppose we have the following steps:
 > 1. Clean dataset
 > 2. Set `loss` to 100
-> 3. While `loss` < 0.1
+> 3. While `loss` > 0.1
 >    1. Do forward pass
 >    2. Compute loss and store in `loss`
 >    3. Do backward pass using `loss` as input
@@ -26,6 +26,8 @@ _**Figure 1: A very simple workflow using three tasks, `f`, `g` and `h`.** The n
 
 While workflows can be expressed in any kind of language, the EPI Framework features its own Domain-Specific Language (DSL) to do so, called BraneScript[^bscript]. This language is very script-like, which allows us to think of tasks as a special kind of function. Any control flow (i.e., dependencies between tasks) is then given using variables and commonly used structures, such as if-statements, for-loops, while-loops, and less commonly used structures, such as on-structs or parallel-statements.
 
+[^bscript]: There is a second DSL, Bakery, which is more unique to the framework and features a natural language-like syntax. However, this language is still in development, and so we focus on BraneScript.
+
 
 ## Objective
 In this tutorial, we will mainly focus on creating a single task to execute. Traditionally, this task will be called `hello_world()`, and will return a string `"Hello, world!"` once it is called. To illustrate, the following [Python](https://python.org) snippet implements the logic of the task:
@@ -36,15 +38,16 @@ def hello_world():
 
 By using `print(hello_world())`, we can print `Hello, world!` to the terminal. In the EPI Framework, we will implement the function as a task, and then write a very simple workflow that implements the print-part.
 
-[^bscript]: There is a second DSL, Bakery, which is more unique to the framework and features a natural language-like syntax. However, this language is still in development, and so we focus on BraneScript.
-
 
 ## Installation
-To start, first download the `brane` executable from the [repository](https://github.com/epi-project/brane/releases/v2.0.0). This is a command line-based client for the framework, providinh a wide range of tools to use to develop packages and workflows for the EPI Framework. We will use it to build and then test a _package_, which can contain one or more tasks. Since we are only creating the `hello_world()` task, our package (called `hello_world`) will contain only one task.
+To start, first download the `brane` executable from the [repository](https://github.com/epi-project/brane/releases/v2.0.0). This is a command line-based client for the framework, providing a wide range of tools to use to develop packages and workflows for the EPI Framework. We will use it to build and then test a _package_, which can contain one or more tasks. Since we are only creating the `hello_world()` task, our package (called `hello_world`) will contain only one task.
 
 The executable is pre-compiled for Windows, macOS (Intel and M1/M2) and Linux. The binaries in the repository follow the pattern of `<name>-<os>-<arch>`, where `<name>` is the name of the executable (`brane` for us), `<os>` is an identifier representing the target OS (`windows` for Windows, `darwin` for macOS and `linux` for Linux), and `<arch>` is the target processor architecture (`x86_64`, typically, or `aarch64` for M1/M2 Macs).
 
-So, for example, download `brane-windows-x86_64` if you are on Windows, or `brane-darwin-aarch64` if you have an M1/M2 Mac. You can see the commands below for the most likely executable per OS/architecture.
+To make your life easy, however, you can directly download the binaries here:
+- For Windows
+- For macOS (Intel, M1/M2)
+- For Linux
 
 > <img src="../../../assets/img/info.png" alt="info" width="16" style="margin-top: 3px; margin-bottom: -3px"/> When in doubt, choose `x86_64` for your processor architecture. Or ask a tutorial host.
 
@@ -66,7 +69,7 @@ mv ./brane-darwin-aarch64 ./brane
 mv ./brane-linux-x86_64 ./brane
 ```
 
-If you are on Unix, you probably want to execute a second step: by just renaming the executable, you would have to call it using `./brane` instead of `brane`. To fix that, add the executable to somewhere in your PATH, e.g.:
+If you are on Unix (macOS/Linux), you probably want to execute a second step: by just renaming the executable, you would have to call it using `./brane` instead of `brane`. To fix that, add the executable to somewhere in your PATH, e.g.:
 ```bash
 sudo mv ./brane /usr/local/bin/brane
 ```
@@ -75,16 +78,16 @@ If you installed it successfully, you can then run:
 ```
 brane --version
 ```
-without getting `brane not found` errors.
+without getting `not found`-errors.
 
 > <img src="../../../assets/img/info.png" alt="info" width="16" style="margin-top: 3px; margin-bottom: -3px"/> If you don't want to put `brane` in your PATH, you can also replace all occurrences of `brane` with `./brane` in the subsequent commands (or any other path/name). Additionally, you can also run:
 > ```bash
 > export PATH="$PATH:$(pwd)"
 > ```
-> to add your current directory to the PATH variable. However, note that this lasts only for your current terminal window, and until you restart it.
+> to add your current directory to the PATH variable. Note that this lasts only for your current terminal window; if you open a new one or restart the current one, you have to run the `export`-command again.
 
 ## Writing the code
-The next step is to write the code that we will be running when we execute the task. In the EPI Framework, tasks are bundled in packages; and every package is implemented in a _container_. This means that every task has its own dependencies shipped within, and that multiple tasks can share the same dependencies. This also means that a task can be implemented in any language, as long as the program follows a particular convention in how it takes input and writes output. Specifically, the EPI Framework will call a specific executable file with a specific set of arguments and environment variables set, and then receive return values from it by reading the executable's `stdout`.
+The next step is to write the code that we will be running when we execute the task. In the EPI Framework, tasks are bundled in packages; and every package is implemented in a _container_. This means that every task has its own dependencies shipped within, and that multiple tasks can share the same dependencies. This also means that a task can be implemented in any language, as long as the program follows a particular convention as to how it reads input and writes output. Specifically, the EPI Framework will call a specific executable file with environment variables as input, and then retrieve return values from it by reading the executable's `stdout`.
 
 For the purpose of this tutorial, though, will choose Python to implement our `hello_world`-function. Because our function is so simple, we will only need a single file, which we will call `hello.py`. Create it, and then write the following in it (including comments):
 ```python
@@ -115,7 +118,7 @@ And that's it! You can save and close the file, while we will move to the second
 ## Writing the `container.yml`
 A few text files do not make a package. In addition to the raw code, the EPI Framework also needs to know some metadata of a package. This includes things such as its name, its version and its owners, but, more importantly, also which tasks the package contributes.
 
-This information is conventionally contributed using a file called `container.yml`. This is another YAML file where the toplevel keys contribute various pieces of metadata. Create a file with that name, and then write the following to it:
+This information is defined using a file conventionally called `container.yml`. This is another YAML file where the toplevel keys contribute various pieces of metadata. Create a file with that name, and then write the following to it:
 
 ```yaml
 # A few generic properties of the file
@@ -159,7 +162,7 @@ kind: ecu
 ```
 The top of the file starts by providing the bare minimum information that the EPI Framework has to know. First are the name of the package (`name`) and the version number (`version`). Together, they form the identifier of the package, which is how the system knows which package we are calling tasks from.
 
-Then there is also the `kind`-field, which determines what kind of package this is. Currently, the only fully implemented package kind is an Executable Code Unit (ECU), which is a collection of arbitrary code files. However, other packages types that will be supported in the future are OpenAPI-packages and packages BraneScript or Bakery.
+Then there is also the `kind`-field, which determines what kind of package this is. Currently, the only fully implemented package kind is an Executable Code Unit (ECU), which is a collection of arbitrary code files. However, other packages types may be supported in the future; for example, support for external Workflow files (BraneScript/Bakery) or, if network support is added, OpenAPI containers.
 
 
 ### Specifying dependencies
@@ -255,7 +258,7 @@ If you have everything installed, you can then build the package container using
 ```bash
 brane build ./container.yml
 ```
-The executable will work for a bit, and should eventually let you know its done with:
+The executable will work for a bit, and should eventually let you know it's done with:
 
 <img src="../../../assets/img/hello-world-build-success.png" alt="Successfully built version 1.0.0 of container (ECU) package hello_world." width=650/>
 
@@ -266,7 +269,7 @@ brane list
 you should see your `hello_world` container there. Congratulations!
 
 
-## Running your package
+## Running your package locally
 All that remains is to see it in action! The `brane` executable has multiple ways of running packages locally: running tasks in isolation in a test-environment, or by running a local workflow. We will do both of these in this section.
 
 ### The test environment
@@ -297,7 +300,7 @@ import hello_world;
 println(hello_world());
 ```
 Let's examine what happens in this workflow:
-- In the first line, `import hello_world;`, we tell the framework which package to use. We reference our package by its name, and because we omit a specific version, we let the framework pick the latest version for us.
+- In the first line, `import hello_world;`, we tell the framework which package to use. We refer our package by its name, and because we omit a specific version, we let the framework pick the latest version for us (we could have used `import hello_world[1.0.0];` instead).
 - In the second line, `println(hello_world());`, we call our `hello_world()` task. The result of it will be passed to a builtin function, `println()`, which will print it to the stdout.
 
 Save the file, close the editor, and then run the following in your terminal to run the workflow:
@@ -318,6 +321,32 @@ If everything is alright, you should see:
 > <img src="img/repl-2.png" alt="A terminal showing the command to run the workflow, and then 'Hello, world!'" width=600/>
 > 
 > Simply type `exit` to quit the REPL.
+
+
+## Running your package remotely
+Of course, running your package locally is good for testing and for tutorials, but the real use-case of the framework is running your code remotely on a Brane instance (i.e., server).
+
+To do so, we first have to make the `brane`-tool aware where the Brane instance lives. We can use the `brane instance`-command for that, which offers keychain-like functionality for various instances.
+
+Prior to this tutorial, we've setup an instance at `brane01.lab.uva.light.net`. To add it to your client, run the following command:
+```bash
+brane instance add brane01.lab.uvalight.net -a 50051 -d 50053 -n demo -u
+```
+To break down what this command does:
+1. `brane instance add brane01.lab.uvalight.net` tells the client that a new instance is being defined that is found at the given host;
+2. `-a 50051` tells the client that the _API service_ is found at port 50051 (the central registry service);
+3. `-d 50053` tells the client that the _driver service_ is found at port 50053 (the central workflow execution service);
+4. `-n demo` tells the client to call this new instance `demo`, which is an arbitrary name only useful to distinguish multiple instances (you can freely change it, as long as it's unique); and
+5. `-u` tells the client to use the instance as the new default instance.
+
+Once the command completes, you can run the following command to verify it was a success:
+```bash
+brane instance list
+```
+
+# TODO EXAMPLE IMAGE
+
+# TODO --remote
 
 
 ## Conclusion
