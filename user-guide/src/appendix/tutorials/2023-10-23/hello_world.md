@@ -1,28 +1,23 @@
 # Part 1: Hello, world!
 
-> <img src="../../../assets/img/info.png" alt="info" width="16" style="margin-top: 3px; margin-bottom: -3px"/> This handout will be slightly updated before the tutorial.
-
-In this document, we will detail the steps to take to write a simple package within the EPI Framework (also called the Brane Framework). Specifically, this tutorial will focus on how to install the CLI client (the `brane` executable), build a `hello_world` package and then call the `hello_world()` function within that package on a local machine. Finally, we will also practise submitting the code to a remote machine.
+In this document, we detail the steps to take to write a simple package within the EPI Framework (also called the Brane Framework). Specifically, this tutorial will focus on how to install the CLI client (the `brane` executable), build a `hello_world` package and then call the `hello_world()` function within that package on a local machine. Finally, we will also practise submitting the code to a remote machine.
 
 
 ## Background
 The framework revolves around _workflows_, which are high-level descriptions of an algorithm or data processing pipeline that the system will execute. Specifically, every workflow contains zero or more _tasks_, which are conceptual functions that take an in- and output, composed in a particular order or control flow. It helps to think of them as graphs, where the nodes are tasks that must be called, and the edges are some form of data flowing between them.
 
-We could formalise a particular data pipeline as a workflow. For example, suppose we have the following steps:
-> 1. Clean dataset
-> 2. Set `loss` to 100
-> 3. While `loss` > 0.1
->    1. Do forward pass
->    2. Compute loss and store in `loss`
->    3. Do backward pass using `loss` as input
+We could formalise a particular data pipeline as a workflow. For example, suppose we have the following function calls:
+```
+g(f(f(input)), h(f(input)))
+```
 
-We can then represent this as a workflow graph of tasks that indicates which tasks there are and how the data flows between them. This is visualised in Figure 1.
+We can then represent this as a workflow graph of tasks that indicates which tasks to execute and how the data flows between them. This is visualised in Figure 1.
 
 <p align="center">
     <img src="img/workflow-simple.png" alt="A workflow with three functions and four steps." />
 </p>
 
-_**Figure 1: A very simple workflow using three tasks, `f`, `g` and `h`.** The nodes represent a function call, whereas the edges represent some data dependency. Specifically, this workflow depicts `f` has to be run first, then a second call of `f` and a new call of `h` can run in parallel, after which a third function `g` must be called._
+_**Figure 1: A very simple workflow using three tasks, `f`, `g` and `h`.** The nodes represent a function call, whereas the edges represent some data dependency. Specifically, this workflow depicts `f` has to be run first, then a second call of `f` and a new call of `h` can run in parallel because they don't depend on each other, after which a third function `g` must be called._
 
 While workflows can be expressed in any kind of language, the EPI Framework features its own Domain-Specific Language (DSL) to do so, called BraneScript[^bscript]. This language is very script-like, which allows us to think of tasks as a special kind of function. Any control flow (i.e., dependencies between tasks) is then given using variables and commonly used structures, such as if-statements, for-loops, while-loops, and less commonly used structures, such as on-structs or parallel-statements.
 
@@ -40,14 +35,14 @@ By using `print(hello_world())`, we can print `Hello, world!` to the terminal. I
 
 
 ## Installation
-To start, first download the `brane` executable from the [repository](https://github.com/epi-project/brane/releases/v2.0.0). This is a command line-based client for the framework, providing a wide range of tools to use to develop packages and workflows for the EPI Framework. We will use it to build and then test a _package_, which can contain one or more tasks. Since we are only creating the `hello_world()` task, our package (called `hello_world`) will contain only one task.
+To start, first download the `brane` executable from the [repository](https://github.com/epi-project/brane/releases/v3.0.0). This is a command line-based client for the framework, providing a wide range of tools to use to develop packages and workflows for the EPI Framework. We will use it to build and then test a _package_, which can contain one or more tasks. Since we are only creating the `hello_world()` task, our package (called `hello_world`) will contain only one task.
 
 The executable is pre-compiled for Windows, macOS (Intel and M1/M2) and Linux. The binaries in the repository follow the pattern of `<name>-<os>-<arch>`, where `<name>` is the name of the executable (`brane` for us), `<os>` is an identifier representing the target OS (`windows` for Windows, `darwin` for macOS and `linux` for Linux), and `<arch>` is the target processor architecture (`x86_64`, typically, or `aarch64` for M1/M2 Macs).
 
 To make your life easy, however, you can directly download the binaries here:
-- For Windows
-- For macOS (Intel, M1/M2)
-- For Linux
+- For [Windows](https://github.com/epi-project/brane/releases/download/v3.0.0/brane-windows-x86_64.exe)
+- For macOS ([Intel](https://github.com/epi-project/brane/releases/download/v3.0.0/brane-darwin-x86_64), [M1/M2](https://github.com/epi-project/brane/releases/download/v3.0.0/brane-darwin-aarch64))
+- For [Linux](https://github.com/epi-project/brane/releases/download/v3.0.0/brane-linux-x86_64)
 
 > <img src="../../../assets/img/info.png" alt="info" width="16" style="margin-top: 3px; margin-bottom: -3px"/> When in doubt, choose `x86_64` for your processor architecture. Or ask a tutorial host.
 
@@ -290,7 +285,7 @@ And that's indeed the string we want to see!
 
 > <img src="../../../assets/img/info.png" alt="info" width="16" style="margin-top: 3px; margin-bottom: -3px"/> The first time you run a newly built package, you will likely see some additional delay when executing it. This is because the Docker backend has to load the container first. However, if you re-run the same task, you should see a significant speedup compared to the first time because the container has been cached.
 
-### Running a local workflow
+### Running a workflow
 The above is, however, not very interesting. We can verify the function works, but we cannot do anything with its result.
 
 Instead of using the test environment, we can also write a very simple workflow with only one task. To do so, create a new file called `workflow.bs`, and write the following in it:
@@ -326,7 +321,8 @@ If everything is alright, you should see:
 ## Running your package remotely
 Of course, running your package locally is good for testing and for tutorials, but the real use-case of the framework is running your code remotely on a Brane instance (i.e., server).
 
-To do so, we first have to make the `brane`-tool aware where the Brane instance lives. We can use the `brane instance`-command for that, which offers keychain-like functionality for various instances.
+### Adding the instance
+First, we have to make the `brane`-tool aware where the remote Brane instance can be found. We can use the `brane instance`-command for that, which offers keychain-like functionality for multiple instances to easily switch between.
 
 Prior to this tutorial, we've setup an instance at `brane01.lab.uva.light.net`. To add it to your client, run the following command:
 ```bash
@@ -344,9 +340,70 @@ Once the command completes, you can run the following command to verify it was a
 brane instance list
 ```
 
-# TODO EXAMPLE IMAGE
+<img src="img/wf-instance-new.png" alt="A terminal showing `brane instance add ...` and `brane instance list`" width=800/>
 
-# TODO --remote
+### Pushing your package
+Now that you defined the instance to use, we can push your package code to the server so that it may use it.
+
+This is done by running the following command:
+```bash
+brane push hello_world
+```
+This will push the specified package `hello_world` to the instance that is currently active. Wait for the command complete, and once it has, we can prepare the workflow itself for remote execution.
+
+> <img src="../../../assets/img/warning.png" alt="warning" width="16" style="margin-top: 3px; margin-bottom: -3px"/> Note that this instance is shared by all participants in the system; so if you just upload your own package with the `hello_world`-name, you will probably overwrite someone else's. To avoid this problem, re-build your package with a unique name before pushing.
+
+### Adapting the workflow
+In the ideal case, Brane can take a workflow that runs locally and deduce by itself where the steps in the workflow must be executed (i.e., _plan_ it). However, unfortunately, the current implementation can't do this (ask me why :) ), and so we have to adapt our workflow a little bit to make it compatible with the instance that we're going to be running on.
+
+Our instance has two nodes: `worker1` and `worker2`. To tell Brane which of the instance we want to use, we can wrap the line that has the `hello_world()`-call in a so-called _on-struct_ to force Brane to run it on that node.
+
+Open the `workflow.bs`-file again, and write:
+```bscript
+import hello_world;
+
+on "worker1" {
+    println(hello_world());
+}
+```
+Save it and close it, and we're ready to run your workflow remotely!
+
+### Running remotely
+In the [first step](#adding-the-instance) of running the workflow remotely, we already defined the instance and marked it as default; so all that needs to be done is to run the same command again as [before](#running-a-workflow) to execute the workflow, but now with the `--remote`-flag to indicate it must be executed on the currently active instance instead:
+```bash
+brane run ./workflow.bs --remote
+```
+
+<img src="img/wf-run-remote-new.png" alt="A terminal showing the effects of `brane run ./workflow.bs --remote`" width=600/>
+
+And that's it! While it looks like there isn't a lot of difference, your code just got executed on a remote server!
+
+> <img src="../../../assets/img/info.png" alt="info" width="16" style="margin-top: 3px; margin-bottom: -3px"/> You may see warnings relating to the 'On'-structures being deprecated (see the image above). This can safely be ignored; they will be replaced by a better method soon, but this method is not implemented yet.
+
+### Using the IDE
+If the workflow is going to be remotely, one can also step away from the CLI-tool and instead use the [Brane IDE](https://github.com/epi-project/brane-ide)-project, which is built on top of [Jupyter Lab](https://jupyter.org/) to provide a BraneScript notebook interface.
+
+> <img src="../../../assets/img/warning.png" alt="warning" width="16" style="margin-top: 3px; margin-bottom: -3px"/> Note that currently, only writing and running workflows is supported (i.e., the `brane run ...` command). Managing packages still has to be done through the CLI.
+
+To use it, [download the source code](https://github.com/epi-project/brane-ide/archive/refs/tags/v1.0.0.zip) from the repository and unpack it. Also download the Brane CLI library, which is used by the IDE to send commands to the Brane server. You can download it [here](https://github.com/epi-project/brane/releases/download/v3.0.0/libbrane_cli-linux-x86_64.tar.gz). Unpack it as well, and place the `libbrane_cli.so` file in the root folder of the Brane IDE repository.
+
+Once you have everything in place, you can launch an IDE connecting to this tutorial's Brane instance by running in the repository root:
+```bash
+./make.py start-ide -1 http://brane01.lab.uvalight.net:50051 -2 grpc://brane01.lab.uvalight.net:50053 
+```
+
+The command may take a second to complete, because it will first build the container that will run the server.
+
+<img src="img/brane-ide-build-1.png" alt="A terminal showing the initial effects of starting the IDE." width=700/>
+<img src="img/brane-ide-build-2.png" alt="A terminal showing the final effects of starting the IDE." width=800/>
+
+Once done, you can copy/paste the suggested link to your browser, and you should be greeted by something like:
+
+<img src="img/brane-ide-1.png" alt="A terminal showing the welcome page of the IDE." width=700/>
+
+If you click on the `BraneScript`-tile, you should see a notebook; and now you can run BraneScript workflows in the classic notebook fashion!
+
+<img src="img/brane-ide-2.png" alt="A terminal showing the execution of the workflow in Brane IDE." width=600/>
 
 
 ## Conclusion

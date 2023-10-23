@@ -7,7 +7,7 @@ The demo is split in two halves: the first half consists of a presentation intro
 
 The following resources are used, which are hosted on this website:
 - _First half: SIG-meeting_
-    - Slides (to-be-added)
+    - Slides ([here](./2023-10-23%20UMC%20Utrecht%20SIG.pdf))
 - _Second half: Workshop_
-    - Slides (to-be-added)
+    - Slides ([here](./2023-10-23%20UMC%20Utrecht%20Demo.pdf))
     - Handout for hands-on part of the tutorial ([here](./hello_world.md))
