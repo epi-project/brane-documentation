@@ -42,7 +42,13 @@ In Brane, the WIR thus balances the requirements of the two services that intera
 
 
 ## WIR to the rescue
-As a solution to embed the two levels of execution, the WIR is structured very much like the graph in Figure 3.
+As a solution to embed the two levels of execution, the WIR is structured very much like the graph in Figure 3, except that the annotations are encoded as stack instructions that pop values from- or push values to a stack in the runtime. Figure 4 shows a graph with such instructions.
+
+<p align="center">
+    <img src="../../assets/diagrams/WorkflowExampleWIR.png" alt="Graph representation of Listing 1 with control flow and WIR-like instructions" width="400" />
+</p>
+
+_**Figure 4**: Graph representation of Listing 1 including WIR-instruction annotations on its edges. Now, an interpreter can follow the workflow's structure and execute the instructions as it goes, manipulating the stack as it goes until conditional control flow decisions are encountered that examine the current stack to make a decision._
 
 At the toplevel, the WIR denotes a graph, where nodes represent task execution steps and edges represent transitions between them. To support parallel execution, branches, loops, etc, these edges can connect more than two nodes (or less, to represent start- or stop edges).
 
@@ -51,10 +57,10 @@ Then, these edges are annotated with _edge instructions_ that are byte-like inst
 ### Functions
 As an additional complexity, the WIR needs to have support for functions (since they are supported by [BraneScript](../../appendix/languages/bscript/introduction.md)). Besides saving executable size by re-using code at different places in the execution, functions also allow for the use of specialised programming paradigms like [recursion](https://en.wikipedia.org/wiki/Recursion). Thus, the graph structure of the WIR needs to have a similar concept.
 
-Functions in the WIR work similarly to functions in a procedural language. They can be thought of as snippets of the graph that are kept separately and can then be called using a special type of edges that transitions to the snippet graph first before continuing with its actual connection. This process is visualised in Figure 4.
+Functions in the WIR work similarly to functions in a procedural language. They can be thought of as snippets of the graph that are kept separately and can then be called using a special type of edges that transitions to the snippet graph first before continuing with its actual connection. This process is visualised in Figure 5.
 
 ![Graph representation representing a function call](../../assets/diagrams/WorkflowExample6.png)  
-_**Figure 4**: Graphs showing a "graph call", which is how the WIR represents function call. The edge connecting `task_f` to `task_i` implements the call by first executing the snippet `task_g -> task_h` before continuing to its original destination._
+_**Figure 5**: Graphs showing a "graph call", which is how the WIR represents function call. The edge connecting `task_f` to `task_i` implements the call by first executing the snippet `task_g -> task_h` before continuing to its original destination._
 
 To emulate the full statement function, the edge also transfers some of the stack elements in the calling graph to the stack frame of the snippet graph. This way, arguments can be passed from one part of the graph to another to change its control flow as expected.
 
