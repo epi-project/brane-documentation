@@ -1,4 +1,6 @@
 # Expression stack
+_<img src="../../assets/img/source.png" alt="source" width="16" style="margin-top: 3px; margin-bottom: -3px;"/> [`Stack`](https://wiki.enablingpersonalizedinterventions.nl/docs/brane_exe/stack/struct.Stack.html) in [`brane-exe/stack.rs`](https://wiki.enablingpersonalizedinterventions.nl/docs/src/brane_exe/stack.rs.html#311)._
+
 In this chapter, we will discuss the [reference implementation](https://github.com/epi-project/brane)'s implementation of the expression stack for the Virtual Machine (VM) globally introduced in the [previous chapter](./overview.md). Because it is a thread that will execute a single workflow, we will discuss the stack's behaviour in the context of a thread.
 
 First, we will discuss the [basic view](#basic-view) of the stack, after which we discuss the stack's notion of [values](#values-and-fullvalues) (including [dynamic popping](#dynamic-popping)).
