@@ -18,9 +18,14 @@ Other than that, the frame stack pretty much acts as a stack for calls. A visual
 _**Figure 1**: Visualisation of the frame stack operations. Elements on the stack (frames) are pushed for every call and popped for every return. Frames describe the behaviour of return in terms of return type, variable undeclaration and which address to return to. Note the address returns to the edge **after** the call, not the call itself._
 
 ### Typing scopes
-In Brane versions 3.0.0 and earlier, the frame stack had the secondary goal of maintaining which definitions were currently in scope. In particular, 
+In Brane versions 3.0.0 and earlier, the frame stack had the secondary goal of maintaining which type definitions (functions, tasks, classes and variables) were currently in scope. In particular, [WIR](../../spec/wir/introduction.md)-workflows were written with a per-function definition table, which added definitions local to that function only to the current scope.
+
+In that context, the frame stack frames included the function's definition table, along with mechanisms for resolving the stack of tables into a coherent scope. As such, in the reference implementation's code, the frame stack also provides access to all definitions of the workflow to the rest of the VM.
+
+However, this proved to be extremely complicated in practise, and is phased out in versions later than 3.0.0. Now, there is just a single table at the start of the workflow that contains all definitions occurring. For compatability reasons, the frame stack still contains a pointer to that table and provides access to it in the codebase.
 
 
 ## Next
-> <img src="../../assets/img/info.png" alt="info" width="16" style="margin-top: 2px; margin-bottom: -2px"/> This section will be written soon.
+In the [next chapter](./showcase.md), all three separate VM components ([expression stack](./stack.md), [variable register](./var_reg.md) and frame stack) are used to showcase an example execution for the VM. That will conclude this series of chapters.
 
+Alternatively, you can also select another topic in the sidebar to the left.
