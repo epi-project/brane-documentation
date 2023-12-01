@@ -1,4 +1,4 @@
-# Bringing it together - Appendix
+# Bringing it together - Workflow example
 This page contains the workflow used in the [Bringing it together](./showcase.md) chapter.
 
 Three representations are given: [BraneScript](../../appendix/languages/bscript/introduction.md), [WIR](../../spec/wir/introduction.md) (using a more readable syntax than JSON) and a visual graph representation.
@@ -154,4 +154,7 @@ _**Listing 2**: A [WIR](../../spec/wir/introduction.md)-representation of the wo
 
 
 ## Graph
-The 
+Figure 1 shows the visual representation of the workflow given in Listing 1 and Listing 2.
+
+![Visual representation of the example workflow.](../../assets/diagrams/VMShowcaseWorkflow.png)
+_**Figure 1**: Visual representation of the example workflow for the [Bringing it together](./showcase.md) chapter. The workflow is described as a [WIR](../../spec/wir/introduction.md)-workflow, using WIR-graph elements and instructions._

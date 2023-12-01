@@ -18,6 +18,7 @@
     - [Variable register](./implementation/vm/var_reg.md)
     - [Frame stack](./implementation/vm/frame_stack.md)
     - [Bringing it together](./implementation/vm/showcase.md)
+        - [Workflow example](./implementation/vm/showcase_appendix.md)
 - [Services](./implementation/services/overview.md)
     - [`brane-drv`](./implementation/services/brane-drv.md)
     - [`brane-plr`](./implementation/services/brane-plr.md)
