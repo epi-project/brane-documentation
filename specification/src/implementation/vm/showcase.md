@@ -83,7 +83,23 @@ If we examine the workflow, the first edge we encounter is a [Linear edge](../..
    > ```
    and the next instruction is executed.
 
-2. 
+2. The next instruction pushing an integer constant to the expression stack (3, to be precise). The stack looks as follows after executing it:
+   > **Expression stack**
+   > ```json
+   > [
+   >     {
+   >         // The data type of this entry on the stack.
+   >         "dtype": "int"
+   >         // The integer value stored.
+   >         "value": 42,
+   >     }
+   > ]
+   > ```
+   Accordingly, the program counter is also updated:
+   > **Program counter**
+   > ```json
+   > (MAX, 0, 2)
+   > ```
 
 
 ### Result
