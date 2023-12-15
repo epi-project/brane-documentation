@@ -81,7 +81,6 @@ Workflow [
             .int 3
             .int 3
             .add
-            .cast Any
             .func generate_dataset
         ],
         Call,
@@ -89,16 +88,13 @@ Workflow [
             .set zeroes
             .dec ones
             .int 2
-            .cast Any
             .get zeroes
-            .cast Any
             .func add_const_to
         ],
         Call,
         Linear [
             .set ones
             .get ones
-            .cast Any
             .func cat_data
         ],
         Call,
