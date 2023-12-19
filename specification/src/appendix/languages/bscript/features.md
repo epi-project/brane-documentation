@@ -1,18 +1,19 @@
 # Features
 In this chapter, we explain BraneScript from a user experience perspective. We go over the main design choices and language concepts it features to understand what the rest of this appendix is working towards.
 
-If you are already familiar with BraneScript as a user and want to learn how to parse it, refer to the [Formal grammar](./syntax.md) chapter; if you are instead interesting in compiling the resulting AST to the [Workflow Intermediate Representation](TODO) (WIR), refer to the [subsequent chapters](TODO) instead.
+If you are already familiar with BraneScript as a user and want to learn how to parse it, refer to the [Formal grammar](./syntax.md) chapter; if you are instead interesting in compiling the resulting AST to the [Workflow Intermediate Representation](../../../spec/wir/introduction.md) (WIR), refer to the [subsequent chapters](TODO) instead.
 
 
 ## BraneScript: A scripting-like language
-Primarily, BraneScript is designed to emulate a scripting-like language for defining workflows. As such, it is not approximating a graph structure, as we typically represent workflows, but instead we define a series of statements and expressions that can arbitrarily call upon external tasks. This means the language is very similar in usage as [Lua](https://lua.org) and [Python](https://wiki.python.org). Listing 1 shows an example BraneScript snippet.
+Primarily, BraneScript is designed to emulate a scripting-like language for defining workflows. As such, it is not approximating a graph structure, as workflows are typically represented, but instead defines a series of statements and expressions that can arbitrarily call external tasks. This means the language is very similar in usage as [Lua](https://lua.org) or [Python](https://wiki.python.org), "unfolding" to a workflow more than directly encoding it. Listing 1 shows an example BraneScript snippet.
 
 ```bscript
 // Import a package that defines external tasks
 import hello_world;
 
 // Print some text running it on a particular location!
-on "site_1" {
+#[on("site_1")]
+{
     println("A message has come in:");
     println(hello_world());
 }
@@ -20,7 +21,8 @@ on "site_1" {
 
 
 // Print a lot more text running it on another location!
-on "site_2" {
+#[on("site_2")]
+{
     println("Multiple messages coming in!:");
     for (let i := 0; i < 10; i := i + 1) {
         print("Message "); print(i); print(": ");
@@ -30,7 +32,7 @@ on "site_2" {
 ```
 _**Listing 1**: Example BraneScript snippet showing how the language looks using a typical "Hello, world!" example._
 
-Then, at compile time, the statements can be analysed to derive the intended workflow graph. Such a graph matching to Listing 1 can be found in Figure 1.
+At compile time, the statements are analysed by the compiler to derive the intended workflow graph. Such a graph matching Listing 1 can be found in Figure 1.
 
 ![Workflow graph extracted from Listing 1](../../../assets/diagrams/WorkflowExample2.png)  
 _**Figure 1**: Workflow graph that can be extracted from Listing 1. It shows the initial task execution and then the repeated execution of the same function. In practise, this loop might be unrolled for simpler analysis, but this cannot always be done (e.g., conditional loops)._
@@ -39,19 +41,27 @@ _**Figure 1**: Workflow graph that can be extracted from Listing 1. It shows the
 ## Main concepts
 BraneScript leans on well-established concepts from other programming languages.
 
-First, a BraneScript program is defined as a series of _statements_. These are the smallest units of coherent programs. Statements typically indicate control flow between expressions (see below), where particular constructs can be used for particular types of flow (e.g., if-statements, for-loops, while-loops, parallel-statements, etc). Like most scripting languages, they can be given at the toplevel of the program.
+First, a BraneScript program is defined as a series of _statements_. These are the smallest units of coherent programs. Statements typically indicate control flow between expressions (see below), where particular constructs can be used for particular types of flow (e.g., if-statements, for-loops, while-loops, parallel-statements, etc). Like most scripting languages, they needn't be nested in a function (see below).
 
-Actual work is performed in _expressions_, which can be thought of as imperative formulas creating, transforming and consuming values. Aside from _literal values_ (booleans, integers, real numbers, strings), BraneScript also supports _arrays_ of values (i.e., dynamically-sized containers of multiple of the same values) and _classes_ (i.e., statically-sized containers of different values).
+Actual work is performed in _expressions_, which can be thought of as imperative formulas creating, transforming and consuming values. Aside from _literal values_ (booleans, integers, real numbers, strings), BraneScript also supports _arrays_ of values (i.e., dynamically-sized containers of multiple of the same values) and _classes_ (i.e., statically-sized containers of different values). Operations supported in expressions are logical operations (conjunction, disjunction), arithmetic operations (addition, subtraction, multiplication, division, modulo) and comparison operators. Operations like array indexing or function calls are also supported.
 
-Then it also has a concept of _variables_, which can remember values across statements. Essentially, these are named segments of memory that can be assigned values that can later be read.
+BraneScript also has a concept of _variables_, which can remember values across statements. Essentially, these are named segments of memory that can be assigned values that can later be read.
 
-_Functions_ can be used to make the codebase more efficient, or implement specific programming paradigms such as [recursion](https://en.wikipedia.org/wiki/Recursion). Concretely, they are named series of statements that can be called in the middle of other statements, allowing the re-use of particular snippets of code at certain moments. Like most other languages, functions can take in values as arguments to configure their execution, and output a value to contribute to the site where they were called. Classes can also be associated with functions to describe _class methods_.
+_Functions_ can be used to make the codebase more efficient, or implement specific programming paradigms (such as [recursion](https://en.wikipedia.org/wiki/Recursion)). Concretely, they are named series of statements that can be called in the middle of other statements, allowing the re-use of particular snippets of code at certain moments. Like most other languages, functions can take in values as arguments to configure their execution, and output a value to contribute to the site where they were called. Classes can also be associated with functions to define _class methods_.
 
-Finally, specific to BraneScript, _external functions_ are imported as _packages_ and executed like normal functions. However, instead of execution BraneScript statements, these functions execute a workflow task. Their result is translated back to BraneScript concepts.
+Finally, specific to BraneScript, _external functions_ are imported as _packages_ and executed like normal functions. However, instead of executing BraneScript statements, these functions execute a workflow task dynamically on Brane infrastructure. Their result is translated back to BraneScript concepts.
 
 
 ## Statements
 This section lists the specific statements supported by BraneScript.
+
+### Expression statements
+```bscript
+println("Hello, world!");
+42 + 42;
+55 + add(33, 44);
+```
+Expression statements represent the straightforward execution of a particular [expression](#expressions). The result of the expression is not stored (see [below](#let-assignments)), and so it is typically used for function calls which do not return a value, or if we're not interested in the returned value.
 
 ### (Let) Assignments
 ```bscript
@@ -59,9 +69,72 @@ This section lists the specific statements supported by BraneScript.
 let value := 42;
 
 // Example assignment to existing variables
-value := 84;
+value := 42 * 2;
 ```
-Variables can remember values, and as such can be assigned a particular value. There are two versions of this syntax: first, there is the _let assignment_, which can be used to declare a variable with a particular value. Then, once the variable has been declared, its variable can be updated using a normal _assignment_.
+Let assignments are like [expression statements](#expression-statements), except that the value computed by the expression _is_ stored in a variable.  
+There are two versions of this syntax: first, there is the _let assignment_, which can be used to declare a variable and immediately assign it a particular value. Then, once the variable has been declared, its value can be updated using a normal _assignment_.
+
+### If-statements
+```bscript
+// This assigns either 42 or 82, depending on the value of `foo`
+let foo := true;
+let bar := null;
+if (foo) {
+    bar := 42;
+} else {
+    bar := 84;
+}
+
+// The variation that only defines a true-branch
+let foo := true;
+let bar := null;
+if (foo) {
+    bar := 42;
+}
+```
+If-statements represent a conditional divergence in control flow. It analyses a given expression that evaluates to a boolean, and executes one of two branches of statements: the top one if the value is true, or the bottom one if it's false.  
+A variation of this statement exists where the second branch may be omitted if it contains no statements.
+
+### While-loops
+```bscript
+let counter := 0;
+while (counter < 10) {
+    println("Hello, world!");
+    counter := counter + 1;
+}
+```
+Sometimes, a series of statements needs to be repeated a conditional number of times. In these cases, a while-loop can be used; it repeats a series of statements as long as the given boolean expression evaluates to true.
+
+### For-loops
+```bscript
+for (let i := 0; i < 10; i := i + 1) {
+    println("Hello, world!");
+}
+```
+As syntax sugar for a [while-loop](#while-loops), a for-loop also repeats a series of statements until a particular condition is reached. It is tailored more for iterations that are repeated a particular number of items instead of an arbitrary condition.  
+The syntax of the for-loop is as follows. The input to the loop is separated into three parts using semicolons: the first is executed before the loop; the second is used as the while-loop's condition; and the last part is executed at the end of every loop.  
+Note that, while the styling suggests a [C-like syntax](https://en.cppreference.com/w/c/language/for), it is not as freeform as that. Instead, only the name of the variable (`i`, in the example), the condition (`i < 10`) and the increment-expression (`i + 1`) can be changed.
+
+### Parallel statements
+```bscript
+// Execute stuff in parallel!
+parallel [{
+    println("Hello, world! 1");
+}, {
+    println("Hello, world! 2);
+}];
+
+// Alternative form to return a value (and showing multiple branches are possible)
+let result := parallel [all] [{
+    return 42;
+}, {
+    return 84;
+}, {
+    return 126;
+}];
+```
+The parallel-statement is slightly more unique to BraneScript, and denotes that two series of statements can be executed in parallel. This is mostly useful when either contains [external function calls](TODO), but in practise also launches the BraneScript statements concurrently.  
+There are two forms of the statement. In the first, work is just executed in parallel. In the second, a value may be returned from the branches (using a [return-statement](#return-statements)) that is aggregated somehow and placed in the variable preceding the statement. How the variables are aggregated is denoted by the [merge strategy](TODO) (`[all]` in the example).
 
 ### Block statements
 ```bscript
@@ -75,7 +148,44 @@ println(foo);         // 42
 }
 println(foo);         // 42
 ```
-Typically, _blocks_ of statements are used in [function definitions](TODO), [if-statements](TODO) or other constructs. Essentially, they just group statements together visually. However, importantly, blocks also directly define [scopes](TODO), i.e., they specify which variables are visible and thus usable for the programmer. When using a block as a separate statement, it is used to introduce an additional scope to shadow variables or free values early.
+Typically, _blocks_ of statements are used in [function declarations](#function-declarations), [if-statements](#if-statements) or other constructs. Essentially, they just group statements together visually. However, importantly, blocks also directly define [scopes](TODO), i.e., they specify which variables are visible and thus usable for the programmer. When using a block as a separate statement, it is used to introduce an additional scope to shadow variables or free values early.
+
+### Function declarations
+```bscript
+// A function without arguments
+func hello_world() {
+    println("Hello, world!");
+}
+
+// A function _with_ arguments!
+func add(lhs, rhs) {
+    return lhs + rhs;
+}
+```
+Functions can be used to group statements under a particular name, which can then later be [called](#call-expression). The function declarations define which statements are executed, and which _arguments_ the function has as input. Syntactically, these are represented as variables scoped to the function and populated when a call is performed.  
+To return a value from the function to the calling scope, use [return-statements](#return-statements).
+
+### Return statements
+```bscript
+// Returns '42' from the workflow
+return 42;
+
+// Only interrupts the control flow, returns nothing
+return;
+```
+To return values from functions, a return-statement may be used. It has two variants: if given without expression, then the statement only interrupts the control flow by terminating the function early. If given with, then it sets the value of the given expression as the value returned by the function call.  
+Note that return-statements can also be used in the toplevel of the script to return values from the workflow as a whole (or early-terminate it). Similarly, they can be used in the branches of a [parallel-statement](#parallel-statements) to interrupt or return values.
+
+### Import statements
+```bscript
+// Import the latest available version of a package
+import hello_world;
+
+// Or a specific version
+import hello_world[1.0.0];
+```
+Unique to BraneScript are import-statements, which are used to bring the external functions of packages into scope. They can either be given without version number, in which case the latest version is used, or with, in which case the given version is used when importing.  
+Note that imports are always relative to the execution context, _not_ the compile context.
 
 ### Class declarations
 ```bscript
@@ -93,18 +203,45 @@ class Test {
     }
 }
 ```
-Oftentimes, it is practical to group multiple values together. A BraneScript _class_ is one way of doing so. Unlike [arrays](TODO), classes can contain values of different types; but to do so, first they have to be statically defined so that the execution engine knows the shape of the class and how to access its contents.
+Oftentimes, it is practical to group multiple values together. A BraneScript _class_ is one way of doing so. Unlike [arrays](array-expression), classes can contain values of different types; but to do so, first they have to be statically defined so that the execution engine knows the shape of the class and how to access its contents.  
+To support [OOP](https://en.wikipedia.org/wiki/Object-oriented_programming)-like programming paradigms, BraneScript classes can also be annotated _methods_. These are functions that act on a particular instance of a class, and come accompanied with convenient syntax for using them. Note, however, that BraneScript misses a few features for using full OOP; for example, there is no way to define object inheritance.  
+Syntactically, the class is defined as a special kind of block that lists its contents (_fields_) as name/type pairs. A function can be given, which always takes `self` as first parameter, to define a method. Note that associated functions (i.e., functions without `self`) are not supported.
 
-To support [OOP](https://en.wikipedia.org/wiki/Object-oriented_programming)-like programming paradigms, BraneScript classes can also be annotated _methods_. These are functions that act on a particular instance of a class, and come accompanied with convenient syntax for using them. Note, however, that BraneScript misses a few features for using full OOP; for example, there is no way to define object inheritance.
 
-### Expression statements
+## Expressions
+This section lists the particular operators and other constructs that can be used in BraneScript expressions.
+
+Note that expressions are typically defined recursively, meaning that arbitrarily complex expressions can be built by nesting them (e.g., `42 + 42 - 42` nests either of the operators as expression of the other).
+
+### Literals
 ```bscript
-// Since a function call is an expression, expression statements are used
-//   anytime there is a function but we're not interested in the return value.
-println("Hello, world!");
-
-// But this is also legal (though effectless)
-42 + 42;
-55 + add(33, 44);
+42
+"Amy"
+84.0
+true
+1.0.0
+null
 ```
+The simplest expression possible is a literal, which evaluates to the value written down. For every primitive data type, there is an associated literal; these are booleans, integers, real numbers, strings, version triplets and `null`.
 
+### Operators
+```bscript
+42 + 42
+4 * 8
+"Hello, " + "world!"
+!true
+-42
+-82.0
+42 % 4 - 3
+```
+Operators can be used to manipulate the results of other expressions. Available operators can be separated into roughly two classes: unary operators, which take only a single expression; and binary operators, which manipulate two expressions, usually aggregating them somehow.  
+Note that operators are subject to _precedence_ (i.e., which operator should be considered first) and _associativity_ (i.e., in which order are the operators considered when all of the same type). These are discussed in the [formal grammar](./syntax.md) chapter.  
+The following operators are available in BraneScript:
+- _Logical operators_
+  - **Negation** (`!<bool expr>`): "Flips" the boolean value (e.g., true becomes false and false becomes true).
+  - **Conjunction** (`<bool expr> && <bool expr>`): Takes the logical conjunction of the two values (i.e., returns true iff both expressions are true).
+  - **Disjunction** (`<bool expr> || <bool expr>`): Takes the logical disjunction of the two values (i.e., returns true iff at least one of both expressions is true).
+- _Arithmetic operators_
+  - **Addition** (`<int expr> + <int expr` OR `<real expr> + <real expr>` OR `<str expr> + <str expr>`): Adds two numerical values, or concatenates two strings.
+  - **Subtraction** (`<int expr> - <int expr>` OR `<real expr> - <real expr>`): Subtracts the second value from the first.
+  - **Multiplication** (`<int expr> * <int expr>` OR `<real expr> * <real expr>`): Multiplies two numerical values.
