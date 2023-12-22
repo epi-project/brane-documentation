@@ -207,6 +207,47 @@ Oftentimes, it is practical to group multiple values together. A BraneScript _cl
 To support [OOP](https://en.wikipedia.org/wiki/Object-oriented_programming)-like programming paradigms, BraneScript classes can also be annotated _methods_. These are functions that act on a particular instance of a class, and come accompanied with convenient syntax for using them. Note, however, that BraneScript misses a few features for using full OOP; for example, there is no way to define object inheritance.  
 Syntactically, the class is defined as a special kind of block that lists its contents (_fields_) as name/type pairs. A function can be given, which always takes `self` as first parameter, to define a method. Note that associated functions (i.e., functions without `self`) are not supported.
 
+### Annotations
+```bscript
+#[on("foo")]
+#[tag("amy.bar")]
+#[something_else]
+#![inner_annotation]
+```
+As a final BraneScript statement, annotations can be used to provide some additional metadata to the compiler. While syntactically, any identifier can be used, only a few are recognized by the compiler, having their own syntax for arguments.
+
+Annotations in the form of `#[...]` always annotate the first _non-annotation statement_ succeeding it. If this statement has nested statements (e.g., a [block](#block-statements), [if-statement](#if-statements), etc), then the annotation is propagated to all the nested statements as well. For example:
+```bscript
+#[annotate]
+{
+    // The if-statement is `annotate`d
+    if (true) {
+        // And this expression-statement has `annotate` too
+        println("Hello, world!");
+    }
+}
+```
+
+As an alternative syntax, the `#![...]`-form (not the exclaimation mark `!`) annotates every statement in the _parent_ block. To illustrate:
+```bscript
+// Same effect as the snippet above!
+{
+    #![annotate]
+
+    // The if-statement is `annotate`d
+    if (true) {
+        // And this expression-statement has `annotate` too
+        println("Hello, world!");
+    }
+}
+```
+This latter form can be used to annotate an entire BraneScript file (e.g., `wf-tag`; see below).
+
+The following annotations are currently recognized by the compiler:
+- `on(<locs...>)` OR `loc(<locs...>)` OR `location(<locs...>)`: Explicitly states domains in a Brane instance where a particular external call must be executed. This can be used to implement Trusted Third-Parties, for example.
+- `tag(<tags...>)` OR `metadata(<tags...>)`: Adds an arbitrary piece of metadata (a string) to external calls, which may be used by policy to learn information non-derivable from the call itself. An example of this would be GDPR-like purpose tags. Note that the tags must be given as `<owner>.<tag>`, where the owner is the domain or entity responsible for defining it.
+- `wf-tag(<tags...>)` OR `workflow-tag(<tags...>)` OR `wf-metadata(<tags...>)` OR `workflow-metadata(<tags...>)`: Adds an arbitrary piece of metadata (a string) to the workflow as a whole, which may be used by policy to learn information non-derivable from the call itself. An example of this would be GDPR-like purpose tags. Note that the tags must be given as `<owner>.<tag>`, where the owner is the domain or entity responsible for defining it.
+
 
 ## Expressions
 This section lists the particular operators and other constructs that can be used in BraneScript expressions.
@@ -304,19 +345,19 @@ new Jedi {
 }
 new Data { name := "test" }
 ```
-After a class has been [declared](#class-declarations), they can be _instantiated_, meaning that we create the container with appropriate values. The syntax used writes the fields as if they were assignments, taking the name before the `:=` and an expression evaluating to that field's type after it.
+After a class has been [declared](#class-declarations), it can be _instantiated_, meaning that we create the container with appropriate values. The syntax used writes the fields as if they were assignments, taking the name before the `:=` and an expression evaluating to that field's type after it.
 
 ### Projection
 ```bscript
 test.value1
 jedi.is_master
-big_class.small_class.value
+big_instance.small_instance.value
 ```
 Once a class has been [instantiated](#class-instantiation), its individual values may be accessed using _projection_. This selects a particular field in the given class instance, and evaluates to the most recently assigned value to that field.
 
 The syntax is first an expression evaluating to an instance (including other projections!), and then an identifier with the field name.
 
-Note that projections are special in that they may also appear to the left of a regular [(Let) Assignment](#let-assignments), e.g.,
+Note that projections are special in that they may also appear to the left of a regular [assignments](#let-assignments), e.g.,
 ```bscript
 test.value1 := 84;
 ```
