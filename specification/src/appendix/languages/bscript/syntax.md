@@ -27,8 +27,17 @@ Now follows the grammar of BraneScript.
 // Statements
 Stmts ::= Stmts Stmt
         | Stmt
- Stmt ::= Assign | Block | ClassDecl | ExprStmt | For | FuncDecl | If | Import
-        | LetAssign | On | Parallel | Return | While
+ Stmt ::= Attribute | AttributeInner | Assign | Block | ClassDecl | ExprStmt | For | FuncDecl
+        | If | Import | LetAssign | Parallel | Return | While
+
+     Attribute ::= POUND LBRACKET AttrKeyPair RBRACKET
+                 | POUND LBRACKET AttrList RBRACKET
+AttributeInner ::= POUND NOT LBRACKET AttrKeyPair RBRACKET
+                 | POUND NOT LBRACKET AttrList RBRACKET
+   AttrKeyPair ::= IDENT EQUAL Literal
+      AttrList ::= IDENT LPAREN Literals RPAREN
+      Literals ::= Literals Literal
+                 | Literal
 
 Assign ::= IDENT ASSIGN Expr SEMICOLON
 
@@ -58,8 +67,6 @@ Import ::= IMPORT IDENT SEMICOLON
          | IMPORT IDENT LBRACKET SEMVER RBRACKET SEMICOLON
 
 LetAssign ::= LET IDENT ASSIGN Expr SEMICOLON
-
-On ::= ON Expr Block
 
 Parallel ::= PARALLEL LBRACKET PBlocks RBRACKET SEMICOLON
            | PARALLEL LBRACKET IDENT RBRACKET LBRACKET PBlocks RBRACKET SEMICOLON
@@ -150,11 +157,13 @@ GREATEREQ ::= ">="
    GREATER ::= ">"
       LESS ::= "<"
      MINUS ::= "-"
+       NOT ::= "!"
         OR ::= "|"
     LPAREN ::= "("
     RPAREN ::= ")"
 PERCENTAGE ::= "%"
       PLUS ::= "+"
+     POUND ::= "#"
  SEMICOLON ::= ";"
      SLASH ::= "/"
       STAR ::= "*"
