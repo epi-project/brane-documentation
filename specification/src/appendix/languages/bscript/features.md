@@ -224,6 +224,12 @@ null
 ```
 The simplest expression possible is a literal, which evaluates to the value written down. For every primitive data type, there is an associated literal; these are booleans, integers, real numbers, strings, version triplets and `null`.
 
+### Variable access
+```bscript
+foo
+```
+Instead of providing a literal value, a variable can also be referenced. In that case, it evaluates to the value that was assigned to it most recently, of the type associated with the variable (see the rules about [typing](TODO)).
+
 ### Operators
 ```bscript
 42 + 42
@@ -245,3 +251,81 @@ The following operators are available in BraneScript:
   - **Addition** (`<int expr> + <int expr` OR `<real expr> + <real expr>` OR `<str expr> + <str expr>`): Adds two numerical values, or concatenates two strings.
   - **Subtraction** (`<int expr> - <int expr>` OR `<real expr> - <real expr>`): Subtracts the second value from the first.
   - **Multiplication** (`<int expr> * <int expr>` OR `<real expr> * <real expr>`): Multiplies two numerical values.
+  - **Division** (`<int expr> / <int expr>` OR `<real expr> / <real expr>`): Divides the first value by the second.
+  - **Modulo** (`<int expr> % <int expr>`): Returns the remainder after (integer) dividing the first value by the second.
+- _Comparison operators_
+  - **Equality** (`<expr> == <expr>`): Evaluates to true if the two values are the same (including of the same type), or false otherwise.
+  - **Inequality** (`<expr> != <expr>`): Evaluates to true if the two values are _not_ the same (happens when they don't share the same type), or false otherwise.
+  - **Less than** (`<int expr> < <int expr>` OR `<real expr> < <real expr>`): Evaluates to true if the first value is strictly lower than the second value.
+  - **Less than or equal** (`<int expr> <= <int expr>` OR `<real expr> <= <real expr>`): Evaluates to true if the first value is lower than or equal to the second value.
+  - **Greater than** (`<int expr> > <int expr>` OR `<real expr> > <real expr>`): Evaluates to true if the first value is strictly higher than the second value.
+  - **Greater than or equal** (`<int expr> >= <int expr>` OR `<real expr> >= <real expr>`): Evaluates to true if the first value is higher than or equal to the second value.
+
+### Function calls
+```bscript
+println("Hello, world!")
+add(42, foo)
+magic_number()
+add(magic_number(), 42 / 2)
+```
+After a function has been [defined](#function-declarations), it can be called as an expression. It can be given arguments if the declarations declares them, which are nested expressions that should evaluate to the type required by that function.
+
+After the call completes, the function call evaluates to the value returned by the function. Functions returning noting (i.e., `Void`) will always cause type errors when their value is used, so only use that as a "terminating" expression (i.e., one that is not nested in another expression and who's value is not used).
+
+Note that calls to external functions (i.e., those [imported](#import-statements)) use the exact same syntax as regular function calls.
+
+### Arrays
+```bscript
+[]
+[1, 2, 3, 4]
+[magic_numer(), 42 + 4, 88]
+```
+As an alternative to [classes](#class-declarations), arrays are part of BraneScript as ad-hoc containers for values of a shared type. In particular, and array can be thought of as a continious block of data of variable length.
+
+Arrays can be constructed using [Python](https://python.org)-like syntax, after which they will evaluate to an array of the type of its elements. As it is an expression, it can be stored into variables and used for later.
+
+### Array indexing
+```bscript
+foo[0]
+[1, 2, 3][5]
+generates_array()[4 - bar]
+```
+To access the contents of an array instead of the array as a whole, an index expression can be used. This takes in an expression evaluating to an array first, and then some (zero-indexed!) index into that array. The index expression as a whole evaluates to the selected element.
+
+Note that using an index that is the same or higher than the length of the array will cause runtime errors.
+
+### Class instantiation
+```bscript
+new Test { value1 := 42, value2 := "Hello, world!" };
+new Jedi {
+    name := "Obi-Wan Kenobi",
+    is_master := true,
+    lightsaber_colour := "blue"
+}
+new Data { name := "test" }
+```
+After a class has been [declared](#class-declarations), they can be _instantiated_, meaning that we create the container with appropriate values. The syntax used writes the fields as if they were assignments, taking the name before the `:=` and an expression evaluating to that field's type after it.
+
+### Projection
+```bscript
+test.value1
+jedi.is_master
+big_class.small_class.value
+```
+Once a class has been [instantiated](#class-instantiation), its individual values may be accessed using _projection_. This selects a particular field in the given class instance, and evaluates to the most recently assigned value to that field.
+
+The syntax is first an expression evaluating to an instance (including other projections!), and then an identifier with the field name.
+
+Note that projections are special in that they may also appear to the left of a regular [(Let) Assignment](#let-assignments), e.g.,
+```bscript
+test.value1 := 84;
+```
+may be used to update the values of fields in instances.
+
+
+## Next
+This defines the basic statements and expressions in BraneScript, and can already be used to write simple programs. Refer to the [user guide](https://wiki.enablingpersonalizedinterventions.nl/user-guide) to find more information about how to do so.
+
+This documentation continues by going in-depth on some other parts of the language. In particular, subsequent chapters will deal with the [formal grammar](./syntax.md) of the language; [scoping rules](./scoping.md); [typing rules](./typing.md) and [workflow analysis](./workflow.md).
+
+If you're no longer interested in BraneScript, you can alternatively read another topic in the sidebar on the left.
