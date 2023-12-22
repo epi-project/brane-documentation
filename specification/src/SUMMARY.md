@@ -45,4 +45,8 @@
     - [Introduction](./appendix/languages/bscript/introduction.md)
     - [Features](./appendix/languages/bscript/features.md)
     - [Formal grammar](./appendix/languages/bscript/syntax.md)
+    - [Scoping rules](./appendix/languages/bscript/scoping.md)
+    - [Typing rules](./appendix/languages/bscript/typing.md)
+    - [Workflow analysis](./appendix/languages/bscript/workflow.md)
+    - [Compilation steps](./appendix/languages/bscript/compilation.md)
     - [Future work](./appendix/languages/bscript/future.md)

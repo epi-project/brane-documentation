@@ -207,22 +207,22 @@ Oftentimes, it is practical to group multiple values together. A BraneScript _cl
 To support [OOP](https://en.wikipedia.org/wiki/Object-oriented_programming)-like programming paradigms, BraneScript classes can also be annotated _methods_. These are functions that act on a particular instance of a class, and come accompanied with convenient syntax for using them. Note, however, that BraneScript misses a few features for using full OOP; for example, there is no way to define object inheritance.  
 Syntactically, the class is defined as a special kind of block that lists its contents (_fields_) as name/type pairs. A function can be given, which always takes `self` as first parameter, to define a method. Note that associated functions (i.e., functions without `self`) are not supported.
 
-### Annotations
+### Attributes
 ```bscript
 #[on("foo")]
 #[tag("amy.bar")]
 #[something_else]
 #![inner_annotation]
 ```
-As a final BraneScript statement, annotations can be used to provide some additional metadata to the compiler. While syntactically, any identifier can be used, only a few are recognized by the compiler, having their own syntax for arguments.
+As a final BraneScript statement, _attributes_ (sometimes called _annotations_) can be used to provide some additional metadata to the compiler. While syntactically, any identifier can be used, only a few are recognized by the compiler, having their own syntax for arguments.
 
-Annotations in the form of `#[...]` always annotate the first _non-annotation statement_ succeeding it. If this statement has nested statements (e.g., a [block](#block-statements), [if-statement](#if-statements), etc), then the annotation is propagated to all the nested statements as well. For example:
+Attributes in the form of `#[...]` always annotate the first _non-attribute statement_ succeeding it. If this statement has nested statements (e.g., a [block](#block-statements), [if-statement](#if-statements), etc), then the attribute is propagated to all the nested statements as well. For example:
 ```bscript
-#[annotate]
+#[attribute]
 {
-    // The if-statement is `annotate`d
+    // The if-statement is annotated with `attribute`
     if (true) {
-        // And this expression-statement has `annotate` too
+        // And this expression-statement has `attribute` too
         println("Hello, world!");
     }
 }
@@ -234,16 +234,16 @@ As an alternative syntax, the `#![...]`-form (not the exclaimation mark `!`) ann
 {
     #![annotate]
 
-    // The if-statement is `annotate`d
+    // The if-statement is annotated with `attribute`
     if (true) {
-        // And this expression-statement has `annotate` too
+        // And this expression-statement has `attribute` too
         println("Hello, world!");
     }
 }
 ```
 This latter form can be used to annotate an entire BraneScript file (e.g., `wf-tag`; see below).
 
-The following annotations are currently recognized by the compiler:
+The following attributes are currently recognized by the compiler:
 - `on(<locs...>)` OR `loc(<locs...>)` OR `location(<locs...>)`: Explicitly states domains in a Brane instance where a particular external call must be executed. This can be used to implement Trusted Third-Parties, for example.
 - `tag(<tags...>)` OR `metadata(<tags...>)`: Adds an arbitrary piece of metadata (a string) to external calls, which may be used by policy to learn information non-derivable from the call itself. An example of this would be GDPR-like purpose tags. Note that the tags must be given as `<owner>.<tag>`, where the owner is the domain or entity responsible for defining it.
 - `wf-tag(<tags...>)` OR `workflow-tag(<tags...>)` OR `wf-metadata(<tags...>)` OR `workflow-metadata(<tags...>)`: Adds an arbitrary piece of metadata (a string) to the workflow as a whole, which may be used by policy to learn information non-derivable from the call itself. An example of this would be GDPR-like purpose tags. Note that the tags must be given as `<owner>.<tag>`, where the owner is the domain or entity responsible for defining it.
@@ -367,6 +367,6 @@ may be used to update the values of fields in instances.
 ## Next
 This defines the basic statements and expressions in BraneScript, and can already be used to write simple programs. Refer to the [user guide](https://wiki.enablingpersonalizedinterventions.nl/user-guide) to find more information about how to do so.
 
-This documentation continues by going in-depth on some other parts of the language. In particular, subsequent chapters will deal with the [formal grammar](./syntax.md) of the language; [scoping rules](./scoping.md); [typing rules](./typing.md) and [workflow analysis](./workflow.md).
+This documentation continues by going in-depth on some other parts of the language. In particular, subsequent chapters will deal with the [formal grammar](./syntax.md) of the language; [scoping rules](./scoping.md); [typing rules](./typing.md); [workflow analysis](./workflow.md); and other [compilation steps](./compilation.md). The final chapter in this series concludes with [future work](./future.md) planned for BraneScript.
 
 If you're no longer interested in BraneScript, you can alternatively read another topic in the sidebar on the left.
