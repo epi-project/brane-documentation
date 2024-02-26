@@ -1,19 +1,21 @@
 # Dependencies
 The first step to install any piece of software is to install its dependencies.
 
-The next section will discuss the runtime dependencies. If you plan to compile the framework instead of downloading the prebuilt executables, you must install _both_ the dependencies in the [first](#runtime-dependencies)- and [second section](#compilation-dependencies).
+The next section will discuss the runtime dependencies. If you plan to compile the framework instead of downloading the prebuilt executables, you must install _both_ the dependencies in the [Runtime dependencies](#runtime-dependencies)- and [Compilation dependencies](#compilation-dependencies) sections.
 
 
 ## Runtime dependencies
-In both Brane control nodes and worker nodes, the Brane services are implemented as containers, which means that the number of runtime dependencies is relatively few.
+In all Brane node types, the Brane services are implemented as containers, which means that the number of runtime dependencies is relatively few.
 
 However, the following dependencies are required:
 1. You have to install [Docker](https://docker.com) to run the container services. To install, follow one of the following links: [Ubuntu](https://docs.docker.com/engine/install/ubuntu/), [Debian](https://docs.docker.com/engine/install/debian/), [Arch Linux](https://wiki.archlinux.org/title/docker) or [macOS](https://docs.docker.com/desktop/mac/install/) (note the difference between Ubuntu and Debian; they use different keys and repositories).
-   - If you are running Docker on Linux, make sure to set it up so that [no root is required](https://docs.docker.com/engine/install/linux-postinstall/):
+   - If you are running Docker on Linux, it is extremely convenient to set it up such that [no root is required](https://docs.docker.com/engine/install/linux-postinstall/):
      ```bash
      sudo usermod -aG docker "$USER"
      ```
      > <img src="../../assets/img/warning.png" alt="warning" width="16" style="margin-top: 3px; margin-bottom: -3px"/> Don't forget to log in and -out again after running the above command to make the new changes effective.
+
+     > <img src="../../assets/img/warning.png" alt="warning" width="16" style="margin-top: 3px; margin-bottom: -3px"/> This effectively gives power to all non-root users that are part of the `docker`-group to modify any file as if they had root access. Be careful who you include in this group.
 2. Install the [BuildKit plugin](https://docs.docker.com/buildx/working-with-buildx/) for Docker:
    ```bash
    # Clone the repo, CD into it and install the plugin
@@ -29,6 +31,7 @@ However, the following dependencies are required:
    docker buildx create --use
    ```
    If these instructions don't work for you, you can also check the [plugin's repository README](https://github.com/docker/buildx#building) for more installation methods.
+   > <img src="../../assets/img/info.png" alt="info" width="16" style="margin-top: 3px; margin-bottom: -3px"/> Docker Buildx is included by default in most distributions of Docker noawadays. You can just run the `docker buildx install` and `docker buildx create --use` functions first, and if they work, skip the top ones.
 3. Install [OpenSSL](https://www.openssl.org/) for the `branectl` executable:
    - Ubuntu / Debian:
      ```bash
@@ -59,11 +62,11 @@ If you do not meet this requirement, you will have to compile `branectl` (and an
 ## Compilation dependencies
 If you want to compile the framework yourself, you have to install additional dependencies to do so.
 
-There are two parts you may want to compile yourself: `branectl`, the tool for managing a node, and the service images themselves.
+There are two parts you may want to compile yourself as a system administrator: `branectl`, the tool for managing a node, and the service images themselves.
 
 For the latter, two modes are available:
 - In _release_ mode, you will compile the framework directly in the containers that will be using it. This is the recommended method in most cases.
-- In _debug_ or _development_ mode, you will compile the framework with debug symbols, additional debug prints and outside of a container which optimizes repeated recompilation. Additionally, it also statically links GLIBC so the resulting binaries are very portable. This method should only be preferred if you are actively developing the framework.
+- In _debug_ or _development_ mode, you will compile the framework with debug symbols, additional debug prints and outside of a container which may optimize builds if you're running Docker virtualized (e.g., on macOS). Additionally, it also statically links GLIBC (using the [musl](https://www.musl-libc.org/) toolchain) so the resulting binaries more portable. This method should only be preferred if you are actively developing the framework.
 
 We will describe the dependencies for compiling `branectl`, compiling the services in release mode and compiling them in debug mode in the following subsections.
 
@@ -203,6 +206,7 @@ Note that most of these dependencies overlap with the dependencies for compiling
    ```
 
 
+<!--
 ## Cross-compilation
 If you intent to cross-compile any part of the framework (whether it be `branectl` or a node), you probably need some additional setup to make that happen.
 
@@ -223,6 +227,7 @@ rustup target add aarch64-unknown-linux-musl
 adds the target for ARM processors (e.g., M1 macs).
 
 > <img src="../../assets/img/info.png" alt="info" width="16" style="margin-top: 3px; margin-bottom: -3px"/> Note that, even though we are compiling for a Mac, you should still use `-unknown-linux-musl` as suffix. This is because our executable will be relying on the `musl` library anyway, and other than libraries macs and Linux are compatible (enough).
+-->
 
 
 ## Next

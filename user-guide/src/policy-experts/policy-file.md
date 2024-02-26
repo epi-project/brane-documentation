@@ -1,8 +1,8 @@
 # The Policy File
 
-> <img src="../assets/img/warning.png" alt="warning" width="16" style="margin-top: 3px; margin-bottom: -3px"/> This page is for the temporary method of entering policies into the system. A better method (involving eFLINT) will be implemented soon, making this chapter irrelevant.
+> <img src="../assets/img/warning.png" alt="warning" width="16" style="margin-top: 3px; margin-bottom: -3px"/> This page is for the deprecated method of entering policies into the system using a `policies.yml` file. A better method (involving eFLINT) is implemented through the [`policy-reasoner`](https://github.com/epi-project/policy-reasoner) project.
 
-Currently, Brane reads its policies from a so-called _policy file_ (also known as `policies.yml`) which defines a very simplistic set of access-control policies.
+Brane used to read its policies from a so-called _policy file_ (also known as `policies.yml`) which defines a very simplistic set of access-control policies.
 
 Typically, there is one such policy file per domain, which instructs the "reasoner" for that domain what is should allow and what not.
 

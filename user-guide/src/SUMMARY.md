@@ -65,10 +65,10 @@
 - [Administrators](./config/admins/introduction.md)
   - [`infra.yml`](./config/admins/infra.md)
   - [`backend.yml`](./config/admins/backend.md)
-  - [`policies.yml`](./policy-experts/policy-file.md)
   - [`data.yml`](./config/users/data.md)
   - [`proxy.yml`](./config/admins/proxy.md)
   - [`node.yml`](./config/admins/node.md)
+  - [`policies.yml (deprecated)`](./policy-experts/policy-file.md)
 
 
 

@@ -30,7 +30,7 @@ As specified, a domain typically hosts a worker node. This worker node collectiv
 The _delegate_ itself consists of a few services. Their exact working is detailled in the [specification](/specification), but as a brief overview:
 - The _delegate service_ is the main service on the delegate, and takes incoming job requests and will attempt to schedule them. This is also the service that directly connects to the compute backend (see below). You can think of it as a local driver service.
 - The _registry service_ (sometimes called _local registry service_ for disambiguation) keeps track of the locally available datasets and intermediate results (see the [data tutorial](../software-engineers/data.md) for Software Engineers or the [data tutorial](../scientists/bscript/datasets.md) for Scientists for more information) and acts as a point from where the rest of the framework downloads them.
-- The _checker service_ acts as the Policy Enforcement Point (PEP) for the framework. It hosts a reasoner, typically eFLINT, and is queried by both the delegate and registry services to see if operations are allowed.
+- The _checker service_ acts as the Policy Enforcement Point (PEP) for the framework. It hosts a [reasoner](https://github.com/epi-project/policy-reasoner), typically eFLINT, and is queried by both the delegate and registry services to see if operations are allowed.
 - Finally, the local node also has _proxy service_, just like the [central node](#the-central-node).
 
 As for the compute backend, Brane is designed to connect to different types. An overview:

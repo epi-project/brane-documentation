@@ -11,7 +11,7 @@ Just as with `branectl` itself, there are two ways of obtaining the Docker image
 
 
 ### Downloading prebuilt images
-The recommended way to download the Brane images is to use `branectl`. These will download the images to `.tar` files, which can be send around at your leisure; and, if you will be deploying the framework on a device where internet is limited or restricted, you can also use it to download Brane's auxillary images ([ScyllaDB](https://www.scylladb.com/) and [Kafka](https://kafka.apache.org/) ([zookeeper](https://kafka.apache.org/quickstart))).
+The recommended way to download the Brane images is to use `branectl`. These will download the images to `.tar` files, which can be send around at your leisure; and, if you will be deploying the framework on a device where internet is limited or restricted, you can also use it to download Brane's auxillary images ([ScyllaDB](https://www.scylladb.com/)).
 
 Run the following command to download the Brane services themselves:
 ```bash
@@ -116,7 +116,7 @@ When generating this file, it is possible to manually specify where to find each
 
 The `config/certs` directory will be used to store the certificates for each of the domains; we will do that in the [following section](#adding-certificates).
 
-Assuming that you have the infrastructure file stored as `config/infra.yml`, the following command can be used to create a `node.yml` for a central node:
+Assuming that you have the files stored as above, the following command can be used to create a `node.yml` for a central node:
 ```bash
 branectl generate node -f central <HOSTNAME>
 ```
@@ -133,6 +133,7 @@ Once again, you can change many of the properties in the `node.yml` file by spec
 > branectl generate node -f -H bob-domain:1.2.3.4 central central-domain.com
 > ```
 > Note that this is local to this domain only; you have to specify this on other nodes as well. For more information, see the [`node.yml` documentation](../../config/admins/node.md).
+> > <img src="../../assets/img/info.png" alt="info" width="16" style="margin-top: 3px; margin-bottom: -3px"/> Since the above is highly localized, it can be abused to do node-specific routing, by assigning the same hostname to different IPs on different machines. Definitely entering "hacky" territory here, though...
 
 
 ## Adding certificates
@@ -167,7 +168,7 @@ This will launch the services in the local Docker daemon, which completes the se
 >   ```bash
 >   branectl start --image-dir "./target/debug" central
 >   ```
-> - If you want to use pre-downloaded image for the three auxillary services (`aux-scylla`, `aux-kafka` and `aux-zookeeper`) that are in the same folder as the one indicated by `--image-dir`, you can specify `--local-aux` to use the folder version instead:
+> - If you want to use pre-downloaded image for the auxillary services (`aux-scylla`) that are in the same folder as the one indicated by `--image-dir`, you can specify `--local-aux` to use the folder version instead:
 >   ```bash
 >   branectl start central --local-aux
 >   ```
@@ -179,6 +180,6 @@ This will launch the services in the local Docker daemon, which completes the se
 ## Next
 Congratulations, you have configured and setup a Brane control node!
 
-Depending on which domains you are in charge of, you may also have to setup one or more worker nodes. This is discussed in the [next chapter](./worker-node.md). Note, though, that it is written to be used on its own, so parts of it overlap with this chapter.
+Depending on which domains you are in charge of, you may also have to setup one or more [worker nodes](./worker-node.md) or [proxy nodes](./proxy-node.md). Note, though, that these are written to be used on their own, so parts of it overlap with this chapter.
 
 Otherwise, you can move on to other work! If you want to test your instance like a normal user, you can go to the documentation for [Software Engineers](../../software-engineers/introduction.md) or [Scientists](../../scientists/introduction.md).

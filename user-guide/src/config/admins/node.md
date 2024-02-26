@@ -41,15 +41,13 @@ The first variant of the `node`-map is the `!central` variant, which defines a c
 
   > <img src="../../assets/img/warning.png" alt="warning" width="16" style="margin-top: 3px; margin-bottom: -3px;"/> Note that all paths defined in the `node.yml` file _must_ be absolute paths, since they are mounted as Docker volumes.
 
-- `services`: A map that defines the service containers in the central node and how they are reachable. It is a map of a service identifier to one of four possible maps: a [kafka service](#kafka-services), [private service](#private-services), a [public service](#public-services) or a [variable service](#variable-services). Each of these are explained at the [end of the chapter](#service-maps).  
+- `services`: A map that defines the service containers in the central node and how they are reachable. It is a map of a service identifier to one of three possible maps: a [private service](#private-services), a [public service](#public-services) or a [variable service](#variable-services). Each of these are explained at the [end of the chapter](#service-maps).  
   The following identifiers are available:
   - `api` _(or `registry`)_: Defines the `brane-api` container as a [public service](#public-services).
   - `drv` _(or `driver`)_: Defines the `brane-drv` container as a [public service](#public-services).
-  - `plr` _(or `planner`)_: Defines the `brane-plr` container as a [kafka service](#kafka-services).
+  - `plr` _(or `planner`)_: Defines the `brane-plr` container as a [private service](#private-services).
   - `prx` _(or `proxy`)_: Defines the `brane-prx` container as a [variable service](#variable-services).
   - `aux_scylla` _(or `scylla`)_: Defines the `aux-scylla` container as a [private service](#private-services).
-  - `aux_kafka` _(or `kafka`)_: Defines the `aux-kafka` container as a [private service](#private-services).
-  - `aux_zookeeper` _(or `zookeeper`)_: Defines the `aux-zookeeper` container as a [private service](#private-services).
 
 An example illustrating just the central node:
 ```yaml
@@ -87,11 +85,15 @@ _<img src="../../assets/img/source.png" alt="source" width="16" style="margin-to
 
 The second variant of the `node`-map is the `!worker` variant, which defines a worker node. There are three fields in this map:
 - `name` _(or `location_id`)_: A string that contains the identifier used to recognize this worker node throughout the system.
+- `usecases` _(or `use_cases`)_: A map of string identifiers to [worker usecases](#worker-usecases). This essentially defines several central instances that the work trusts and is aware of, and acts as a map of the identifier to where to find the instance's registry.
 - `paths`: A map that defines all paths relevant to the central node. Specifically, it maps a string identifier to a string path. The following identifiers are defined:
   - `certs`: The path to the directory with certificate authority files for the worker nodes in the instance. See the [chapter on installing a control node](../../system-admins/installation/control-node.md#adding-certificates) for more information.
   - `packages`: The path to the directory where uploaded packages will be stored. This should be a persistent directory, or at the very least exactly as persistent as the storage of the instance's Scylla database.
   - `backend`: The path to the [`backend.yml`](./backend.md) configuration file.
-  - `policies`: The path to the [`policies.yml`](../../policy-experts/policy-file.md) configuration file.
+  - `policy_database` _(or `policy_db`)_: The path to the [`policies.db`] file that is the persistent storage for the policy's of the worker's `brane-chk` service.
+  - `policy_deliberation_secret`: The path to a [JWK](https://auth0.com/docs/secure/tokens/json-web-tokens/json-web-key-sets) that defines the secret used for `brane-chk`'s deliberation API.
+  - `policy_expert_secret`: The path to a [JWK](https://auth0.com/docs/secure/tokens/json-web-tokens/json-web-key-sets) that defines the secret used for `brane-chk`'s policy expert (management) API.
+  - `policy_audit_log`: An **optional** path to a file to which the `brane-chk` service writes it audit log. If omitted, the audit log only exists within the `brane-chk` container.
   - `proxy`: The path to the [`proxy.yml`](./proxy.md) configuration file.
   - `data`: The path to the directory where datasets may be defined that are available on this node. See [`data.yml`](../users/data.md) for more information.
   - `results`: The path to a directory where intermediate results are stored that are created on this node. It does not have to be persistent per sé, although the services will assume they are persistent for the duration of a workflow execution.
@@ -99,11 +101,11 @@ The second variant of the `node`-map is the `!worker` variant, which defines a w
   - `temp_results`:  The path to a directory where intermediate results are stored that are downloaded from other nodes. It does not have to be a persistent folder.
 
   > <img src="../../assets/img/warning.png" alt="warning" width="16" style="margin-top: 3px; margin-bottom: -3px;"/> Note that all paths defined in the `node.yml` file _must_ be absolute paths, since they are mounted as Docker volumes.
-- `services`: A map that defines the service containers in the central node and how they are reachable. It is a map of a service identifier to one of two possible maps: a [public service](#public-services) or a [variable service](#variable-services). Each of these are explained at the [end of the chapter](#service-maps).  
+- `services`: A map that defines the service containers in the central node and how they are reachable. It is a map of a service identifier to one of three possible maps: a [private service](#private-services), a [public service](#public-services) or a [variable service](#variable-services). Each of these are explained at the [end of the chapter](#service-maps).  
   The following identifiers are available:
   - `reg` _(or `registry`)_: Defines the `brane-reg` container as a [public service](#public-services).
   - `job` _(or `delegate`)_: Defines the `brane-job` container as a [public service](#public-services).
-  - `chk` _(or `checker`)_: Defines the `brane-chk` container as a [public service](#public-services).
+  - `chk` _(or `checker`)_: Defines the `brane-chk` container as a [private service](#private-services).
   - `prx` _(or `proxy`)_: Defines the `brane-prx` container as a [variable service](#variable-services).
 
 An example illustrating just the worker node:
@@ -116,7 +118,10 @@ node: !worker
     certs: /home/amy/config/certs
     packages: /home/amy/packages
     backend: /home/amy/config/backend.yml
-    policies: /home/amy/config/policies.yml
+    policy_database: /home/amy/policies.db
+    policy_deliberation_secret: /home/amy/config/policy_delib_secret.json
+    policy_expert_secret: /home/amy/config/policy_expert_secret.json
+    policy_audit_log: /home/amy/checker-audit.log     # May be omitted!
     proxy: /home/amy/config/proxy.yml
     data: /home/amy/data
     results: /home/amy/results
@@ -167,30 +172,6 @@ node: !worker
 
 ## Service maps
 Through the various `node` variants, a few types of service maps appear. In this section, we will define their layouts.
-
-### Kafka services
-_<img src="../../assets/img/source.png" alt="source" width="16" style="margin-top: 3px; margin-bottom: -3px;"/> [`KafkaService`](https://wiki.enablingpersonalizedinterventions.nl/docs/brane_cfg/node/struct.KafkaService.html) in [`brane_cfg/node.rs`](https://wiki.enablingpersonalizedinterventions.nl/docs/src/brane_cfg/node.rs.html)._
-
-A kafka service represents a service that is not directly reachable via network messages, but instead only on a Kafka event channel. Currently, the only service that is accessible this way is the planner service (`brane-plr`) on the central node.
-
-Kafka services have three fields:
-- `name`: A string with the name of the Docker container. This can be anything, but by convention, this is `brane-` followed by the ID of the service (e.g., `brane-prx` or `brane-api`). On worker nodes, this may optionally be suffixed by the name of the worker (e.g., `brane-reg-bob`), and on proxy nodes, this may be suffixed by `proxy` (e.g., `brane-prx-proxy`). Finally, third-party services are often named `aux-` and then the service ID instead or `brane-` (e.g., `aux-scylla`).
-- `cmd`: A string name of the Kafka event channel to send command events on. Put differently, defines a channel where the service in question is listening on and other services may push events to.
-- `res`: A string name of the Kafka event channel to listen for results on. Put differently, defines a channel where any other service is listening on and the service in question can push events to.
-
-An example showing a Kafka service:
-```yaml
-...
-
-node: !central
-  # The type of service is hardcoded for every node, so no need for the tags (e.g., `!kafka`)
-  plr:
-    name: brane-plr
-    cmd: plr-cmd
-    res: plr-res
-
-  ...
-```
 
 ### Private services
 _<img src="../../assets/img/source.png" alt="source" width="16" style="margin-top: 3px; margin-bottom: -3px;"/> [`PrivateService`](https://wiki.enablingpersonalizedinterventions.nl/docs/brane_cfg/node/struct.PrivateService.html) in [`brane_cfg/node.rs`](https://wiki.enablingpersonalizedinterventions.nl/docs/src/brane_cfg/node.rs.html)._
@@ -322,8 +303,8 @@ node: !central
     # (We can also use the aliases, if we like)
     planner:
       name: brane-plr
-      cmd: plr-cmd
-      res: plr-res
+      address: http://brane-plr:50052
+      bind: 0.0.0.0:50052
     # (Shows the private variant of the proxy service)
     proxy: !private
       name: brane-prx
@@ -334,14 +315,6 @@ node: !central
       name: aux-scylla
       address: aux-scylla:9042
       bind: 0.0.0.0:9042
-    aux_kafka:
-      name: aux-kafka
-      address: brane-prx:9092
-      bind: 0.0.0.0:9092
-    zookeeper:
-      name: aux-zookeeper
-      address: aux-zookeeper:65535
-      bind: 0.0.0.0:65535
 ```
 
 ```yaml
@@ -349,12 +322,19 @@ node: !central
 hostnames:
   amy-worker-node.com: 4.3.2.1
 node: !worker
+  name: amy-worker-node
+  usecases:
+    central:
+      api: http://amy-central-node.com:50051
   paths:
     # Note all paths are full, absolute paths
     certs: /home/amy/config/certs
     packages: /home/amy/packages
     backend: /home/amy/config/backend.yml
-    policies: /home/amy/config/policies.yml
+    policy_database: /home/amy/policies.db
+    policy_deliberation_secret: /home/amy/config/policy_delib_secret.json
+    policy_expert_secret: /home/amy/config/policy_expert_secret.json
+    policy_audit_log: /home/amy/checker-audit.log
     proxy: /home/amy/config/proxy.yml
     data: /home/amy/data
     results: /home/amy/results
@@ -377,7 +357,6 @@ node: !worker
       name: brane-chk-amy
       address: http://brane-chk:50053
       bind: 0.0.0.0:50053
-      external_address: http://amy-worker-node.com:50053
     # (Shows the external variant of the proxy service)
     proxy: !external
       address: amy-proxy-node.com:50050

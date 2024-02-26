@@ -64,13 +64,13 @@ Once you have downloaded the images, it is time to setup the configuration files
 
 For a worker node, this means generating the following files:
 - A backend file (`backend.yml`), which will define how the worker node connects to which backend that will actually execute the tasks;
-- A policy file (`policies.yml`), which will define which datasets may be shared with who and which containers may be executed;
-- A proxy file (`proxy.yml`), which describes if any proxying should occur and how; and
+- A proxy file (`proxy.yml`), which describes if any proxying should occur and how;
+- A policy secret for the deliberation API (`policy_deliberation_secret.json`), which contains the private key for accessing the Brane-side of `brane-chk`;
+- A policy secret for the policy expert API (`policy_expert_secret.json`), which contains the private key for accessing the management-side of `brane-chk`;
+- A policy database (`polocies.db`), which is the persistent storage for `brane-chk`'s policies; and
 - A node file (`node.yml`), which will contain the node-specific configuration like service names, ports, file locations, etc.
 
 All of these can be generated with `branectl` for convenience.
-
-> <img src="../../assets/img/info.png" alt="info" width="16" style="margin-top: 3px; margin-bottom: -3px"/> The `policies.yml` file is temporary. As soon as a more complex Checker-service is added to the framework, it will deal with policies instead of the simple rule-based file we have now. Most certainly, the new service will have its own, more complex way of being configured.
 
 We will first generate a `backend.yml` file. This will define how the worker node can connect to the infrastructure that will actually execute incoming containers. Multiple backend types are possible (see the [series of chapters on it](../backends/introduction.md)), but by default, the configuration assumes that work will be executed on the local machine's Docker daemon.
 
@@ -83,13 +83,13 @@ Running this command will generate the file `./config/backend.yml` for you, with
 
 > <img src="../../assets/img/info.png" alt="info" width="16" style="margin-top: 3px; margin-bottom: -3px"/> While the `-f` flag (`--fix-dirs`, fix missing directories) and the `-p` option (`--path`, path of generated file) are not required, you will typically use these to make your life easier down the road. See the `branectl generate node` command below to find out why.
 
-Then, we will generate the `policies.yml` file. This is done with a similar command:
+<!-- Then, we will generate the `policies.yml` file. This is done with a similar command:
 ```bash
 branectl generate policy -f -p ./config/policies.yml
 ```
-Note that the default policy file denies all dataset requests and incoming tasks. It is thus very recommended to manually add some rules yourself; see the [`policies.yml` documentation](../../policy-experts/policy-file.md).
+Note that the default policy file denies all dataset requests and incoming tasks. It is thus very recommended to manually add some rules yourself; see the [`policies.yml` documentation](../../policy-experts/policy-file.md). -->
 
-> <img src="../../assets/img/info.png" alt="info" width="16" style="margin-top: 3px; margin-bottom: -3px"/> You can also specify `-a` or `--allow-all` to generate a file that, by default, will allow everything instead of denying it. However, note that doing so is strongly discouraged in production environments; only do so in testing environments.
+<!-- > <img src="../../assets/img/info.png" alt="info" width="16" style="margin-top: 3px; margin-bottom: -3px"/> You can also specify `-a` or `--allow-all` to generate a file that, by default, will allow everything instead of denying it. However, note that doing so is strongly discouraged in production environments; only do so in testing environments. -->
 
 Next up is the `proxy.yml` file. Typically, these can be left to the default settings, and so the following command will do the trick in most situations:
 ```bash
@@ -102,6 +102,18 @@ The contents of this file will typically only differ if you have advanced networ
 
 > <img src="../../assets/img/info.png" alt="info" width="16" style="margin-top: 3px; margin-bottom: -3px"/> This file may be skipped if you are setting up an external proxy node for this node. See the [chapter on proxy nodes](./proxy-node.md) for more information.
 
+Next, we will generate the policy keys. To do so, run the following two commands:
+```bash
+branectl generate policy_secret -f -p ./config/policy_deliberation_secret.json
+branectl generate policy_secret -f -p ./config/policy_expect_secret.json
+```
+The default settings should suffice. If not, check `branectl generate policy_secret --help` for more information.
+
+Then, we will generate the policy database. This is not a configuration file, but does need to be bootstrapped and explicitly passed to the node's `brane-chk` service. To generate it, run:
+```bash
+branectl generate policy_db -f -p ./policies.db
+```
+
 Finally, we will generate the `node.yml` file. This file is done last, because it itself defines where BRANE software may find any of the others.
 
 When generating this file, it is possible to manually specify where to find each of those files. However, in practise, it is more convenient to make sure that the files are at the default locations that the tools expects. The following tree structure displays the default locations for the configuration of a worker node:
@@ -111,7 +123,10 @@ When generating this file, it is possible to manually specify where to find each
 │ ├ certs
 │ │ └ <domain certs>
 │ ├ backend.yml
-│ └ policies.yml
+│ ├ policy_deliberation_secret.yml
+│ ├ policy_expert_secret.yml
+│ └ proxy.yml
+├ policies.db
 └ node.yml
 ```
 
@@ -166,7 +181,7 @@ This should generate multiple files in the `./config/certs` directory, chief of 
 
 > <img src="../../assets/img/info.png" alt="info" width="16" style="margin-top: 3px; margin-bottom: -3px"/> Certificate generation is done using [cfssl](https://github.com/cloudflare/cfssl), which is dynamically downloaded by `branectl`. The checksum of the downloaded file is asserted, and if you ever see a checksum-related error, then you might be dealing with a fake binary that is being downloaded under a real address. In that case, tread with care.
 
-When the certificates are generated, be sure the share `ca.pem` with the central node. If you are also adminstrating that node, see [here](./control-node.md#adding-certificates) for instructions on what to do with it.
+When the certificates are generated, be sure to share `ca.pem` with the central node. If you are also adminstrating that node, see [here](./control-node.md#adding-certificates) for instructions on what to do with it.
 
 
 ### Client-side certificates
@@ -182,7 +197,7 @@ To generate a client certificate, its easiest to navigate to the `./config/certs
 ```bash
 branectl generate certs client <LOCATION_ID> -H <HOSTNAME> -f -p ./client-certs
 ```
-where, again, the `<LOCATION_ID>` is the ID of the worker for which you are generating the command, and `<HOSTNAME>` is the hostname where it may be reached. Similarly to server certificates, you can omit `-H <HOSTNAME>` to default to the `<LOCATION_ID>`.
+Note, that the `<LOCATION_ID>` is now the ID of the worker _for which you are generating_ the certificate, and `<HOSTNAME>` is their address. Similarly to server certificates, you can omit `-H <HOSTNAME>` to default to the `<LOCATION_ID>`.
 
 > <img src="../../assets/img/warning.png" alt="warning" width="16" style="margin-top: 3px; margin-bottom: -3px"/> Note the `-f` and `-p` options. These are optional, and work together to redirect the output of the commands to a nested folder called `client-certs`. This is however very recommendable, since running this command without that flag in the server certificates folder will accidentally clear the `ca.pem` file, rendering the rest of the certificates useless.
 
@@ -197,11 +212,17 @@ Once the client certificates are generated, you can share the `ca.pem` and `clie
 ### Adding client certificates of other domains
 If your worker node needs to download data from other worker nodes, you will have to add the client certificates they generated to your configuration.
 
-The procedure to do so is identical as for central nodes. For every pair of a `ca.pem` and `client-id.pem` certificates you want to add:
+The procedure to do so is identical as for central nodes. For every pair of a `ca.pem` and `client-id.pem` certificates you want to:
 1. Create a directory with that domain's name in the `certs` directory (for the example, you would create a directory named `certs/amy` for a domain named `amy`)
 2. Move the certificates to that folder.
 
 At runtime, whenever your worker node will need to download a dataset from another worker, it will read the certificates in that worker's folder if they exist to authenticate itself.
+
+
+## Writing policies
+Before you launch the instance, you may want to [change the node's policy](../../policy-experts/managing-policies.md). If not, then the default policy kicks in; which is deny all.
+
+You can learn how to do so by assuming the role of a [policy expert](../../policy-experts/introduction.md) and learning how to manage policy. You can skip most of the installation, except perhaps for some practical test environments.
 
 
 ## Launching the instance
