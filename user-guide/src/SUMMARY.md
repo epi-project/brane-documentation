@@ -25,7 +25,7 @@
 # Policy experts
 - [Introduction](./policy-experts/introduction.md)
 - [Installation](./policy-experts/installation.md)
-- [The Policy File](./policy-experts/policy-file.md)
+- [The Policy File (deprecated)](./policy-experts/policy-file.md)
 
 
 # Software engineers
@@ -68,7 +68,7 @@
   - [`data.yml`](./config/users/data.md)
   - [`proxy.yml`](./config/admins/proxy.md)
   - [`node.yml`](./config/admins/node.md)
-  - [`policies.yml (deprecated)`](./policy-experts/policy-file.md)
+  - [`policies.yml` (deprecated)](./policy-experts/policy-file.md)
 
 
 
