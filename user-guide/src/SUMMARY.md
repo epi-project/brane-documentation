@@ -15,16 +15,14 @@
   - [Control node](./system-admins/installation/control-node.md)
   - [Worker node](./system-admins/installation/worker-node.md)
   - [Proxy node](./system-admins/installation/proxy-node.md)
-- [Brane compute backends](./system-admins/backends/introduction.md)
-  - [Local backend](./system-admins/backends/local.md)
-  - [SSH backend](./system-admins/backends/ssh.md)
-  - [Kubernetes backend](./system-admins/backends/k8s.md)
-  - [Slurm backend](./system-admins/backends/slurm.md)
 
 
 # Policy experts
 - [Introduction](./policy-experts/introduction.md)
 - [Installation](./policy-experts/installation.md)
+- [Managing policies](./policy-experts/management.md)
+- [Writing eFLINT](./policy-experts/eflint/introduction.md)
+- [Implementing a custom backed](./policy-experts/backend/introduction.md)
 - [The Policy File (deprecated)](./policy-experts/policy-file.md)
 
 

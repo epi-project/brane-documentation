@@ -1,11 +1,13 @@
 # Kubernetes infrastructures
+> <img src="../../assets/img/warning.png" alt="warning" width="16" style="margin-top: 3px; margin-bottom: -3px"/> The Kubernetes backend does currently not work. This page is provided for older Brane versions (< 1.0.0).
+
 One of the supported infrastructure types that Brane may orchestrate over is [Kubernetes](https://kubernetes.io).
 
 Brane is essentially build around containers, each of which represents a package with pieces of code that may be orchestrated in a workflow. Thus, connecting Brane to a system like Kubernetes is an easy choice, and requires preparation from the perspective of the system engineer in charge of the cluster.
 
 Essentially, all that has to be done is provide Brane with the proper credentials to connect to the cluster, and prepare a separate namespace.
 
-> <img src="../assets/img/info.png" alt="drawing" width="16" style="margin-top: 3px; margin-bottom: -3px"/> For now, Brane containers do not yet need any additional support beyond access to a network so they may reach the Brane control plane. Any distibuted file systems are implemented in the container as a [Redis](https://redis.io/) networked filesystem.
+> <img src="../../assets/img/info.png" alt="info" width="16" style="margin-top: 3px; margin-bottom: -3px"/> For now, Brane containers do not yet need any additional support beyond access to a network so they may reach the Brane control plane. Any distibuted file systems are implemented in the container as a [Redis](https://redis.io/) networked filesystem.
 
 
 ## Prepare the cluster

@@ -13,7 +13,7 @@ The configuration files for administrators are sorted by node type. The files ar
 
 
 ## Worker node
-- [`backend.yml`](./backend.md): A **YAML** file that defines how the worker node connects to the container execution backend. More information about the specific backends can be found in the [chapters for administrators](../../system-admins/backends/introduction.md).
+- [`backend.yml`](./backend.md): A **YAML** file that defines how the worker node connects to the container execution backend. Currently, only a local Docker backend is supported, with a Kubernetes backend in development.
 - [`policies.yml`](../../policy-experts/policy-file.md): A **YAML** file that defines any access control rules for which containers may be executed, and which datasets may be downloaded by whom. For more information, see the [chapters for policy experts](../../policy-experts/introduction.md).
 - [`data.yml`](../users/data.md): A **YAML** file that defines the layout of a dataset that is published on a worker node. Is the same file as used by [users](../users/introduction.md).
 - [`proxy.yml`](./proxy.md): A **YAML** file that defines the proxy settings for outgoing node traffic. Can also be found on the [central](#central-node) and [proxy](#proxy-node) nodes.
