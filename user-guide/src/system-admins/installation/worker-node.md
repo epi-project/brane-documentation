@@ -222,7 +222,19 @@ At runtime, whenever your worker node will need to download a dataset from anoth
 ## Writing policies
 Before you launch the instance, you may want to [change the node's policy](../../policy-experts/managing-policies.md). If not, then the default policy kicks in; which is deny all.
 
-You can learn how to do so by assuming the role of a [policy expert](../../policy-experts/introduction.md) and learning how to manage policy. You can skip most of the installation, except perhaps for some practical test environments.
+To change which policies are active, the policy experts needs access tokens to authorize themselves. You can generate these by running:
+```bash
+branectl generate policy_token <INITIATOR> <SYSTEM> <DURATION> -s <PATH_TO_SECRET>
+```
+where:
+- `<INITIATOR>` is the name of the policy expert (or some other identifier);
+- `<SYSTEM>` is some identifier for the system that acts on their behalf. Typically, this would be the identifier of the domain they are working for.
+- `<DURATION>` is the duration for which the token is valid. You should give it as numbers, with `s` for seconds, `m` for minutes, `d` for days or `y` for years (e.g., `31d`).
+- `<PATH_TO_SECRET>` is the path to the relevant policy secret you generated earlier.
+
+Note that the command writes the token to `./policy_token.json`, unless you change the path with `-p`. You can then share this token with the policy expert.
+
+More information to manage policies can be found in the [policy expert's documentation](../../policy-experts/management.md).
 
 
 ## Launching the instance
