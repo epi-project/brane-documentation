@@ -105,7 +105,7 @@ The contents of this file will typically only differ if you have advanced networ
 Next, we will generate the policy keys. To do so, run the following two commands:
 ```bash
 branectl generate policy_secret -f -p ./config/policy_deliberation_secret.json
-branectl generate policy_secret -f -p ./config/policy_expect_secret.json
+branectl generate policy_secret -f -p ./config/policy_expert_secret.json
 ```
 The default settings should suffice. If not, check `branectl generate policy_secret --help` for more information.
 
