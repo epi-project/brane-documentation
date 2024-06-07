@@ -6,3 +6,4 @@
 - [Brane: The User Guide](./user-guide.html)
 - [Brane: A Specification](./specification.html)
 - [Brane Code Documentation](./docs.html)
+- [Brane usage tutorials](./tutorials.html)

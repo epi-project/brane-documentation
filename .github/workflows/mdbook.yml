@@ -1,0 +1,102 @@
+# Sample workflow for building and deploying a mdBook site to GitHub Pages
+#
+# To get started with mdBook see: https://rust-lang.github.io/mdBook/index.html
+#
+name: Deploy mdBook site to Pages
+
+on:
+  # Runs on pushes targeting the default branch
+  push:
+    branches: ["main", "ci"]
+
+  # Allows you to run this workflow manually from the Actions tab
+  workflow_dispatch:
+
+# Sets permissions of the GITHUB_TOKEN to allow deployment to GitHub Pages
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+# Allow only one concurrent deployment, skipping runs queued between the run in-progress and latest queued.
+# However, do NOT cancel in-progress runs as we want to allow these production deployments to complete.
+concurrency:
+  group: "pages"
+  cancel-in-progress: false
+
+jobs:
+  # Build job
+  build:
+    runs-on: ubuntu-latest
+    env:
+      MDBOOK_VERSION: 0.4.36
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install Rust
+        run: |
+          curl --proto '=https' --tlsv1.2 https://sh.rustup.rs -sSf -y | sh
+          rustup update
+
+      - name: Install cargo-binstall
+        uses: cargo-bins/cargo-binstall@v1.6.9
+
+      - name: Install dependencies
+        run: |
+          cargo binstall --no-confirm --version ${MDBOOK_VERSION} mdbook
+          cargo binstall --no-confirm mdbook-linkcheck
+
+      - name: Setup Pages
+        id: pages
+        uses: actions/configure-pages@v5
+      #
+      # - name: Create build directory
+      #   run: mkdir build
+
+      - name: Build with mdBook (Main)
+        run: |
+          mdbook build main
+          cp -r main/book build
+
+      - name: Build with mdBook (User Guide)
+        run: |
+          mdbook build user-guide
+          cp -r user-guide/book build/user-guide
+
+      - name: Build with mdBook (Specification)
+        run: |
+          mdbook build specification
+          cp -r specification/book build/specification
+
+      - name: Build with mdBook (Tutorials)
+        run: |
+          mdbook build tutorials
+          cp -r tutorials/book build/tutorials
+
+      - uses: actions/checkout@v4
+        with:
+          repository: "epi-project/brane"
+          path: code
+
+      - name: Build code documentation
+        run: |
+          cd code
+          cargo doc --workspace
+          cp -r target/doc ../build/docs
+
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: ./build
+
+  # Deployment job
+  deploy:
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    runs-on: ubuntu-latest
+    needs: build
+    steps:
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
+

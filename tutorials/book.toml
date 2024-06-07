@@ -1,0 +1,6 @@
+[book]
+authors = ["Daniel Voogsgerd"]
+language = "en"
+multilingual = false
+src = "src"
+title = "Brane Tutorials"

@@ -20,11 +20,3 @@ $ cd <book_dir>
 # Build using mdbook
 $ mdbook build
 ```
-
-Alternatively, you can use the `upload_book.sh` script to automatically build the book, and then use rsync to send it and relevant dependencies to a remote server:
-```bash
-$ ./upload_book.sh <book> <server_dir>
-
-# For example
-$ ./upload_book.sh ./user-guide foo@bar.com:/var/www/bar.com/brane
-```
