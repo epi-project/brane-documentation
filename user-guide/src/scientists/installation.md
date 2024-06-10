@@ -52,13 +52,13 @@ sudo mv ~/Downloads/brane-darwin-x86_64 /usr/local/bin/brane
 
 To verify that the installation was succesfull, you can run:
 ```bash
-brane --version
+brane version
 ```
 If you see a version number, the installation was successful; but if you see an error (likely something along the lines of `No such file or directory`), you should try to re-do the above steps and try again.
 
 > <img src="../assets/img/info.png" alt="info" width="16" style="margin-top: 3px; margin-bottom: -3px"/> Note that the act of copying the `brane` executable to somewhere in your PATH is not necessary. However, if you don't, remember that you will have to replace all calls to `brane` with the path of where your downloaded the executable. For example, to verify whether it works, use this command instead:
 > ```bash
-> ~/Downloads/brane-darwin-x86_64 --version
+> ~/Downloads/brane-darwin-x86_64 version
 > ```
 
 > <img src="../assets/img/info.png" alt="info" width="16" style="margin-top: 3px; margin-bottom: -3px"/> If you see an error along the lines of `Permission denied`, you can try to give execution rights to the binary:
@@ -75,4 +75,4 @@ To compile the binary, we refer your to the [installation chapter for software e
 
 
 ## Next
-If you are able to run the `brane --version` command, you have installed your `brane` executable successfully! You can now move to the [next chapter](./instances.md), which contains information on how to connect to remote instances and manage your credentials. After that, continue with the chapter on [package management](./packages.md), or start by writing your first workflow in either [BraneScript](./bscript/introduction.md) or [Bakery](./bakery/introduction.md).
+If you are able to run the `brane version` command, you have installed your `brane` executable successfully! You can now move to the [next chapter](./instances.md), which contains information on how to connect to remote instances and manage your credentials. After that, continue with the chapter on [package management](./packages.md), or start by writing your first workflow in either [BraneScript](./bscript/introduction.md) or [Bakery](./bakery/introduction.md).
