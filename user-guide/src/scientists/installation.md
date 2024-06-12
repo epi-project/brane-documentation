@@ -75,4 +75,4 @@ To compile the binary, we refer your to the [installation chapter for software e
 
 
 ## Next
-If you are able to run the `brane --version` command, you have installed your `brane` executable successfully! You can now move to the [next chapter](./instances.md), which contains information on how to connect to remote instances and manage your credentials. After that, continue with the chapter on [package management](./packages.md), or start by writing your first workflow in either [BraneScript](./bscript/introduction.md) or [Bakery](./bakery/introduction.md).
+If you are able to run the `brane --version` command, you have installed your `brane` executable successfully! You can now move to the [next chapter](./instances.md), which contains information on how to connect to remote instances and manage your credentials. After that, continue with the chapter on [package management](./packages.md), or start by writing your first workflow in [BraneScript](./bscript/introduction.md).
