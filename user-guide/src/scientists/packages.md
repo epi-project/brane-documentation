@@ -166,6 +166,6 @@ brane unpublish hello_world:1.0.0
 
 
 ## Next
-Now that you can manage packages, it is finally time to move on to that which you are here to do: write workflows. There are multiple languages to choose from; you can go to the [next chapter](./bscript/workflow.md) for BraneScript, or to the [Bakery chapter](./bakery/workflow.md) for the Bakery language.
+Now that you can manage packages, it is finally time to move on to that which you are here to do: write workflows. You can go to the [next chapter](./bscript/workflow.md) for tutorials on doing so with Brane's own language, BraneScript.
 
-However, if you already have a basic idea, you can also skip ahead to further chapters in each language to discuss increasingly advanced concepts. Alternatively, you can also just check the more extensive tutorials on [BraneScript](../branescript/introduction.md) or [Bakery documentation](../bakery/introduction.md) in their own series of chapters.
+However, if you already have a basic idea, you can also skip ahead to further chapters in each language to discuss increasingly advanced concepts. Alternatively, you can also just check the more extensive tutorials on [BraneScript](../branescript/introduction.md) in its own series of chapters.

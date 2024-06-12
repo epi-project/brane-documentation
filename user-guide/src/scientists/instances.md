@@ -199,4 +199,4 @@ After running the command, the certificates will disappear again if you run `bra
 
 
 ## Next
-Now that you can manage instances and their credentials, you are ready to start writing your own workflow. This can be done in multiple languages - either in [BraneScript](./bscript/introduction.md) or in [Bakery](./bakery/introduction.md), and the remainder of the chapters for scientists will be dependent on one of these languages.
+Now that you can manage instances and their credentials, you are ready to start [managing the packages](./packages.md) available locally and in your Brane instance of choice. If that's already setup, you can start writing your own workflow! See the [chapter on BraneScript](./bscript/introduction.md) for how to do this.
