@@ -59,6 +59,9 @@ You may also compile the binary from source if you need the cutting-edge latest 
 To do so, you should first install a couple of additional dependencies that are required when building the framework:
 - Install [Rust](https://www.rust-lang.org)'s compiler and the associated [Cargo](https://crates.io/) package manager (the easiest is to install using [rustup](https://rustup.rs) (cross-platform))
   - If you use rustup, don't forget to logout and in again to refresh the PATH.
+- On Windows:
+  - Install [Python](https://python.org)
+  - Install [Perl](https://perl.org) ([Strawberry Perl](https://strawberryperl.com/) is fine)
 - On macOS:
   - Install XCode Command-Line Tools:
     ```bash
