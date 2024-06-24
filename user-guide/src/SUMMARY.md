@@ -87,16 +87,5 @@
 # Bakery
 - [Introduction](./bakery/introduction.md)
 
-
-
------
-# Appendix
-- [Tutorials](./appendix/tutorials/overview.md)
-  - [20-04-2023: ICT.OPEN](./appendix/tutorials/2023-04-20/overview.md)
-    - [Part 1: Hello, world!](./appendix/tutorials/2023-04-20/p1_hello_world.md)
-    - [Part 2: A workflow for Disaster Tweets](./appendix/tutorials/2023-04-20/p2_disaster_tweets.md)
-  - [23-10-2023: UMC Utrecht](./appendix/tutorials/2023-10-23/overview.md)
-    - [Hands-on session: Hello, world!](./appendix/tutorials/2023-10-23/hello_world.md)
-
 <!-- - [Courses](./appendix/courses/overview.md)
   - [Web Services and Cloud-Based Systems 2023](./appendix/courses/wscbs2023/overview.md) -->
