@@ -22,7 +22,7 @@ All of these functions can be found in the `compute` package.
 
 Then, optionally, any number of visualizations can be implemented as well to obtain results from the dataset and the model. Conveniently, you can generate all of them in a convenient HTML file by calling the `visualization_action()` function from the `visualization` package, but you can also generate the plots separately.
 
-> <img src="../../../assets/img/info.png" alt="info" width="16" style="margin-top: 3px; margin-bottom: -3px"/> Tip: If you use `brane inspect <package>`, you can see the tasks defined in a package together with which input and output the tasks define. For example:
+> <img src="../../assets/img/info.png" alt="info" width="16" style="margin-top: 3px; margin-bottom: -3px"/> Tip: If you use `brane inspect <package>`, you can see the tasks defined in a package together with which input and output the tasks define. For example:
 > 
 > <img src="./img/inspect.png" alt="Successfully built version 1.0.0 of container (ECU) package hello_world." width=500/>
 
@@ -58,7 +58,7 @@ Once it completes, navigate to the directory of the second dataset and repeat th
 
 The `data.yml` file itself is relatively straightforward, and so we encourage you to take a look at it yourself. Similarly, also take a look at the dataset itself to see what the pipeline will be working on.
 
-> <img src="../../../assets/img/info.png" alt="info" width="16" style="margin-top: 3px; margin-bottom: -3px"/> By default, the above command does not copy the dataset file referenced in `data.yml`, but instead just links it. This is usually fine, but if you intend to delete the downloaded files immediately afterwards, use the `--no-links` flag to copy the dataset instead.
+> <img src="../../assets/img/info.png" alt="info" width="16" style="margin-top: 3px; margin-bottom: -3px"/> By default, the above command does not copy the dataset file referenced in `data.yml`, but instead just links it. This is usually fine, but if you intend to delete the downloaded files immediately afterwards, use the `--no-links` flag to copy the dataset instead.
 
 
 ## Writing the workflow - Compute
@@ -133,7 +133,7 @@ And with that, we have a workflow that can train a binary classifier on the Disa
 ## Writing a workflow - Visualization
 The next step is to add inference to the network, and to generate some plots that can show it works. To do so, we will add a few extra function calls at the bottom of your `workflow.bs` file.
 
-> <img src="../../../assets/img/info.png" alt="info" width="16" style="margin-top: 3px; margin-bottom: -3px"/> You can also easily create a new workflow file to separate training and inference. If you want to, create a new workflow file and try to write the start yourself. You will probably have to commit the cleaned and final datasets in the previous workflow, and then use them and the model here. Also, don't forget to add the `import`s on top of your file.
+> <img src="../../assets/img/info.png" alt="info" width="16" style="margin-top: 3px; margin-bottom: -3px"/> You can also easily create a new workflow file to separate training and inference. If you want to, create a new workflow file and try to write the start yourself. You will probably have to commit the cleaned and final datasets in the previous workflow, and then use them and the model here. Also, don't forget to add the `import`s on top of your file.
 
 Scroll past the training, and write the following:
 ```bscript
@@ -158,7 +158,7 @@ return commit_result("nlp_plot", plot);
 ```
 Here, we call the function (which takes both datasets and the classification), and commit its resulting plot. Note, however, that we `return` this dataset from the workflow. This means that, upon completion, the client will automatically attempt to download this dataset from the remote instance. Only one result can be returned at a time, and if you ever need to download more, simply submit a new workflow with only the return statement.
 
-> <img src="../../../assets/img/info.png" alt="info" width="16" style="margin-top: 3px; margin-bottom: -3px"/> As an alternative to using the generic function, the `visualization` package exposes its individual plot generation logic as separate functions. It might be a fun exercise to try and add these yourself, by using `brane inspect` and the package's code itself.
+> <img src="../../assets/img/info.png" alt="info" width="16" style="margin-top: 3px; margin-bottom: -3px"/> As an alternative to using the generic function, the `visualization` package exposes its individual plot generation logic as separate functions. It might be a fun exercise to try and add these yourself, by using `brane inspect` and the package's code itself.
 
 And that's it! You can now save and close your workflow file(s), and then move on to the next step: executing it.
 
@@ -171,7 +171,7 @@ brane run <PATH_TO_WORKFLOW>
 
 If your workflow works, you should see it blocking which indicates it is working. Eventually, the workflow should return and show you where it stored the final result of the workflow. If not, then it will likely show you an error of what went wrong, which may be anything from passing the wrong arguments to forgetting a semicolon (the latter tends to generate "end-of-file" errors, as do missing parenthesis errors).
 
-> <img src="../../../assets/img/info.png" alt="info" width="16" style="margin-top: 3px; margin-bottom: -3px"/> Tip: If you want to better monitor the progression, insert `println()` calls in your workflow! It takes a single argument, which will always be serialized to a string before printing it to stdout. By mixing `print()` (print without newline) and `println()`, you can even write formatted strings.
+> <img src="../../assets/img/info.png" alt="info" width="16" style="margin-top: 3px; margin-bottom: -3px"/> Tip: If you want to better monitor the progression, insert `println()` calls in your workflow! It takes a single argument, which will always be serialized to a string before printing it to stdout. By mixing `print()` (print without newline) and `println()`, you can even write formatted strings.
 
 After having added some additional `println()` statements, you might see something like the following:
 
@@ -237,7 +237,7 @@ Before we can run the workflow in the remote environment, we have to add a certi
 
 Note that you will need new certificates for every domain, since you may not be involved with every domain. Thus, you can download the certificates for the University of Amsterdam [here](./certs/uva-certs.zip), and the certificates for the SURF server [here](./certs/surf-certs.zip).
 
-> <img src="../../../assets/img/warning.png" alt="warning" width="16" style="margin-top: 3px; margin-bottom: -3px"/> Obviously, posting your private client key on a publicly available website is about the worst thing you can do, security-wise. Luckily for us, this tutorial is about the BRANE framework and not security best practises - but just be aware this isn't one.
+> <img src="../../assets/img/warning.png" alt="warning" width="16" style="margin-top: 3px; margin-bottom: -3px"/> Obviously, posting your private client key on a publicly available website is about the worst thing you can do, security-wise. Luckily for us, this tutorial is about the BRANE framework and not security best practises - but just be aware this isn't one.
 
 Download both of these files, and extract the archives. Then, for each of the two directories with certificates, run the following command to add them to the client:
 ```bash
@@ -270,7 +270,7 @@ You might note this is exactly the same command as to run it locally, save for t
 
 In the final step, the part with `Workflow returned value...`, the dataset is downloaded to your local machine. This means it is available in a similar manner as for local datasets, except it has now been executed remotely.
 
-> <img src="../../../assets/img/info.png" alt="info" width="16" style="margin-top: 3px; margin-bottom: -3px"/> If you use the `--debug` flag, you might see that the final result is actually downloaded from a _different_ location than where you executed the workflow. This is because the resulting dataset is available on both sites (under the same identifier), and because the on-struct only affects tasks, not the builtin `commit_result`-function. Whether this has to be changed in the future remains to be seen, but just repeat the execution of your workflow a few times to also see the download from the other location.
+> <img src="../../assets/img/info.png" alt="info" width="16" style="margin-top: 3px; margin-bottom: -3px"/> If you use the `--debug` flag, you might see that the final result is actually downloaded from a _different_ location than where you executed the workflow. This is because the resulting dataset is available on both sites (under the same identifier), and because the on-struct only affects tasks, not the builtin `commit_result`-function. Whether this has to be changed in the future remains to be seen, but just repeat the execution of your workflow a few times to also see the download from the other location.
 
 
 ## Conclusion

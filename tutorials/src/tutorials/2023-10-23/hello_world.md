@@ -44,7 +44,7 @@ To make your life easy, however, you can directly download the binaries here:
 - For macOS ([Intel](https://github.com/epi-project/brane/releases/download/v3.0.0/brane-darwin-x86_64), [M1/M2](https://github.com/epi-project/brane/releases/download/v3.0.0/brane-darwin-aarch64))
 - For [Linux](https://github.com/epi-project/brane/releases/download/v3.0.0/brane-linux-x86_64)
 
-> <img src="../../../assets/img/info.png" alt="info" width="16" style="margin-top: 3px; margin-bottom: -3px"/> When in doubt, choose `x86_64` for your processor architecture. Or ask a tutorial host.
+> <img src="../../assets/img/info.png" alt="info" width="16" style="margin-top: 3px; margin-bottom: -3px"/> When in doubt, choose `x86_64` for your processor architecture. Or ask a tutorial host.
 
 Once downloaded, it is recommended to rename the executable to `brane` to follow the calling convention we are using in the remainder of this document. Open a terminal in the folder where you downloaded the executable (probably `Downloads`), and run:
 ```bat
@@ -75,7 +75,7 @@ brane --version
 ```
 without getting `not found`-errors.
 
-> <img src="../../../assets/img/info.png" alt="info" width="16" style="margin-top: 3px; margin-bottom: -3px"/> If you don't want to put `brane` in your PATH, you can also replace all occurrences of `brane` with `./brane` in the subsequent commands (or any other path/name). Additionally, you can also run:
+> <img src="../../assets/img/info.png" alt="info" width="16" style="margin-top: 3px; margin-bottom: -3px"/> If you don't want to put `brane` in your PATH, you can also replace all occurrences of `brane` with `./brane` in the subsequent commands (or any other path/name). Additionally, you can also run:
 > ```bash
 > export PATH="$PATH:$(pwd)"
 > ```
@@ -184,7 +184,7 @@ files:
 ```
 Then the framework also has to know which files to put in the package. Because we have only one file, this is relatively simply: just the `hello.py` file. Note that any filepath is, by default, relative to the `container.yml` file itself; so by just writing `hello.py` we mean that the framework needs to include a file with that name in the same folder as `container.yml`.
 
-> <img src="../../../assets/img/info.png" alt="info" width="16" style="margin-top: 3px; margin-bottom: -3px"/> The files included will, by default, mimic the file structure that is defined. So if you include a file that is in some directory, then it will also be in that directory in the resulting package. For example, if you include:
+> <img src="../../assets/img/info.png" alt="info" width="16" style="margin-top: 3px; margin-bottom: -3px"/> The files included will, by default, mimic the file structure that is defined. So if you include a file that is in some directory, then it will also be in that directory in the resulting package. For example, if you include:
 > ```yaml
 > files:
 > - foo/hello.py
@@ -206,7 +206,7 @@ Large projects typically have multiple files, and only one of them serves as the
 
 As already mentioned, the framework will call the executably "directly" (e.g., `./hello.py` in this case). This means that, if the file is a script (like ours), we need a [shebang](https://en.wikipedia.org/wiki/Shebang_(Unix)) (e.g., `#!/usr/bin/env python3`) string to tell the OS how to call it.
 
-> <img src="../../../assets/img/info.png" alt="info" width="16" style="margin-top: 3px; margin-bottom: -3px"/> Even if your package implements multiple tasks, it can only have a single entrypoint. To this end, most packages define a simple entrypoint script that takes the input arguments and uses that to call an appropriate second script or executable for the task at hand.
+> <img src="../../assets/img/info.png" alt="info" width="16" style="margin-top: 3px; margin-bottom: -3px"/> Even if your package implements multiple tasks, it can only have a single entrypoint. To this end, most packages define a simple entrypoint script that takes the input arguments and uses that to call an appropriate second script or executable for the task at hand.
 
 ### Defining tasks
 ```yaml
@@ -255,7 +255,7 @@ brane build ./container.yml
 ```
 The executable will work for a bit, and should eventually let you know it's done with:
 
-<img src="../../../assets/img/hello-world-build-success.png" alt="Successfully built version 1.0.0 of container (ECU) package hello_world." width=650/>
+<img src="../../assets/img/hello-world-build-success.png" alt="Successfully built version 1.0.0 of container (ECU) package hello_world." width=650/>
 
 If you then run
 ```bash
@@ -283,7 +283,7 @@ If you hit Enter, the tool will query you for input parameters - but since there
 
 And that's indeed the string we want to see!
 
-> <img src="../../../assets/img/info.png" alt="info" width="16" style="margin-top: 3px; margin-bottom: -3px"/> The first time you run a newly built package, you will likely see some additional delay when executing it. This is because the Docker backend has to load the container first. However, if you re-run the same task, you should see a significant speedup compared to the first time because the container has been cached.
+> <img src="../../assets/img/info.png" alt="info" width="16" style="margin-top: 3px; margin-bottom: -3px"/> The first time you run a newly built package, you will likely see some additional delay when executing it. This is because the Docker backend has to load the container first. However, if you re-run the same task, you should see a significant speedup compared to the first time because the container has been cached.
 
 ### Running a workflow
 The above is, however, not very interesting. We can verify the function works, but we cannot do anything with its result.
@@ -307,7 +307,7 @@ If everything is alright, you should see:
 
 <img src="img/run.png" alt="A terminal showing the command to run the workflow, and then 'Hello, world!'" width=510/>
 
-> <img src="../../../assets/img/info.png" alt="info" width="16" style="margin-top: 3px; margin-bottom: -3px"/> The `brane`-tool also features an interactive Read-Eval-Print Loop (REPL) that you can use to write workflows as well. Run `brane repl`, and then you can write the two lines of your workflow separately:
+> <img src="../../assets/img/info.png" alt="info" width="16" style="margin-top: 3px; margin-bottom: -3px"/> The `brane`-tool also features an interactive Read-Eval-Print Loop (REPL) that you can use to write workflows as well. Run `brane repl`, and then you can write the two lines of your workflow separately:
 > 
 > <img src="img/repl-1.png" alt="A terminal showing the command to run the workflow, and then 'Hello, world!'" width=450/>
 > 
@@ -351,7 +351,7 @@ brane push hello_world
 ```
 This will push the specified package `hello_world` to the instance that is currently active. Wait for the command complete, and once it has, we can prepare the workflow itself for remote execution.
 
-> <img src="../../../assets/img/warning.png" alt="warning" width="16" style="margin-top: 3px; margin-bottom: -3px"/> Note that this instance is shared by all participants in the system; so if you just upload your own package with the `hello_world`-name, you will probably overwrite someone else's. To avoid this problem, re-build your package with a unique name before pushing.
+> <img src="../../assets/img/warning.png" alt="warning" width="16" style="margin-top: 3px; margin-bottom: -3px"/> Note that this instance is shared by all participants in the system; so if you just upload your own package with the `hello_world`-name, you will probably overwrite someone else's. To avoid this problem, re-build your package with a unique name before pushing.
 
 ### Adapting the workflow
 In the ideal case, Brane can take a workflow that runs locally and deduce by itself where the steps in the workflow must be executed (i.e., _plan_ it). However, unfortunately, the current implementation can't do this (ask me why :) ), and so we have to adapt our workflow a little bit to make it compatible with the instance that we're going to be running on.
@@ -378,12 +378,12 @@ brane run ./workflow.bs --remote
 
 And that's it! While it looks like there isn't a lot of difference, your code just got executed on a remote server!
 
-> <img src="../../../assets/img/info.png" alt="info" width="16" style="margin-top: 3px; margin-bottom: -3px"/> You may see warnings relating to the 'On'-structures being deprecated (see the image above). This can safely be ignored; they will be replaced by a better method soon, but this method is not implemented yet.
+> <img src="../../assets/img/info.png" alt="info" width="16" style="margin-top: 3px; margin-bottom: -3px"/> You may see warnings relating to the 'On'-structures being deprecated (see the image above). This can safely be ignored; they will be replaced by a better method soon, but this method is not implemented yet.
 
 ### Using the IDE
 If the workflow is going to be remotely, one can also step away from the CLI-tool and instead use the [Brane IDE](https://github.com/epi-project/brane-ide)-project, which is built on top of [Jupyter Lab](https://jupyter.org/) to provide a BraneScript notebook interface.
 
-> <img src="../../../assets/img/warning.png" alt="warning" width="16" style="margin-top: 3px; margin-bottom: -3px"/> Note that currently, only writing and running workflows is supported (i.e., the `brane run ...` command). Managing packages still has to be done through the CLI.
+> <img src="../../assets/img/warning.png" alt="warning" width="16" style="margin-top: 3px; margin-bottom: -3px"/> Note that currently, only writing and running workflows is supported (i.e., the `brane run ...` command). Managing packages still has to be done through the CLI.
 
 To use it, [download the source code](https://github.com/epi-project/brane-ide/archive/refs/tags/v1.0.0.zip) from the repository and unpack it. Also download the Brane CLI library, which is used by the IDE to send commands to the Brane server. You can download it [here](https://github.com/epi-project/brane/releases/download/v3.0.0/libbrane_cli-linux-x86_64.tar.gz). Unpack it as well, and place the `libbrane_cli.so` file in the root folder of the Brane IDE repository.
 

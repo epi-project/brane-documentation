@@ -11,4 +11,7 @@ This site is split into three sub-sites, each with its own purpose:
 - [Brane Code Documentation](./docs.html) is the documentation for the code itself. It's not really meant to be read from top to bottom, like the other books, but rather as a reference during development on existing code.
   > <img src="./assets/img/info.png" alt="drawing" width="16" style="margin-top: 3px; margin-bottom: -3px"/> Note that the documentation is generated specifically for a Linux x86/64 build. If you are developing or running Brane on a non-Linux or non-x86_64 machine, it might make sense to generate the documentation yourself instead; check [cargo doc](https://doc.rust-lang.org/cargo/commands/cargo-doc.html).
 
+As an aside, this wiki also hosts:
+- [Tutorial Materials](./tutorials.html) contains resources for past demos, workshops and tutorials hosted for the Brane project. These are useful as they contain additional examples, slides and other materials that may further one's understanding for Brane.
+
 You can click on any of the links here or in the sidebar (to the left) to go to the resource of your choosing.
