@@ -38,37 +38,7 @@ sudo chmod +x /usr/local/bin/branectl
 ## Compile it yourself
 Sometimes, though, the executable provided on the repository doesn't suit your needs. This is typically the case if you need a cutting-edge version that isn't released, you have an uncommon OS or processor architecture or an incompatible GLIBC version.
 
-In that case, it's necessary to compile the `branectl` executable yourself.
-
-To do so, first make sure that you have installed the [compilation dependencies](./dependencies.md#branectl) of `branectl` as discussed in the previous chapter.
-
-Then, you can clone the [repository](https://github.com/epi-project/brane) to obtain the source code:
-```bash
-# Will clone to './brane'
-git clone https://github.com/epi-project/brane
-```
-
-Navigate to the source directory, and then use the `make.py` script to compile `branectl`:
-```bash
-# Replace './brane' with some other path if needed
-cd ./brane
-./make.py ctl
-```
-
-The `make.py` script will handle the rest.
-
-You can also compile the `ctl` in development mode (i.e., with added debug statements and symbols) by appending the `--dev` flag:
-```bash
-./make.py ctl --dev
-```
-
-Finally, you can also compile the binary for another architecture:
-```bash
-# To compile for M1 macs on a Linux machine, for example
-./make.py ctl --os macOS --arch aarch64
-```
-
-Note, however, the [additional dependencies](./dependencies.md#cross-compilation) if you do so.
+To compile the binary, refer to the [compilation instructions](https://wiki.enablingpersonalizedinterventions.nl/specification/setup/compilation.html) over at the [Brane: A Specification](https://wiki.enablingpersonalizedinterventions.nl/specification)-book for instructions.
 
 
 ## Next

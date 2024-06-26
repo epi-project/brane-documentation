@@ -10,12 +10,14 @@ The reason that Brane is called a framework is that domains are free to implemen
 ## Book layout
 We cover a number of different aspects of Brane's design in this book, separated into different groups of chapters.
 
-In the first series of chapters, we will discuss the design [requirements](./requirements/introduction.md). Here, we will discuss the parculiarities of Brane's use case and which assumptions where made. This will help to contextualise the more technical discussion later on.
+First, in the [development](./development/introduction.md)-chapters, we detail how to setup your laptop such that you can develop Brane. Part of this is compiling the most recent version of the framework.
 
-The second series discusses the [design](./design/introduction.md) of Brane. This enumerates the components that make the framework and how these should behave. These chapters display Brane's inner workings up to (but not including) the point of implementation.
+In [design requirements](./requirements/introduction.md), we will discuss the design behind Brane and what motivated decisions made. Here, we will layout the parculiarities of Brane's use case and which assumptions where made. This will help to contextualise the more technical discussion later on.
 
-Next, the third series of chapters focuses on the [specification](./spec/introduction.md) of the framework. This is a really technical chapter, where the protocols between the components are defind. This chapter is mostly useful if you intend to implement parts of the framework.
+The series on [implementation](./implementation/introduction.md) details how the requirements are implemented by discussing notable implementation decisions on a high-level. For low-level implementation, refer to the auto-generated [Brane Code Documentation](https://wiki.enablingpersonalizedinterventions.nl/docs.html).
 
-Finally, in the fourth series, we provide a [Future work](./future/introduction.md) view of Brane with ideas not yet implemented but which we believe are essential or otherwise very practical.
+In [framework specification](./spec/introduction.md), we provide some lower-level details on the "specification" parts of the framework. In essence, this will give technical interfaces or APIs that allow components to communicate with each other, even if they have a custom implementation.
 
-In addition to the main story, there is also the [Appendix](./appendix/introduction.md) which discusses anything not part of it but worth noting. Most notably, the specification of the custom Domain-Specific Language (DSL) of Brane is given here, [BraneScript](./appendix/languages/bscript/introduction.md).
+Finally, we discuss [future work](./future/introduction.md) for Brane: ideas not yet implemented but which we believe are essential or otherwise very practical.
+
+In addition to the main story, there is also the [Appendix](./appendix/introduction.md) which discusses anything not part of the official story but worth noting. Most notably, the specification of the custom Domain-Specific Language (DSL) of Brane is given here, [BraneScript](./appendix/languages/bscript/introduction.md).
