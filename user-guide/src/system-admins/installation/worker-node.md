@@ -31,32 +31,7 @@ Once these complete successfully, you should have the images for the worker node
 
 
 ### Compiling the images
-The other way to obtain the images is to compile them yourself.
-
-Make sure that you have installed the additional [compilation dependencies](./dependencies.md#compilation-dependencies) before continuing (and make sure you match the mode you choose below).
-
-There are two modes of compilation:
-- In _release_ mode, you will compile the framework directly in the containers that will be using it. This is the recommended method in most cases.
-- In _debug_ or _development_ mode, you will compile the framework with debug symbols, additional debug prints and outside of a container which optimizes repeated recompilation. Additionally, it also statically links GLIBC so the resulting binaries are very portable. This method should only be preferred if you are actively developing the framework.
-
-> <img src="../../assets/img/warning.png" alt="warning" width="16" style="margin-top: 3px; margin-bottom: -3px"/> Before you consider installing in debug mode, be aware that the resulting images will be very large (due to the debug symbols and the statically linked GLIBC). Moreover, the build cache kept in between builds is also _huge_. Make sure you have enough space on your machine available (~10GB) before continuing, and regularly clean the cache yourself to avoid it growing boundlessly.
-
-Regardless of which one you choose, though, clone the repository first:
-```bash
-# Will clone to './brane'
-git clone https://github.com/epi-project/brane
-```
-
-Navigate to the source directory, and then use the `make.py` script to compile `branectl`:
-```bash
-# Run the compilation in release mode
-cd ./brane && ./make.py worker-instance
-
-# Run the compilation in debug mode (note the '--dev')
-cd ./brane && ./make.py worker-instance --dev
-```
-
-The `make.py` script will handle the rest, compiling the Docker images to the `target/release` directory for release mode, and `target/debug` for the debug mode.
+The other way to obtain the images is to compile them yourself. If you want to do so, refer to the [compilation instructions](https://wiki.enablingpersonalizedinterventions.nl/specification/setup/compilation.html) over at the [Brane: A Specification](https://wiki.enablingpersonalizedinterventions.nl/specification)-book for instructions.
 
 
 ## Generating configuration
