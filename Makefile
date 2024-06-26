@@ -22,6 +22,10 @@ build/tutorials:
 	mdbook build tutorials
 	cp -r tutorials/book build/tutorials
 
+.PHONY: serve
+serve:
+	python3 -m http.server -d build
+
 .PHONY: clean
 clean:
 	rm -r build
