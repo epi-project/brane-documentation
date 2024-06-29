@@ -143,15 +143,15 @@ The `-f` flag will make sure that any of the missing directories (e.g., `config/
 
 For example, we can generate a `node.yml` file for a worker with the identifier `bob`:
 ```bash
-branectl generate node -f worker 1.2.3.4 bob
+branectl generate node -f worker 192.0.2.2 bob
 ```
 
 Once again, you can change many of the properties in the `node.yml` file by specifying additional command-line options (see the [`branectl` documentation](TODO) or the builtin `branectl generate node --help`) or by changing the file manually (see the [`node.yml` documentation](../../config/admins/node.md)).
 
 > <img src="../../assets/img/warning.png" alt="warning" width="16" style="margin-top: 3px; margin-bottom: -3px"/> Due to a  [bug](https://github.com/epi-project/brane/issues/27) in one of the framework's dependencies, it cannot handle certificates on IP addresses. To workaround this issue, the `-H` option is provided; it can be used to specify a certain hostname/IP mapping for this node only. Example:
 > ```bash
-> # We can address '1.2.3.4' with 'some-domain' now
-> branectl generate node -f -H some-domain:1.2.3.4 worker bob-domain.com bob
+> # We can address '192.0.2.2' with 'some-domain' now
+> branectl generate node -f -H some-domain:192.0.2.2 worker bob-domain.com bob
 > ```
 > Note that this is local to this domain only; you have to specify this on other nodes as well. For more information, see the [`node.yml` documentation](../../config/admins/node.md).
 
@@ -203,7 +203,7 @@ Note, that the `<LOCATION_ID>` is now the ID of the worker _for which you are ge
 
 For example, contuining the example in the previous subsection, we now generate a client certificate for `bob` at `bobs-emporium.com`:
 ```bash
-branectl generate certs client bob -H 1.2.3.4
+branectl generate certs client bob -H 192.0.2.2
 ```
 
 Once the client certificates are generated, you can share the `ca.pem` and `client-id.pem` files with the client who intends to connect to this node.

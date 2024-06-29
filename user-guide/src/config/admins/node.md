@@ -20,9 +20,9 @@ node: ...
   ...
 ```
 ```yaml
-# This example allows us to use `amy-worker-node.com` on any of the services to refer to `4.3.2.1`
+# This example allows us to use `amy-worker-node.com` on any of the services to refer to `192.0.2.3`
 hostnames:
-  amy-worker-node.com: 4.3.2.1
+  amy-worker-node.com: 192.0.2.3
 node: ...
   ...
 ```
@@ -320,7 +320,7 @@ node: !central
 ```yaml
 # Shows a full worker node, with a hostname mapping for `amy-worker-node.com`
 hostnames:
-  amy-worker-node.com: 4.3.2.1
+  amy-worker-node.com: 192.0.2.3
 node: !worker
   name: amy-worker-node
   usecases:

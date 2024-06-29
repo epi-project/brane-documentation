@@ -14,7 +14,7 @@ The `infra.yml` file is written in [YAML](https://yaml.org). It features only th
   - `delegate`: The address of the delegate service (i.e., `brane-job`) on the target worker node. Must be given using a scheme (either `http` or `grpc`), an IP address or hostname and a port.
   - `registry`: The address of the local registry service (i.e., `brane-reg`) on the target worker node. Must be given using a scheme (`https`), an IP address or hostname and a port.
 
-For example, the following defines an `infra.yml` file for two workers, `amy` at `amy-worker-node.com` and `bob` at `1.2.3.4`:
+For example, the following defines an `infra.yml` file for two workers, `amy` at `amy-worker-node.com` and `bob` at `192.0.2.2`:
 ```yaml
 locations:
   # Amy's node
@@ -26,6 +26,6 @@ locations:
   # Bob's node
   bob:
     name: Bob's Worker Node
-    delegate: http://1.2.3.4:1234
-    registry: https://1.2.3.4:1235
+    delegate: http://192.0.2.2:1234
+    registry: https://192.0.2.2:1235
 ```
