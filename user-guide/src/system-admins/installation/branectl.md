@@ -38,7 +38,7 @@ sudo chmod +x /usr/local/bin/branectl
 ## Compile it yourself
 Sometimes, though, the executable provided on the repository doesn't suit your needs. This is typically the case if you need a cutting-edge version that isn't released, you have an uncommon OS or processor architecture or an incompatible GLIBC version.
 
-To compile the binary, refer to the [compilation instructions](https://wiki.enablingpersonalizedinterventions.nl/specification/setup/compilation.html) over at the [Brane: A Specification](https://wiki.enablingpersonalizedinterventions.nl/specification)-book for instructions.
+To compile the binary, refer to the [compilation instructions](/specification/development/compilation.html) over at the [Brane: A Specification](/specification)-book for instructions.
 
 
 ## Next

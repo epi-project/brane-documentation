@@ -1,5 +1,5 @@
 # The container file
-_<img src="../../assets/img/source.png" alt="source" width="16" style="margin-top: 3px; margin-bottom: -3px;"/> [`ContainerInfo`](https://wiki.enablingpersonalizedinterventions.nl/docs/specifications/container/struct.ContainerInfo.html) in [`specifications/data.rs`](https://wiki.enablingpersonalizedinterventions.nl/docs/src/specifications/container.rs.html)._
+_<img src="../../assets/img/source.png" alt="source" width="16" style="margin-top: 3px; margin-bottom: -3px;"/> [`ContainerInfo`](/docs/specifications/container/struct.ContainerInfo.html) in [`specifications/data.rs`](/docs/src/specifications/container.rs.html)._
 
 The container file, or more commonly referenced as the `container.yml` file, is a user-facing configuration file that describes the metadata of a BRANE package. Most notably, it defines how the package's container may be built by stating which files to include, how to run the code, and which BRANE functions are contained within. Additionally, it can also carry data such as the owner of the package or any hardware requirements the package has.
 
@@ -197,7 +197,7 @@ For examples, see the [Functions & Classes section](#functions--classes).
 
 
 ## Data types
-_<img src="../../assets/img/source.png" alt="source" width="16" style="margin-top: 3px; margin-bottom: -3px;"/> [`DataType`](https://wiki.enablingpersonalizedinterventions.nl/docs/brane_ast/data_type/enum.DataType.html) in [`brane_ast/data_type.rs`](https://wiki.enablingpersonalizedinterventions.nl/docs/src/brane_ast/data_type.rs.html)._
+_<img src="../../assets/img/source.png" alt="source" width="16" style="margin-top: 3px; margin-bottom: -3px;"/> [`DataType`](/docs/brane_ast/data_type/enum.DataType.html) in [`brane_ast/data_type.rs`](/docs/src/brane_ast/data_type.rs.html)._
 
 BRANE abstracts the various workflow languages it accepts as input to a common representation. This representation is what is referred to in the `container.yml` file when we are talking about data types, and so these data types are language-agnostic.
 

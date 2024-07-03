@@ -14,7 +14,7 @@ First, in the [development](./development/introduction.md)-chapters, we detail h
 
 In [design requirements](./requirements/introduction.md), we will discuss the design behind Brane and what motivated decisions made. Here, we will layout the parculiarities of Brane's use case and which assumptions where made. This will help to contextualise the more technical discussion later on.
 
-The series on [implementation](./implementation/introduction.md) details how the requirements are implemented by discussing notable implementation decisions on a high-level. For low-level implementation, refer to the auto-generated [Brane Code Documentation](https://wiki.enablingpersonalizedinterventions.nl/docs.html).
+The series on [implementation](./implementation/introduction.md) details how the requirements are implemented by discussing notable implementation decisions on a high-level. For low-level implementation, refer to the auto-generated [Brane Code Documentation](/docs.html).
 
 In [framework specification](./spec/introduction.md), we provide some lower-level details on the "specification" parts of the framework. In essence, this will give technical interfaces or APIs that allow components to communicate with each other, even if they have a custom implementation.
 

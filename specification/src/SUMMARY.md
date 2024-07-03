@@ -4,8 +4,8 @@
 [Overview](./overview.md)
 
 # Development
-- [Introduction](./setup/introduction.md)
-- [Compiling binaries](./setup/compilation.md)
+- [Introduction](./development/introduction.md)
+- [Compiling binaries](./development/compilation.md)
 
 # Design requirements
 - [Introduction](./requirements/introduction.md)

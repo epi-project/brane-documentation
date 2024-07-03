@@ -53,7 +53,7 @@ These commands download the latest Brane CLI binary for your OS, and store them 
 ### Compiling the binary
 You may also compile the binary from source if you need the cutting-edge latest version or are running a system that doesn't have any default binary available.
 
-To compile the binary, refer to the [compilation instructions](https://wiki.enablingpersonalizedinterventions.nl/specification/setup/compilation.html) over at the [Brane: A Specification](https://wiki.enablingpersonalizedinterventions.nl/specification)-book for instructions.
+To compile the binary, refer to the [compilation instructions](/specification/development/compilation.html) over at the [Brane: A Specification](/specification)-book for instructions.
 
 
 ## Next

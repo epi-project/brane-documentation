@@ -365,7 +365,7 @@ may be used to update the values of fields in instances.
 
 
 ## Next
-This defines the basic statements and expressions in BraneScript, and can already be used to write simple programs. Refer to the [user guide](https://wiki.enablingpersonalizedinterventions.nl/user-guide) to find more information about how to do so.
+This defines the basic statements and expressions in BraneScript, and can already be used to write simple programs. Refer to the [user guide](/user-guide) to find more information about how to do so.
 
 This documentation continues by going in-depth on some other parts of the language. In particular, subsequent chapters will deal with the [formal grammar](./syntax.md) of the language; [scoping rules](./scoping.md); [typing rules](./typing.md); [workflow analysis](./workflow.md); and other [compilation steps](./compilation.md). The final chapter in this series concludes with [future work](./future.md) planned for BraneScript.
 

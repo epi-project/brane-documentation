@@ -312,6 +312,6 @@ Optionally, you can provide the `--keep-registry` flag to prevent the registry f
 
 
 ## Next
-Finally, you have a running instance of the Brane framework. To use it, you should move to the [Brane: The User Guide](https://wiki.enablingpersonalizedinterventions.nl/user-guide) book to learn how to use it from a user perspective.
+Finally, you have a running instance of the Brane framework. To use it, you should move to the [Brane: The User Guide](/user-guide) book to learn how to use it from a user perspective.
 
 Alternatively, you can add more infrastructures by starting at the [next chapter](../infrastructures/introduction.md), which provides documentation about the `infra.yml` and `secrets.yml` file and the kind of infrastructures that the Brane framework supports.

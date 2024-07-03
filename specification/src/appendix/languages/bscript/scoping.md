@@ -1,5 +1,5 @@
 # Scoping rules
-In this chapter, we will detail BraneScript's scoping rules and how variables are bound to their declaration. This matches the procedure followed in the [`resolve`](https://wiki.enablingpersonalizedinterventions.nl/docs/brane_ast/traversals/resolve/index.html) compiler traversal.
+In this chapter, we will detail BraneScript's scoping rules and how variables are bound to their declaration. This matches the procedure followed in the [`resolve`](/docs/brane_ast/traversals/resolve/index.html) compiler traversal.
 
 It is recommended to read the [Features](./features.md)-chapter first to have an overview of the language as a whole before diving into the specifics.
 
@@ -9,7 +9,7 @@ TODO
 
 
 ## Scoping - why we care
-At the start of every workflow compilation, there is a compiler traversal (the [`resolve`](https://wiki.enablingpersonalizedinterventions.nl/docs/brane_ast/traversals/resolve/index.html)-traversal) that attempts to link variables references (e.g., `foo`) to variable declarations (e.g., `let foo := ...`). You can think of this step as relating identifiers with each other, creating _symbol tables_ to keep track of which variables are introduced and where they are set and read.
+At the start of every workflow compilation, there is a compiler traversal (the [`resolve`](/docs/brane_ast/traversals/resolve/index.html)-traversal) that attempts to link variables references (e.g., `foo`) to variable declarations (e.g., `let foo := ...`). You can think of this step as relating identifiers with each other, creating _symbol tables_ to keep track of which variables are introduced and where they are set and read.
 
 For example:
 ```bscript

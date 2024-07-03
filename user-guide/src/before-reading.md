@@ -21,4 +21,4 @@ Looked at from the highest level of abstraction, Brane has a client part (in the
 ## Where next
 To continue reading, we suggest you start at the first chapter for your role. You can select it in the sidebar to the left.
 
-If you are part of the fifth, "hidden" role (the Brane administrators), you have [your own book](https://wiki.enablingpersonalizedinterventions.nl/admins); we recommend you continue there. It also details how to obtain, compile and run the framework for testing purposes.
+If you are part of the fifth, "hidden" role (the Brane administrators), you have [your own book](/admins); we recommend you continue there. It also details how to obtain, compile and run the framework for testing purposes.

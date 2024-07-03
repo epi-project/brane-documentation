@@ -31,7 +31,7 @@ Once these complete successfully, you should have the images for the worker node
 
 
 ### Compiling the images
-The other way to obtain the images is to compile them yourself. If you want to do so, refer to the [compilation instructions](https://wiki.enablingpersonalizedinterventions.nl/specification/setup/compilation.html) over at the [Brane: A Specification](https://wiki.enablingpersonalizedinterventions.nl/specification)-book for instructions.
+The other way to obtain the images is to compile them yourself. If you want to do so, refer to the [compilation instructions](/specification/development/compilation.html) over at the [Brane: A Specification](/specification)-book for instructions.
 
 
 ## Generating configuration
