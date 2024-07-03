@@ -7,7 +7,7 @@
 
 Welcome the materials on past demos, workshops and tutorials hosted for the Brane framework!
 
-This book represents auxillary material for live sessions. Most likely, you are looking for the [User Guide](https://wiki.enablingpersonalizedinterventions.nl/user-guide) or the [Specification](https://wiki.enablingpersonalizedinterventions.nl/user-guide). However, the resources in this book may still be useful as additional material on understanding Brane.
+This book represents auxillary material for live sessions. Most likely, you are looking for the [User Guide](/user-guide) or the [Specification](/user-guide). However, the resources in this book may still be useful as additional material on understanding Brane.
 
 You can check the [next chapter](./overview.md) for an overview of all the materials hosted on this site. Alternatively, check the sidebar on the left for general navigation.
 

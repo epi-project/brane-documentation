@@ -171,6 +171,6 @@ Similarly, to stop the framework again, you should run:
 
 
 ## Next steps
-Once the framework is running, the main entrypoint (`brane-drv`) is available under `http://127.0.0.1:50053`. Because it should behave like a normal instance, you may follow the [Brane: The User Guide](https://wiki.enablingpersonalizedinterventions.nl/user-guide) book as normal to interact with it.
+Once the framework is running, the main entrypoint (`brane-drv`) is available under `http://127.0.0.1:50053`. Because it should behave like a normal instance, you may follow the [Brane: The User Guide](/user-guide) book as normal to interact with it.
 
 In this book, we will continue in the [subsequent chapter](./remote-access.md) to describe how to prepare your cluster and node to run jobs on remote domains.

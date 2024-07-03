@@ -71,8 +71,7 @@ If you see a version number, the installation was successful; but if you see an 
 ## Compiling the binary
 Instead of downloading the binary and running it, you can also choose to compile the binary yourself. This is usually only necessary if you need a cutting-edge latest, unreleased version, you have an OS or processor architecture for which there is no `brane`-executable readily available or you are actively developing the framework.
 
-To compile the binary, we refer your to the [installation chapter for software engineers](../software-engineers/installation.md#compiling-the-binary), which contains information on how to do exactly this.
-
+To compile the binary, refer to the [compilation instructions](/specification/development/compilation.html) over at the [Brane: A Specification](/specification)-book for instructions.
 
 ## Next
 If you are able to run the `brane version` command, you have installed your `brane` executable successfully! You can now move to the [next chapter](./instances.md), which contains information on how to connect to remote instances and manage your credentials. After that, continue with the chapter on [package management](./packages.md), or start by writing your first workflow in either [BraneScript](./bscript/introduction.md) or [Bakery](./bakery/introduction.md).

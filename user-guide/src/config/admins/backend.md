@@ -1,5 +1,5 @@
 # The backend file
-_<img src="../../assets/img/source.png" alt="source" width="16" style="margin-top: 3px; margin-bottom: -3px;"/> [`BackendFile`](https://wiki.enablingpersonalizedinterventions.nl/docs/brane_cfg/backend/struct.BackendFile.html) in [`brane_cfg/backend.rs`](https://wiki.enablingpersonalizedinterventions.nl/docs/src/brane_cfg/backend.rs.html)._
+_<img src="../../assets/img/source.png" alt="source" width="16" style="margin-top: 3px; margin-bottom: -3px;"/> [`BackendFile`](/docs/brane_cfg/backend/struct.BackendFile.html) in [`brane_cfg/backend.rs`](/docs/src/brane_cfg/backend.rs.html)._
 
 The backend file, or more commonly referenced as the `backend.yml` file, is a worker node configuration file that describes how to connect to the container execution backend. Its location is defined by the [`node.yml`](./node.md) file.
 

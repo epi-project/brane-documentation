@@ -22,9 +22,6 @@ To install Docker, refer to their official documentation ([macOS](https://docs.d
 git clone https://github.com/docker/buildx.git && cd buildx
 make install
 
-# Set the plugin as the default builder
-docker buildx install
-
 # Switch to the buildx driver
 docker buildx create --use
 ```
@@ -56,70 +53,7 @@ These commands download the latest Brane CLI binary for your OS, and store them 
 ### Compiling the binary
 You may also compile the binary from source if you need the cutting-edge latest version or are running a system that doesn't have any default binary available.
 
-To do so, you should first install a couple of additional dependencies that are required when building the framework:
-- Install [Rust](https://www.rust-lang.org)'s compiler and the associated [Cargo](https://crates.io/) package manager (the easiest is to install using [rustup](https://rustup.rs) (cross-platform))
-  - If you use rustup, don't forget to logout and in again to refresh the PATH.
-- On Windows:
-  - Install [Python](https://python.org)
-  - Install [Perl](https://perl.org) ([Strawberry Perl](https://strawberryperl.com/) is fine)
-- On macOS:
-  - Install XCode Command-Line Tools:
-    ```bash
-    # On macOS 10.9+ or higher, running any command part of the tools will prompt you to install them:
-    git --version
-    ```
-  - Install [OpenSSL](https://www.openssl.org/), [pkg-config](https://www.freedesktop.org/wiki/Software/pkg-config/) (so the Rust packages find your OpenSSL installation) and [CMake](https://cmake.org/):
-    ```zsh
-    # We assume you already have Homebrew (https://brew.sh/) installed
-    brew install pkg-config openssl cmake
-    ```
-  - Make sure that `pkg-config` is able to find the OpenSSL installation by running:
-    ```zsh
-    export PKG_CONFIG_PATH="/usr/local/opt/openssl@3/lib/pkgconfig"
-    ```
-    (Run this command every time you open a new terminal and want to compile Brane stuff. Alternatively, if you want it be permanent, add the command to your `~/.zshrc` file)
-  
-- On Ubuntu / Debian:
-  - Install the build dependencies for Rust packages: [GCC](https://gcc.gnu.org/) (gcc and g++), [OpenSSL](https://www.openssl.org/) (headers only), [pkg-config](https://www.freedesktop.org/wiki/Software/pkg-config/), [make](https://www.gnu.org/software/make/) and [CMake](https://cmake.org/):
-    ```bash
-    sudo apt-get update && sudo apt-get install \
-        gcc g++ \
-        libssl-dev \
-        pkg-config \
-        make \
-        cmake
-    ```
-  - To clone the repository, also install [git](https://git-scm.com/):
-    ```bash
-    sudo apt-get install git
-    ```
-- On Arch Linux:
-  - Install the build dependencies for Rust packages: [GCC](https://gcc.gnu.org/), [OpenSSL](https://www.openssl.org/), [pkg-config](https://www.freedesktop.org/wiki/Software/pkg-config/), [make](https://www.gnu.org/software/make/) and [CMake](https://cmake.org/):
-    ```bash
-    sudo pacman -Syu gcc openssl pkg-config make cmake
-    ```
-  - To clone the repository, also install [git](https://git-scm.com/):
-    ```bash
-    sudo pacman -Syu git
-    ```
-
-With the dependencies installed, you may then clone the repository and build the Command-Line Interface:
-```bash
-# Clone the repo and CD into it
-git clone https://github.com/epi-project/brane && cd brane
-
-# Run the make script to build the CLI
-chmod +x ./make.py
-./make.py cli
-```
-
-> <img src="../assets/img/warning.png" alt="drawing" width="16" style="margin-top: 2px; margin-bottom: -2px"/> Note that compiling the CLI generates quite a large build cache (~2.4 GB). Be sure to have at least 7 GB available on your device before you start compiling to make sure your OS keeps functioning.
-
-Once done (this may take some time), the resulting binary will be written to `./target/release/brane`. You can then copy the binary to `/usr/local/bin` to make it available in your PATH:
-```bash
-sudo cp ./target/release/brane /usr/local/bin/brane
-```
-Alternatively, you can also add the `./target/release` folder to your PATH instead (don't forget to prepend the path to the cloned repository, e.g., `/home/user/Downloads/brane/target/release`).
+To compile the binary, refer to the [compilation instructions](/specification/development/compilation.html) over at the [Brane: A Specification](/specification)-book for instructions.
 
 
 ## Next

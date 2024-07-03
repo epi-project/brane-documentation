@@ -1,5 +1,5 @@
 # The data file
-_<img src="../../assets/img/source.png" alt="source" width="16" style="margin-top: 3px; margin-bottom: -3px;"/> [`AssetInfo`](https://wiki.enablingpersonalizedinterventions.nl/docs/specifications/data/struct.AssetInfo.html) in [`specifications/data.rs`](https://wiki.enablingpersonalizedinterventions.nl/docs/src/specifications/data.rs.html)._
+_<img src="../../assets/img/source.png" alt="source" width="16" style="margin-top: 3px; margin-bottom: -3px;"/> [`AssetInfo`](/docs/specifications/data/struct.AssetInfo.html) in [`specifications/data.rs`](/docs/src/specifications/data.rs.html)._
 
 The data file, or more commonly referenced as the `data.yml` file, is a user-facing configuration file that describes the metadata of a BRANE dataset. Most notably, it defines how the dataset can be referenced in BraneScript (i.e., its identifier) and describes which files or other resources actually make up the dataset.
 

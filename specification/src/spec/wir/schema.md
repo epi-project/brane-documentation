@@ -7,7 +7,7 @@ Regardless of which you read, we will start by stating a few [conventions](#conv
 ## Conventions
 For clarity, we specify the WIR as [JSON](https://json.org). To refer to JSON types, we will use the terminology from the [JSON Schema](https://json-schema.org/draft/2020-12/json-schema-core.html) specification.
 
-Note that the JSON representation of the WIR is implemented directly as Rust structs in the [reference implementation](https://github.com/epi-project/brane). You can refer to the `brane_ast`-crate and then `ast`-module in the [code documentation](https://wiki.enablingpersonalizedinterventions.nl/docs/src/brane_ast/ast.rs.html) to find the full representation.
+Note that the JSON representation of the WIR is implemented directly as Rust structs in the [reference implementation](https://github.com/epi-project/brane). You can refer to the `brane_ast`-crate and then `ast`-module in the [code documentation](/docs/src/brane_ast/ast.rs.html) to find the full representation.
 
 Finally, the use of the name `Edge` throughout this document is unfortunately chosen, as it represents more than edges. However, it is chosen to keep in sync with the implementation itself.
 

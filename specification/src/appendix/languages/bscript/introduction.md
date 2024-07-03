@@ -1,7 +1,7 @@
 # Appendix A: BraneScript specification
 Brane is designed to be loosely-coupled between how scientists interact with it and how the framework receives its input (see [Design requirements](../../../requirements/introduction.md)). As such, the framework specification itself only specifies the [Workflow Internal Representation](../../../spec/wir/introduction.md) (WIR), which unifies all frontends into one language.
 
-That said, the framework does feature its own workflow language, BraneScript. These chapters are dedicated to documenting the language. To learn how to use the language, refer to [The User Guide](https://wiki.enablingpersonalizedinterventions.nl/user-guide/branescript/introduction.html) instead.
+That said, the framework does feature its own workflow language, BraneScript. These chapters are dedicated to documenting the language. To learn how to use the language, refer to [The User Guide](/user-guide/branescript/introduction.html) instead.
 
 
 ## Background
@@ -27,7 +27,7 @@ println(hello_world());
 ```
 as three separate snippets within the same REPL-session.
 
-To support this, the BraneScript compiler has a notion of _[compile state](https://wiki.enablingpersonalizedinterventions.nl/docs/brane_ast/state/struct.CompileState.html)_ that is kept in between compilation runs. This complicates the compilation process, as can be seen through the chapters in this series.
+To support this, the BraneScript compiler has a notion of _[compile state](/docs/brane_ast/state/struct.CompileState.html)_ that is kept in between compilation runs. This complicates the compilation process, as can be seen through the chapters in this series.
 
 
 ## Layout

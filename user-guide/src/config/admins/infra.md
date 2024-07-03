@@ -1,5 +1,5 @@
 # The infrastructure file
-_<img src="../../assets/img/source.png" alt="source" width="16" style="margin-top: 3px; margin-bottom: -3px;"/> [`InfraFile`](https://wiki.enablingpersonalizedinterventions.nl/docs/brane_cfg/infra/struct.InfraFile.html) in [`brane_cfg/infra.rs`](https://wiki.enablingpersonalizedinterventions.nl/docs/src/brane_cfg/infra.rs.html)._
+_<img src="../../assets/img/source.png" alt="source" width="16" style="margin-top: 3px; margin-bottom: -3px;"/> [`InfraFile`](/docs/brane_cfg/infra/struct.InfraFile.html) in [`brane_cfg/infra.rs`](/docs/src/brane_cfg/infra.rs.html)._
 
 The infrastructure file, or more commonly referenced as the `infra.yml` file, is a control node configuration file that is used to define the worker nodes part of a particular BRANE instance. Its location is defined by the [`node.yml`](./node.md) file.
 

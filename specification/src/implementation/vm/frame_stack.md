@@ -1,5 +1,5 @@
 # Frame stack
-_<img src="../../assets/img/source.png" alt="source" width="16" style="margin-top: 3px; margin-bottom: -3px;"/> [`FrameStack`](https://wiki.enablingpersonalizedinterventions.nl/docs/brane_exe/frame_stack/struct.FrameStack.html) in [`brane-exe/frame_stack.rs`](https://wiki.enablingpersonalizedinterventions.nl/docs/src/brane_exe/frame_stack.rs.html#70-75)._
+_<img src="../../assets/img/source.png" alt="source" width="16" style="margin-top: 3px; margin-bottom: -3px;"/> [`FrameStack`](/docs/brane_exe/frame_stack/struct.FrameStack.html) in [`brane-exe/frame_stack.rs`](/docs/src/brane_exe/frame_stack.rs.html#70-75)._
 
 In the previous chapters, the [expression stack](./stack.md) and the [variable register](./var_reg.md) were introduced. In this chapter, we will introduce the final state component of the VM: the frame stack. After this, we have enough knowledge to examine a full VM execution in the [final chapter](./showcase.md) of this series.
 

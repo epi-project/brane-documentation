@@ -1,5 +1,5 @@
 # Variable register
-_<img src="../../assets/img/source.png" alt="source" width="16" style="margin-top: 3px; margin-bottom: -3px;"/> [`VariableRegister`](https://wiki.enablingpersonalizedinterventions.nl/docs/brane_exe/varreg/struct.VariableRegister.html) in [`brane-exe/varreg.rs`](https://wiki.enablingpersonalizedinterventions.nl/docs/src/brane_exe/varreg.rs.html#27-30)._
+_<img src="../../assets/img/source.png" alt="source" width="16" style="margin-top: 3px; margin-bottom: -3px;"/> [`VariableRegister`](/l) in [`brane-exe/varreg.rs`](/docs/src/brane_exe/varreg.rs.html#27-30)._/
 
 In the [previous chapter](./stack.md), we introduced the expression stack as a scratchpad memory for computing expressions as a thread of the VM executes a workflow. However, this isn't always suitable for all purposes. Most notably, the stack only allows operations on the top values; this means that if we want to re-use arbitrary values from before, this cannot be represented by the stack alone.
 

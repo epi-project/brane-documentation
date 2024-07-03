@@ -3,6 +3,10 @@
 [Welcome](./welcome.md)
 [Overview](./overview.md)
 
+# Development
+- [Introduction](./development/introduction.md)
+- [Compiling binaries](./development/compilation.md)
+
 # Design requirements
 - [Introduction](./requirements/introduction.md)
 - [Background](./requirements/background.md)

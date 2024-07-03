@@ -1,5 +1,5 @@
 # The node file
-_<img src="../../assets/img/source.png" alt="source" width="16" style="margin-top: 3px; margin-bottom: -3px;"/> [`NodeConfig`](https://wiki.enablingpersonalizedinterventions.nl/docs/brane_cfg/node/struct.NodeConfig.html) in [`brane_cfg/node.rs`](https://wiki.enablingpersonalizedinterventions.nl/docs/src/brane_cfg/node.rs.html)._
+_<img src="../../assets/img/source.png" alt="source" width="16" style="margin-top: 3px; margin-bottom: -3px;"/> [`NodeConfig`](/docs/brane_cfg/node/struct.NodeConfig.html) in [`brane_cfg/node.rs`](/docs/src/brane_cfg/node.rs.html)._
 
 The node file, or more commonly referenced as the `node.yml` file, is a central-, worker- and proxy node configuration file that describes the environment in which the node should run. Most notably, it defines the type of node, where any BRANE software (`branectl`, services) may find other configuration files and which ports to use for all of the services.
 
@@ -30,7 +30,7 @@ node: ...
 Because there are quite a lot of nested fields, we will discuss the various variants of the `node`-map in subsequent sections.
 
 ### Central nodes
-_<img src="../../assets/img/source.png" alt="source" width="16" style="margin-top: 3px; margin-bottom: -3px;"/> [`CentralConfig`](https://wiki.enablingpersonalizedinterventions.nl/docs/brane_cfg/node/struct.CentralConfig.html) in [`brane_cfg/node.rs`](https://wiki.enablingpersonalizedinterventions.nl/docs/src/brane_cfg/node.rs.html)._
+_<img src="../../assets/img/source.png" alt="source" width="16" style="margin-top: 3px; margin-bottom: -3px;"/> [`CentralConfig`](/docs/brane_cfg/node/struct.CentralConfig.html) in [`brane_cfg/node.rs`](/docs/src/brane_cfg/node.rs.html)._
 
 The first variant of the `node`-map is the `!central` variant, which defines a central node. There are two fields in this map:
 - `paths`: A map that defines all paths relevant to the central node. Specifically, it maps a string identifier to a string path. The following identifiers are defined:
@@ -81,7 +81,7 @@ node: !central
 ```
 
 ### Worker nodes
-_<img src="../../assets/img/source.png" alt="source" width="16" style="margin-top: 3px; margin-bottom: -3px;"/> [`WorkerConfig`](https://wiki.enablingpersonalizedinterventions.nl/docs/brane_cfg/node/struct.WorkerConfig.html) in [`brane_cfg/node.rs`](https://wiki.enablingpersonalizedinterventions.nl/docs/src/brane_cfg/node.rs.html)._
+_<img src="../../assets/img/source.png" alt="source" width="16" style="margin-top: 3px; margin-bottom: -3px;"/> [`WorkerConfig`](/docs/brane_cfg/node/struct.WorkerConfig.html) in [`brane_cfg/node.rs`](/docs/src/brane_cfg/node.rs.html)._
 
 The second variant of the `node`-map is the `!worker` variant, which defines a worker node. There are three fields in this map:
 - `name` _(or `location_id`)_: A string that contains the identifier used to recognize this worker node throughout the system.
@@ -142,7 +142,7 @@ node: !worker
 
 
 ### Proxy nodes
-_<img src="../../assets/img/source.png" alt="source" width="16" style="margin-top: 3px; margin-bottom: -3px;"/> [`ProxyConfig`](https://wiki.enablingpersonalizedinterventions.nl/docs/brane_cfg/node/struct.ProxyConfig.html) in [`brane_cfg/node.rs`](https://wiki.enablingpersonalizedinterventions.nl/docs/src/brane_cfg/node.rs.html)._
+_<img src="../../assets/img/source.png" alt="source" width="16" style="margin-top: 3px; margin-bottom: -3px;"/> [`ProxyConfig`](/docs/brane_cfg/node/struct.ProxyConfig.html) in [`brane_cfg/node.rs`](/docs/src/brane_cfg/node.rs.html)._
 
 The third variant of the `node`-map is the `!proxy` variant, which defines a proxy node. There are two fields in this map:
 - `paths`: A map that defines all paths relevant to the proxy node. Specifically, it maps a string identifier to a string path. The following identifiers are defined:
@@ -174,7 +174,7 @@ node: !worker
 Through the various `node` variants, a few types of service maps appear. In this section, we will define their layouts.
 
 ### Private services
-_<img src="../../assets/img/source.png" alt="source" width="16" style="margin-top: 3px; margin-bottom: -3px;"/> [`PrivateService`](https://wiki.enablingpersonalizedinterventions.nl/docs/brane_cfg/node/struct.PrivateService.html) in [`brane_cfg/node.rs`](https://wiki.enablingpersonalizedinterventions.nl/docs/src/brane_cfg/node.rs.html)._
+_<img src="../../assets/img/source.png" alt="source" width="16" style="margin-top: 3px; margin-bottom: -3px;"/> [`PrivateService`](/docs/brane_cfg/node/struct.PrivateService.html) in [`brane_cfg/node.rs`](/docs/src/brane_cfg/node.rs.html)._
 
 A private service represents a service that is only accessible for other BRANE services, but not from outside of the Docker network. A few examples of such services are `aux-scylla` or `aux-kafka`.
 
@@ -202,7 +202,7 @@ node: !central
 > <img src="../../assets/img/warning.png" alt="warning" width="16" style="margin-top: 3px; margin-bottom: -3px;"/> Note that providing `127.0.0.1` as a bind address will not work, since the `127.0.0.1` refers to the _container_ and not the host. Thus, using that address will make the service inaccessible for everyone.
 
 ### Public services
-_<img src="../../assets/img/source.png" alt="source" width="16" style="margin-top: 3px; margin-bottom: -3px;"/> [`PublicService`](https://wiki.enablingpersonalizedinterventions.nl/docs/brane_cfg/node/struct.PublicService.html) in [`brane_cfg/node.rs`](https://wiki.enablingpersonalizedinterventions.nl/docs/src/brane_cfg/node.rs.html)._
+_<img src="../../assets/img/source.png" alt="source" width="16" style="margin-top: 3px; margin-bottom: -3px;"/> [`PublicService`](/docs/brane_cfg/node/struct.PublicService.html) in [`brane_cfg/node.rs`](/docs/src/brane_cfg/node.rs.html)._
 
 A public service represents a service that is accessible for other BRANE services and from outside of the Docker network. A few examples of such services are `brane-drv` or `brane-reg`.
 
@@ -233,7 +233,7 @@ node: !central
 > <img src="../../assets/img/warning.png" alt="warning" width="16" style="margin-top: 3px; margin-bottom: -3px;"/> Note that providing `127.0.0.1` as a bind address will not work, since the `127.0.0.1` refers to the _container_ and not the host. Thus, using that address will make the service inaccessible for everyone.
 
 ### Variable services
-_<img src="../../assets/img/source.png" alt="source" width="16" style="margin-top: 3px; margin-bottom: -3px;"/> [`PrivateOrExternalService`](https://wiki.enablingpersonalizedinterventions.nl/docs/brane_cfg/node/enum.PrivateOrExternalService.html) in [`brane_cfg/node.rs`](https://wiki.enablingpersonalizedinterventions.nl/docs/src/brane_cfg/node.rs.html)._
+_<img src="../../assets/img/source.png" alt="source" width="16" style="margin-top: 3px; margin-bottom: -3px;"/> [`PrivateOrExternalService`](/docs/brane_cfg/node/enum.PrivateOrExternalService.html) in [`brane_cfg/node.rs`](/docs/src/brane_cfg/node.rs.html)._
 
 A variable service is one where a choice can be made between two different kinds of services. Specifically, one can choose to either host a [private service](#private-services), or something called an external service, which defines a service hosted on another node or machine. This is currently only used by the `brane-prx` service in `central` or `worker` nodes, to support optionally outsourcing the proxy service to a dedicated node.
 
@@ -242,7 +242,7 @@ Subsequently, there are two variants of this type of service:
 - `!external`: Defines an externally running service. It has one field only:
   - `address`: A string with the address where all the other services on this node should send their traffic to.
 
-  (_<img src="../../assets/img/source.png" alt="source" width="16" style="margin-top: 3px; margin-bottom: -3px;"/> The external map variant is defined as [`ExternalService`](https://wiki.enablingpersonalizedinterventions.nl/docs/brane_cfg/node/struct.ExternalService.html) in [`brane_cfg/node.rs`](https://wiki.enablingpersonalizedinterventions.nl/docs/src/brane_cfg/node.rs.html)._)
+  (_<img src="../../assets/img/source.png" alt="source" width="16" style="margin-top: 3px; margin-bottom: -3px;"/> The external map variant is defined as [`ExternalService`](/docs/brane_cfg/node/struct.ExternalService.html) in [`brane_cfg/node.rs`](/docs/src/brane_cfg/node.rs.html)._)
 
 A few examples of variable services:
 ```yaml
