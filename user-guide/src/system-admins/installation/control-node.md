@@ -81,9 +81,9 @@ branectl generate infra <ID>:<ADDR> ...
 ```
 Here, multiple `<ID>:<ADDR>` pairs can be given, one per worker node that is available to the instance. In such a pair, the `<ID>` is the location ID of that domain (which must be the same as indicated in that node; see the chapter for [setting up worker nodes](./worker-node.md)), and the `<ADDR>` is the address (IP or hostname) where that domain is available.
 
-For example, suppose that we want to instantiate a central node for a Brane instance with two worker nodes: one called `amy`, at `amy-worker-node.com`, and one called `bob`, at `1.2.3.4`. We would generate an `infra.yml` as follows:
+For example, suppose that we want to instantiate a central node for a Brane instance with two worker nodes: one called `amy`, at `amy-worker-node.com`, and one called `bob`, at `192.0.2.2`. We would generate an `infra.yml` as follows:
 ```bash
-branectl generate infra -f -p ./config/infra.yml amy:amy-worker-node.com bob:1.2.3.4
+branectl generate infra -f -p ./config/infra.yml amy:amy-worker-node.com bob:192.0.2.2
 ```
 
 Running this command will generate the file `./config/infra.yml` for you, with default settings for each domain. If you want to change these, you can simply use more options and flags in the tool itself (see the [`branectl` documentation](../../config/admins/backend.md) or the builtin `branectl generate infra --help`), or change the file manually (see the [`infra.yml` documentation](../../config/admins/infra.md)).
@@ -129,8 +129,8 @@ Once again, you can change many of the properties in the `node.yml` file by spec
 
 > <img src="../../assets/img/warning.png" alt="warning" width="16" style="margin-top: 3px; margin-bottom: -3px"/> Due to a  [bug](https://github.com/epi-project/brane/issues/27) in one of the framework's dependencies, it cannot handle certificates on IP addresses. To workaround this issue, the `-H` option is provided; it can be used to specify a certain hostname/IP mapping for this node only. Example:
 > ```bash
-> # We can address '1.2.3.4' with 'bob-domain' now
-> branectl generate node -f -H bob-domain:1.2.3.4 central central-domain.com
+> # We can address '192.0.2.2' with 'bob-domain' now
+> branectl generate node -f -H bob-domain:192.0.2.2 central central-domain.com
 > ```
 > Note that this is local to this domain only; you have to specify this on other nodes as well. For more information, see the [`node.yml` documentation](../../config/admins/node.md).
 > > <img src="../../assets/img/info.png" alt="info" width="16" style="margin-top: 3px; margin-bottom: -3px"/> Since the above is highly localized, it can be abused to do node-specific routing, by assigning the same hostname to different IPs on different machines. Definitely entering "hacky" territory here, though...
