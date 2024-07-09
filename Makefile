@@ -2,7 +2,7 @@
 all: build build/user-guide build/specification build/tutorials
 
 .PHONY: build
-build:
+build: clean
 	mdbook build main
 	cp -r main/book build
 
