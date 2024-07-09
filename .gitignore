@@ -3,3 +3,5 @@
 
 # Ignore automatically generated higlight.js files
 highlight.js.custom
+
+build/
