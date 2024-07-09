@@ -20,3 +20,17 @@ $ cd <book_dir>
 # Build using mdbook
 $ mdbook build
 ```
+
+Alternatively, you can use the provided Make file to compile the various books, or the documentation as a whole.
+```bash
+$ make all # To build the entire documentation
+
+$ make build/user-guide # To build user-guide
+$ make build/specification # To build specification
+$ make build/tutorials # To build tutorials
+
+```
+Note that this does not compile the code documentation as it will have to
+fetch the Brane source code and compile the documentation, which is almost
+always excessive. It is recommeneded that one compiles the documentation instead
+when developing the relevant parts of Brane.
