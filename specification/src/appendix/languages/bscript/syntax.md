@@ -211,6 +211,6 @@ _**Table 1**: Operator precedence and associativity for BraneScript. An operator
 
 
 ## Next
-The compilation of BraneScript to the WIR, and thus details about how to interpret the AST obtained by parsing BraneScript, are discussed in the [next chapter](TODO).
+The compilation of BraneScript to the WIR, and thus details about how to interpret the AST obtained by parsing BraneScript, are discussed in the [next chapter](./scoping.md).
 
 Alternatively, if you want to know what BraneScript can be instead of what it is, refer to the [Future work](./future.md)-chapter.
