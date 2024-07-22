@@ -1,11 +1,9 @@
 # Scoping rules
-In this chapter, we will detail BraneScript's scoping rules and how variables are bound to their declaration. This matches the procedure followed in the [`resolve`](/docs/brane_ast/traversals/resolve/index.html) compiler traversal.
+In this chapter, we will detail BraneScript's scoping rules and how variables are bound to their declaration.
+
+> <img src="../../../assets/img/source.png" alt="source icon" width="16" style="margin-top: 2px; margin-bottom: -2px"/> This matches the procedure followed in the [`resolve`](/docs/brane_ast/traversals/resolve/index.html) compiler traversal.
 
 It is recommended to read the [Features](./features.md)-chapter first to have an overview of the language as a whole before diving into the specifics.
-
-
-## Variables VS functions
-TODO
 
 
 ## Scoping - why we care
@@ -59,7 +57,7 @@ if (true) {
 func foo() {
     // A scope for only this function!
     {
-        // This scope is nested in `global` and then `foo`
+        // This scope is nested in `foo`
     }
 }
 ```
@@ -114,7 +112,7 @@ println(foo);   // Hello, world!
 // There is just no way for us now to refer to the first variable
 ```
 
-This may raise the question as to why BraneScript even has scopes, as the main motivating reason was to help the compiler disambiguate variables with the same name, but it turns out we can do that without even needing them. For that, see the [future work](./future.md#destructors)-chapter.
+> <img src="../../../assets/img/info.png" alt="info" width="16" style="margin-top: 2px; margin-bottom: -2px"/> Currently, scopes mostly add added ergonomics, as it allows users to deal more elegantly with temporary variables and it mimics existing programming languages. In the [future](./future.md#destructors), however, BraneScript may obtain a notion of _destructors_, which will automatically trigger things when a variable goes out-of-scope. Then scopes will become much more powerful.
 
 
 ## Assignment scoping
@@ -158,6 +156,45 @@ bar(foo);
 ```
 Where parameters are always declared in the scope of the function.
 
+Second, note that functions _themselves_ are also resolved like variables, except that they have their own _namespace_. I.e., when parsing a script, the compiler has to know what every call refers to:
+```bscript
+func foo() {
+    return "bar";
+}
+
+// What does 'print' point to? And 'foo'?
+println(foo());
+```
+
+Because the BraneScript grammar allows the compiler to know at any point whether a variable or a function is intended (...see [below](#class-scoping)), it doesn't get confused between the two. So this will resolve fine:
+```bscript
+// This ALWAYS introduces a variable 'foo'
+let foo := 42;
+
+// This ALWAYS introduces a function 'foo'
+func foo() {
+    return "bar";
+}
+
+// This ALWAYS refers to a variable 'foo'
+println(foo);
+
+// This ALWAYS refers to a function 'foo' (because of the parenthesis)
+println(foo());
+```
+
 
 ## Class scoping
 TODO
+
+
+## Imports
+Import-statements add some confusion to scoping because they inject new entries into function- and class scopes, but do so implicitly.
+
+Specifically, any import statement will **add the package's functions and classes to the current function- and class tables respectively.** For example, if package `foo` defines a function `bar()`, then this works:
+```bscript
+import foo;
+
+// Bar is "declared" in 'import foo;'
+println(bar());
+```

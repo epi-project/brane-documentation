@@ -1,7 +1,7 @@
 # Formal grammar
 In this chapter, we present the formal grammar of Brane in [Backus-Naur form](https://en.wikipedia.org/wiki/Backus%E2%80%93Naur_form) (or something very much like it). This will show you what's possible to write in BraneScript and how the language is structured.
 
-This chapter is very technical, and mostly suited for implementing a BraneScript parser. To find out more details about compiling BraneScript to the [Workflow Intermediate Representation](TODO) (WIR), consult the [next chapters](TODO).
+This chapter is very technical, and mostly suited for implementing a BraneScript parser. To find out more details about compiling BraneScript to the [Workflow Intermediate Representation](../../../spec/wir/introduction.md) (WIR), consult the [next chapters](./scoping.md).
 
 
 ## Conventions
