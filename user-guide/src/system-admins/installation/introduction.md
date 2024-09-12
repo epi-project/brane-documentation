@@ -5,4 +5,4 @@ There are three types of nodes: a _central node_ (or _control node_), a _worker 
 
 First, for any kind of node, you should start by [downloading the dependencies](./dependencies.md) on the VM where your worker node will run. Then, install the [`branectl`](./branectl.md) executable, which will help you in setting up and managing your node.
 
-You can then go into the specifics for each kind of node. You can either setup a [control node](./control-node.md), [worker node](./worker-node.md) or a [proxy node](./proxy-node.md).
+You can then go into the specifics for each kind of node. You can either setup a [central node](./central-node.md), [worker node](./worker-node.md) or a [proxy node](./proxy-node.md).
