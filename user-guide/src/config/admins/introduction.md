@@ -7,7 +7,7 @@ The configuration files for administrators are sorted by node type. The files ar
 
 
 ## Control node
-- [`infra.yml`](./infra.md): A **YAML** file that defines the worker nodes in the instance represented by the control node.
+- [`infra.yml`](./infra.md): A **YAML** file that defines the worker nodes in the instance represented by the central node.
 - [`proxy.yml`](./proxy.md): A **YAML** file that defines the proxy settings for outgoing node traffic. Can also be found on the [worker](#worker-node) and [proxy](#proxy-node) nodes.
 - [`node.yml`](./node.md): A **YAML** file that defines the environment settings for this node, such as paths of the directories and the other configuration files, ports, hostnames, etc. Can also be found on the [worker](#worker-node) and [proxy](#proxy-node) nodes.
 

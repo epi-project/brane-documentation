@@ -3,13 +3,13 @@ _<img src="../../assets/img/source.png" alt="source" width="16" style="margin-to
 
 The node file, or more commonly referenced as the `node.yml` file, is a central-, worker- and proxy node configuration file that describes the environment in which the node should run. Most notably, it defines the type of node, where any BRANE software (`branectl`, services) may find other configuration files and which ports to use for all of the services.
 
-The [`branectl`](TODO) tool can generate this file for you, using the [`branectl generate node`](TODO) subcommand. See the [chapter on installing a control node](../../system-admins/installation/control-node.md) for a realistic example.
+The [`branectl`](TODO) tool can generate this file for you, using the [`branectl generate node`](TODO) subcommand. See the [chapter on installing a central node](../../system-admins/installation/central-node.md) for a realistic example.
 
 
 ## Toplevel layout
 
 The `node.yml` file is written in [YAML](https://yaml.org). It defines only two toplevel fields:
-- `hostnames`: A map of strings to other strings, which maps hostnames to IP addresses. This is used to work around the issue that certificates cannot be issued for raw IP addresses alone, and need a hostname instead. The hostnames can be defined in this map to make them available to all the services running in this node. For more information, see the [chapter on installing a control node](../../system-admins/installation/control-node.md#generating-configuration) (at the end).
+- `hostnames`: A map of strings to other strings, which maps hostnames to IP addresses. This is used to work around the issue that certificates cannot be issued for raw IP addresses alone, and need a hostname instead. The hostnames can be defined in this map to make them available to all the services running in this node. For more information, see the [chapter on installing a central node](../../system-admins/installation/central-node.md#generating-configuration) (at the end).
 - `node`: A map that has multiple variants based on the specific node configuration. These are all treated below in their own sections.
 
 An example of just the toplevel fields would be:
@@ -34,7 +34,7 @@ _<img src="../../assets/img/source.png" alt="source" width="16" style="margin-to
 
 The first variant of the `node`-map is the `!central` variant, which defines a central node. There are two fields in this map:
 - `paths`: A map that defines all paths relevant to the central node. Specifically, it maps a string identifier to a string path. The following identifiers are defined:
-  - `certs`: The path to the directory with certificate authority files for the worker nodes in the instance. See the [chapter on installing a control node](../../system-admins/installation/control-node.md#adding-certificates) for more information.
+  - `certs`: The path to the directory with certificate authority files for the worker nodes in the instance. See the [chapter on installing a central node](../../system-admins/installation/central-node.md#adding-certificates) for more information.
   - `packages`: The path to the directory where uploaded packages will be stored. This should be a persistent directory, or at the very least exactly as persistent as the storage of the instance's Scylla database.
   - `infra`: The path to the [`infra.yml`](./infra.md) configuration file.
   - `proxy`: The path to the [`proxy.yml`](./proxy.md) configuration file.
@@ -87,7 +87,7 @@ The second variant of the `node`-map is the `!worker` variant, which defines a w
 - `name` _(or `location_id`)_: A string that contains the identifier used to recognize this worker node throughout the system.
 - `usecases` _(or `use_cases`)_: A map of string identifiers to [worker usecases](#worker-usecases). This essentially defines several central instances that the work trusts and is aware of, and acts as a map of the identifier to where to find the instance's registry.
 - `paths`: A map that defines all paths relevant to the central node. Specifically, it maps a string identifier to a string path. The following identifiers are defined:
-  - `certs`: The path to the directory with certificate authority files for the worker nodes in the instance. See the [chapter on installing a control node](../../system-admins/installation/control-node.md#adding-certificates) for more information.
+  - `certs`: The path to the directory with certificate authority files for the worker nodes in the instance. See the [chapter on installing a central node](../../system-admins/installation/central-node.md#adding-certificates) for more information.
   - `packages`: The path to the directory where uploaded packages will be stored. This should be a persistent directory, or at the very least exactly as persistent as the storage of the instance's Scylla database.
   - `backend`: The path to the [`backend.yml`](./backend.md) configuration file.
   - `policy_database` _(or `policy_db`)_: The path to the [`policies.db`] file that is the persistent storage for the policy's of the worker's `brane-chk` service.
@@ -146,7 +146,7 @@ _<img src="../../assets/img/source.png" alt="source" width="16" style="margin-to
 
 The third variant of the `node`-map is the `!proxy` variant, which defines a proxy node. There are two fields in this map:
 - `paths`: A map that defines all paths relevant to the proxy node. Specifically, it maps a string identifier to a string path. The following identifiers are defined:
-  - `certs`: The path to the directory with certificate authority files for the worker nodes in the instance. See the [chapter on installing a control node](../../system-admins/installation/control-node.md#adding-certificates) for more information.
+  - `certs`: The path to the directory with certificate authority files for the worker nodes in the instance. See the [chapter on installing a central node](../../system-admins/installation/central-node.md#adding-certificates) for more information.
   - `proxy`: The path to the [`proxy.yml`](./proxy.md) configuration file.
 
   > <img src="../../assets/img/warning.png" alt="warning" width="16" style="margin-top: 3px; margin-bottom: -3px;"/> Note that all paths defined in the `node.yml` file _must_ be absolute paths, since they are mounted as Docker volumes.

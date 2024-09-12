@@ -12,7 +12,7 @@
 - [Installation](./system-admins/installation/introduction.md)
   - [Dependencies](./system-admins/installation/dependencies.md)
   - [`branectl`](./system-admins/installation/branectl.md)
-  - [Control node](./system-admins/installation/control-node.md)
+  - [Central node](./system-admins/installation/control-node.md)
   - [Worker node](./system-admins/installation/worker-node.md)
   - [Proxy node](./system-admins/installation/proxy-node.md)
 
