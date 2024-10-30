@@ -93,7 +93,7 @@ Exprs ::= Exprs COMMA Expr
         | Array | ArrayIndex | Call | IDENT | Instance | Literal
         | Projection
 BinOp ::= AND AND | EQUAL | GREATER | GREATEREQ | LESS | LESSEQ | MINUS | NOTEQ
-        | OR OR | PRECENTAGE | PLUS | SLASH | STAR
+        | OR OR | PERCENTAGE | PLUS | SLASH | STAR
 UnaOp ::= NOT | MINUS
 
 Array ::= LBRACKET Exprs RBRACKET
