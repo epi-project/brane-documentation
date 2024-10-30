@@ -72,8 +72,8 @@ Parallel ::= PARALLEL LBRACKET PBlocks RBRACKET SEMICOLON
            | PARALLEL LBRACKET IDENT RBRACKET LBRACKET PBlocks RBRACKET SEMICOLON
            | LET IDENT ASSIGN PARALLEL LBRACKET PBlocks RBRACKET SEMICOLON
            | LET IDENT ASSIGN PARALLEL LBRACKET IDENT RBRACKET LBRACKET PBlocks RBRACKET SEMICOLON
- PBlocks ::= ParallelBlocks COMMA Block
-           | ParallelBlocks COMMA On
+ PBlocks ::= PBlocks COMMA Block
+           | PBlocks COMMA On
            | Block
            | On
 
