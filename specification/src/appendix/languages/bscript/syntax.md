@@ -87,17 +87,19 @@ Exprs ::= Exprs COMMA Expr
         | Expr
  Expr ::= LPAREN Expr RPAREN
         | Expr BinOp Expr
-        | UnaOp Expr
-        | Array | ArrayIndex | Call | IDENT | Instance | Literal
+        | RUnaOp Expr
+        | Expr LUnaOp
+        | Array | Call | IDENT | Instance | Literal
         | Projection
-BinOp ::= AND AND | EQUAL | GREATER | GREATEREQ | LESS | LESSEQ | MINUS | NOTEQ
-        | OR OR | PERCENTAGE | PLUS | SLASH | STAR
-UnaOp ::= NOT | MINUS
 
-Array ::= LBRACKET Exprs RBRACKET
-        | LBRACKET RBRACKET
+ BinOp ::= AND AND | EQUAL | GREATER | GREATEREQ | LESS | LESSEQ | MINUS | NOTEQ
+         | OR OR | PERCENTAGE | PLUS | SLASH | STAR
+RUnaOp ::= NOT | MINUS
+LUnaOp ::= ArrayIndex
 
-ArrayIndex ::= Array LBRACKET Expr RBRACKET
+     Array ::= LBRACKET Exprs RBRACKET
+             | LBRACKET RBRACKET
+ArrayIndex ::= LBRACKET Expr RBRACKET
 
 Call ::= IDENT LPAREN Exprs RPAREN
        | Projection LPAREN Exprs RPAREN
