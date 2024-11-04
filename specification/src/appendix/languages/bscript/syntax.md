@@ -72,8 +72,8 @@ Parallel ::= PARALLEL LBRACKET PBlocks RBRACKET SEMICOLON
            | PARALLEL LBRACKET IDENT RBRACKET LBRACKET PBlocks RBRACKET SEMICOLON
            | LET IDENT ASSIGN PARALLEL LBRACKET PBlocks RBRACKET SEMICOLON
            | LET IDENT ASSIGN PARALLEL LBRACKET IDENT RBRACKET LBRACKET PBlocks RBRACKET SEMICOLON
- PBlocks ::= ParallelBlocks COMMA Block
-           | ParallelBlocks COMMA On
+ PBlocks ::= PBlocks COMMA Block
+           | PBlocks COMMA On
            | Block
            | On
 
@@ -93,7 +93,7 @@ Exprs ::= Exprs COMMA Expr
         | Array | ArrayIndex | Call | IDENT | Instance | Literal
         | Projection
 BinOp ::= AND AND | EQUAL | GREATER | GREATEREQ | LESS | LESSEQ | MINUS | NOTEQ
-        | OR OR | PRECENTAGE | PLUS | SLASH | STAR
+        | OR OR | PERCENTAGE | PLUS | SLASH | STAR
 UnaOp ::= NOT | MINUS
 
 Array ::= LBRACKET Exprs RBRACKET
@@ -172,10 +172,10 @@ PERCENTAGE ::= "%"
 
 // Tokens with values
  SEMVER ::= r"[0-9]+\.[0-9]+\.[0-9]+"                       // 1
-   REAL ::= r"([0-9]_)*\.([0-9]_)+([eE][+\-]?([0-9]_)+)?"   // 2
+   REAL ::= r"([0-9_])*\.([0-9_])+([eE][+\-]?([0-9_])+)?"   // 2
 BOOLEAN ::= r"(true|false)"
   IDENT ::= r"[a-zA-Z_][a-zA-Z_0-9]*"                       // 3
-INTEGER ::= r"([0-9]_)+"
+INTEGER ::= r"([0-9_])+"
  STRING ::= r"\"([^\"\\]|\\[\"'ntr\\])*\""
 ```
 ```
