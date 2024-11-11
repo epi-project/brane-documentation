@@ -127,7 +127,7 @@ Then you can use the `make.py` script to install what you like:
   ```bash
   python3 make.py libbrane_cli
   ```
-- To build the servives for a control node, run:
+- To build the servives for a central node, run:
   ```bash
   python3 make.py instance
   ```

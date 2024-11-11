@@ -3,7 +3,7 @@ _<img src="../../assets/img/source.png" alt="source" width="16" style="margin-to
 
 The proxy file, or more commonly referenced as the `proxy.yml` file, is a central-, worker- and proxy node configuration file that describes how to deal with outgoing connections out of the node. For more information, see the documentation for the [`brane-prx`](/docs/brane_prx/index.html) service. Its location is defined by the [`node.yml`](./node.md) file.
 
-The [`branectl`](TODO) tool can generate this file for you, using the [`branectl generate proxy`](TODO) subcommand. See the [chapter on installing a control node](../../system-admins/installation/control-node.md) for a realistic example.
+The [`branectl`](TODO) tool can generate this file for you, using the [`branectl generate proxy`](TODO) subcommand. See the [chapter on installing a central node](../../system-admins/installation/central-node.md) for a realistic example.
 
 
 ## Toplevel layout

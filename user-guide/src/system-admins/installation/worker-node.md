@@ -132,7 +132,7 @@ Once again, you can change many of the properties in the `node.yml` file by spec
 
 
 ## Generating certificates
-In contrast to setting up a control node, a worker node will have to strongly identify itself to prove to other worker nodes who it is. This is relevant, because worker nodes may want to download data from one another; and if this dataset is private, then the other domains likely won't share it unless they know who they are talking to.
+In contrast to setting up a central node, a worker node will have to strongly identify itself to prove to other worker nodes who it is. This is relevant, because worker nodes may want to download data from one another; and if this dataset is private, then the other domains likely won't share it unless they know who they are talking to.
 
 In Brane, the identity of domains is proven by the use of [X.509 certificates](https://en.wikipedia.org/wiki/X.509). Thus, before you can start your worker node, we will have to generate some certificates.
 
@@ -156,7 +156,7 @@ This should generate multiple files in the `./config/certs` directory, chief of 
 
 > <img src="../../assets/img/info.png" alt="info" width="16" style="margin-top: 3px; margin-bottom: -3px"/> Certificate generation is done using [cfssl](https://github.com/cloudflare/cfssl), which is dynamically downloaded by `branectl`. The checksum of the downloaded file is asserted, and if you ever see a checksum-related error, then you might be dealing with a fake binary that is being downloaded under a real address. In that case, tread with care.
 
-When the certificates are generated, be sure to share `ca.pem` with the central node. If you are also adminstrating that node, see [here](./control-node.md#adding-certificates) for instructions on what to do with it.
+When the certificates are generated, be sure to share `ca.pem` with the central node. If you are also adminstrating that node, see [here](./central-node.md#adding-certificates) for instructions on what to do with it.
 
 
 ### Client-side certificates
@@ -240,7 +240,7 @@ This will launch the services in the local Docker daemon, which completes the se
 ## Next
 Congratulations, you have configured and setup a Brane worker node!
 
-If you are in charge of more worker nodes, you can repeat the steps in this chapter to add more. If you are also charged with setting up a control node, you can check the [previous chapter](./control-node.md) for control-node specific instructions.
+If you are in charge of more worker nodes, you can repeat the steps in this chapter to add more. If you are also charged with setting up a central node, you can check the [previous chapter](./central-node.md) for central-node specific instructions.
 
 Alternatively, you can also see if a proxy node is something for your use-case in the [next chapter](./proxy-node.md).
 

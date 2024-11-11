@@ -60,4 +60,4 @@ If you do not meet this requirement, you will have to compile `branectl` (and an
 
 
 ## Next
-Congratulations, you have prepared your machine for running (or compiling) a Brane instance! In the [next chapter](./branectl.md), we will discuss installing the invaluable node management tool `branectl`. After that, depending on which node you want to setup, you can follow the guide for installing [control nodes](./control-node.md) or [worker nodes](./worker-node.md).
+Congratulations, you have prepared your machine for running (or compiling) a Brane instance! In the [next chapter](./branectl.md), we will discuss installing the invaluable node management tool `branectl`. After that, depending on which node you want to setup, you can follow the guide for installing [central nodes](./central-node.md) or [worker nodes](./worker-node.md).

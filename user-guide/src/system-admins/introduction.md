@@ -5,16 +5,16 @@ To know more about the inner workings of Brane, we recommend you checkout the [B
 
 
 ## Background & Terminology
-The Brane instance defines a _control node_ (or _central node_), which is where the orchestrator itself and associated services run. This node is run by the _Brane administrators_. Then, as a counterpart to this control node, there is the _worker plane_, which is composed of all the different compute sites that Brane orchestrates over. Each such compute site is referred to as a _domain_, a _location_ or, since Brane treats them as a single entity, a _worker node_. Multiple worker nodes may exist per physical domain (e.g., a single hospital can have multiple domains for different tasks), but Brane will treat these as conceptually different places.
+The Brane instance defines a _central node_ (or _control node_), which is where the orchestrator itself and associated services run. This node is run by the _Brane administrators_. Then, as a counterpart to this central node, there is the _worker plane_, which is composed of all the different compute sites that Brane orchestrates over. Each such compute site is referred to as a _domain_, a _location_ or, since Brane treats them as a single entity, a _worker node_. Multiple worker nodes may exist per physical domain (e.g., a single hospital can have multiple domains for different tasks), but Brane will treat these as conceptually different places.
 
 Within the framework, a _system administrator_ is someone who acts as the 'technical owner' of a certain worker node. They are the ones who can make sure their system is prepared and meets the Brane requirements, and who defines the security requirements of any operation of the framework on their system. They are also the ones who make any data technically available that is published from their domain. And although policies are typically handled by [_policy writers_](../policy-experts/introduction.md), another role in the framework, in practise, this can be the same person as the system administrator.
 
 
 ## The Central node
-For every Brane instance, there is typically only one _control node_. Even if multiple VMs are used, the framework expects it to behave like a single node; this is due to the centralized nature of it.
+For every Brane instance, there is typically only one _central node_. Even if multiple VMs are used, the framework expects it to behave like a single node; this is due to the centralized nature of it.
 
-The control node consists of the following few services:
-- The _driver service_ is, as the name suggests, the driving service behing a control node. It takes incoming workflows submitted by scientists, and starts executing them, emitting jobs that need to be executed on the worker nodes.
+The central node consists of the following few services:
+- The _driver service_ is, as the name suggests, the driving service behind a central node. It takes incoming workflows submitted by scientists, and starts executing them, emitting jobs that need to be executed on the worker nodes.
 - The _planner service_ takes incoming workflows submitted to the driver service and _plans_ them. This is simply the act of defining which worker node will execute which task, and takes into account available resources on each of the domains, as well as policies that determine if a domain can actually transfer data or execute the job.
 - The _registry service_ (sometimes called _central registry service_ or _API service_ for disambiguation) is the centralized version of the local registry services (see [below](#the-worker-node)). It acts as a centralized database for the framework, which provides information about which dataset is located where, which domains are participating and where to find them<small><small><small><sup><a href="../assets/img/domains-and-where-to-find-them.jpg">1</a></sub></small></small></small>, and in addition hosts a central package repository.
 - Finally, the _proxy service_ acts as a gateway between the other services and the outside world to _enable_ proxying (i.e., it does not accept proxied requests, but rather creates them). In addition, it is also the point that handles server certificates and parses client certificates for identifications.
@@ -40,7 +40,7 @@ More information on each backend and how to set it up is discussed in the [backe
 
 
 ## Next
-To start setting up your own worker node, we recommend checking out the [installation chapters](./installation/introduction.md). These will walk you through everything you need to setup a node, both control nodes and worker nodes.
+To start setting up your own worker node, we recommend checking out the [installation chapters](./installation/introduction.md). These will walk you through everything you need to setup a node, both central nodes and worker nodes.
 
 For information on setting up different backends, check the [backend chapters](./backends/introduction.md).
 
